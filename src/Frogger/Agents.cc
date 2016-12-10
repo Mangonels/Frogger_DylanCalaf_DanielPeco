@@ -3,8 +3,11 @@
 #include "InputManager.hh"
 #include "Agents.hh"
 
-Vehiculo::Vehiculo() {};
 Vehiculo::getCoords() 
 {
+	return coords;
+}
+Vehiculo::getSize() 
+{
 
-};
+}
