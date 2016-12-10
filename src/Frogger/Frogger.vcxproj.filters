@@ -22,6 +22,9 @@
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="main.cc" />
+    <ClCompile Include="MenuScene.cc">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.hh">
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="System.hh">
       <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuScene.hh">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

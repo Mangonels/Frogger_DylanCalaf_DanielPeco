@@ -3,6 +3,7 @@
 
 #pragma region GAME_SCENES
 #include "GameScene.hh"
+#include "MenuScene.hh"
 #pragma endregion TODO
 
 //! Initializes game needs and controls the game loop
@@ -19,12 +20,15 @@ namespace GameEngine {
 		R.LoadTexture<ObjectID::CANDY_PURPLE>("gfx/purple.png");
 		R.LoadTexture<ObjectID::CANDY_GREEN>("gfx/green.png");
 		R.LoadTexture<ObjectID::CANDY_YELLOW>("gfx/yellow.png");
-		R.LoadTexture<ObjectID::BG_00>("gfx/bg.jpg");
+		R.LoadTexture<ObjectID::BG_00>("gfx/bg_game.jpg");
+		R.LoadTexture<ObjectID::BG_01>("gfx/bg_menu.jpg");
+
 	}
 	//! Adds the game scenes into the Scene Manager and decides which is the first screen
 	void AddScenes(void) {
 		SM.AddScene<GameScene>();
-		SM.SetCurScene<GameScene>();
+		SM.AddScene<MenuScene>();
+		SM.SetCurScene<MenuScene>();
 	}
 	/**
 	* Runs the game specifying the window's name and dimensions
