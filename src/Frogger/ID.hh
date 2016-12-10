@@ -15,5 +15,6 @@ enum class FontID : int {
 	ARIAL,
 	CANDY,
 	FACTORY,
+	RAKOON,
 	MAX
 };
