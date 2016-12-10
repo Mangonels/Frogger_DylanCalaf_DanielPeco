@@ -2,20 +2,20 @@
 
 <levels>
 	<easy>
-	<time>1</time>
-	<lives>10</lives>
-	<initSpeed>1</initSpeed>
+		<time>1</time>
+		<lives>10</lives>
+		<initSpeed>1</initSpeed>
 	</easy>
 	
 	<medium>
-	<time>1/1.5</time>
-	<lives>5</lives>
-	<initSpeed>2</initSpeed>
+		<time>1/1.5</time>
+		<lives>5</lives>
+		<initSpeed>2</initSpeed>
 	</easy>
 	
 	<hard>
-	<time>1/2.5</time>
-	<lives>1</lives>
-	<SpeedMultiplier>3</SpeedMultiplier>
+		<time>1/2.5</time>
+		<lives>1</lives>
+		<SpeedMultiplier>3</SpeedMultiplier>
 	</hard>
 </levels>
