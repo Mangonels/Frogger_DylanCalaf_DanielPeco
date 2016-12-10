@@ -10,6 +10,14 @@ enum class ObjectID : const int {
 inline std::ostream &operator<<(std::ostream &os, const ObjectID &id) { return os << int(id); };
 inline std::istream &operator >> (std::istream &is, ObjectID &id) { return is >> reinterpret_cast<int&>(id); };
 
+enum class VehiclesID : const int {
+	COCHE, CAMION, RALLY
+};
+
+enum class CocodriloID : const int {
+	TRONCO, FINAL
+};
+
 // Enum ID used to store each true type font for text rendering
 enum class FontID : int {
 	ARIAL,

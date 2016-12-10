@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Agents.cc" />
     <ClCompile Include="GameScene.cc" />
     <ClCompile Include="Grid.cc" />
     <ClCompile Include="main.cc" />
@@ -26,6 +27,7 @@
     <ClCompile Include="Player.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agents.hh" />
     <ClInclude Include="Assert.hh" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="GameEngine.hh" />
