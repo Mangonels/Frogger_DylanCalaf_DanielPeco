@@ -13,6 +13,7 @@ namespace GameEngine {
 		R.LoadFont<FontID::ARIAL>("fnt/arial.ttf", 40);
 		R.LoadFont<FontID::CANDY>("fnt/candy.ttf", 50);
 		R.LoadFont<FontID::FACTORY>("fnt/candsb.ttf", 80);
+		R.LoadFont<FontID::RAKOON>("fnt/rakoon.ttf", 80);
 		R.LoadTexture<ObjectID::CELL_EMPTY>("gfx/empty.png");
 		R.LoadTexture<ObjectID::CANDY_BLUE>("gfx/blue.png");
 		R.LoadTexture<ObjectID::CANDY_RED>("gfx/red.png");

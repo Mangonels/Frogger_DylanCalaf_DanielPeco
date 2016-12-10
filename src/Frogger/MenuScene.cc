@@ -69,35 +69,35 @@ void MenuScene::Update(void) {
 void MenuScene::Draw(void) {
 	m_background.Draw(); // Render background
 	if (initialmenu) {
-		GUI::DrawTextShaded<FontID::FACTORY>("EXTREME FROGGER",
+		GUI::DrawTextBlended<FontID::RAKOON>("EXTREME FROGGER",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
-		{ 190, 0, 160 }, { 50, 200, 230 }); // Render score that will be different when updated
-		GUI::DrawTextShaded<FontID::FACTORY>("by Dylan Calaf and Daniel peco",
+		{ 190, 0, 160 }); // Render score that will be different when updated
+		GUI::DrawTextBlended<FontID::ARIAL>("by Dylan Calaf and Daniel peco",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.2f), 1, 1 },
-		{ 190, 0, 160 }, { 50, 200, 230 });
-		GUI::DrawTextBlended<FontID::CANDY>("START",
+		{ 190, 0, 160 });
+		GUI::DrawTextShaded<FontID::ARIAL>("START",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.5f), 1, 1 },
-		{ 115, 0, 180 });
-		GUI::DrawTextBlended<FontID::CANDY>("LEAVE",
+		{ 115, 0, 180 }, { 50, 200, 230 });
+		GUI::DrawTextShaded<FontID::ARIAL>("LEAVE",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.7f), 1, 1 },
-		{ 115, 0, 180 });
+		{ 115, 0, 180 }, { 50, 200, 230 });
 	}
 	else 
 	{
-		GUI::DrawTextShaded<FontID::FACTORY>("EXTREME FROGGER",
+		GUI::DrawTextBlended<FontID::RAKOON>("EXTREME FROGGER",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
-		{ 190, 0, 160 }, { 50, 200, 230 });
-		GUI::DrawTextShaded<FontID::FACTORY>("by Dylan Calaf and Daniel peco",
+		{ 190, 0, 160 });
+		GUI::DrawTextBlended<FontID::ARIAL>("by Dylan Calaf and Daniel peco",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.2f), 1, 1 },
-		{ 190, 0, 160 }, { 50, 200, 230 });
-		GUI::DrawTextBlended<FontID::CANDY>("Easy",
+		{ 190, 0, 160 });
+		GUI::DrawTextShaded<FontID::ARIAL>("Easy",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.5f), 1, 1 },
-		{ 115, 0, 180 });
-		GUI::DrawTextBlended<FontID::CANDY>("Medium",
+		{ 115, 0, 180 }, { 50, 200, 230 });
+		GUI::DrawTextShaded<FontID::ARIAL>("Medium",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.7f), 1, 1 },
-		{ 115, 0, 180 });
-		GUI::DrawTextBlended<FontID::CANDY>("Hard",
+		{ 115, 0, 180 }, { 50, 200, 230 });
+		GUI::DrawTextShaded<FontID::ARIAL>("Hard",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.9f), 1, 1 },
-		{ 115, 0, 180 });
+		{ 115, 0, 180 }, { 50, 200, 230 });
 	}
 }
