@@ -4,7 +4,12 @@
 #include "Agents.hh"
 
 Vehiculo::Vehiculo() {
-
+	coords.first = 200;
+	coords.second = 200;
+	size.first = 28;
+	size.second = 24;
+	sp1.objectID = ObjectID::VEHICLE;
+	sp1.transform = { coords.first, coords.second, size.first, size.second};
 }
 std::pair<int, int> Vehiculo::getCoords() {
 	return coords;
@@ -12,9 +17,17 @@ std::pair<int, int> Vehiculo::getCoords() {
 std::pair<int, int> Vehiculo::getSize() {
 	return size;
 }
+void Vehiculo::draw() {
+	sp1.Draw();
+}
 
 Tronco::Tronco() {
-
+	coords.first = 200;
+	coords.second = 300;
+	size.first = 177;
+	size.second = 21;
+	sp2.objectID = ObjectID::TRUNK;
+	sp2.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Tronco::getCoords() {
 	return coords;
@@ -22,6 +35,10 @@ std::pair<int, int> Tronco::getCoords() {
 std::pair<int, int> Tronco::getSize() {
 	return size;
 }
+void Tronco::draw() {
+	sp2.Draw();
+}
+
 Tortuga::Tortuga() {
 
 }

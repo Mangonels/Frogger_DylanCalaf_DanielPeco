@@ -22,6 +22,7 @@ void GameScene::OnExit(void) {
 }
 
 void GameScene::Update(void) {
+	/*
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
 		Println("===============");
@@ -37,10 +38,14 @@ void GameScene::Update(void) {
 	if (IM.IsKeyHold<'a'>()) Println("a hold");
 	if (IM.IsKeyDown<'0'>()) Println("0 down");
 	if (IM.IsKeyUp<KEY_BUTTON_DOWN>()) Println("down arrow up");
+	*/
 }
 
 void GameScene::Draw(void) {
 	m_background.Draw(); // Render background
+	vehiculo.draw();
+	tronco.draw();
+	/*
 	m_grid.Draw(); // Render grid
 	GUI::DrawTextShaded<FontID::FACTORY>("ENTI CRUSH",
 	{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
@@ -48,4 +53,5 @@ void GameScene::Draw(void) {
 	GUI::DrawTextBlended<FontID::CANDY>("Score: " + std::to_string(m_score),
 	{ W.GetWidth() >> 1, int(W.GetHeight()*.9f), 1, 1 },
 	{ 115, 0, 180 }); // Render score that will be different when updated
+	*/
 }

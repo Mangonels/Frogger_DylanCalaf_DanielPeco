@@ -9,6 +9,6 @@
 
 int main(int argc, char* args[]) {
 	
-	GameEngine::Run<SCREEN_WIDTH, SCREEN_HEIGHT>("ENTI Crush");
+	GameEngine::Run<SCREEN_WIDTH, SCREEN_HEIGHT>("Frogger");
 	return 0;
 }

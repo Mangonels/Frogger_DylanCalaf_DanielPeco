@@ -5,21 +5,25 @@
 class Vehiculo {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
-	VehiclesID tipo;
+	Sprite sp1;
+	//VehiclesID tipo;
 public:
 	Vehiculo();
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void draw();
 	//VehiclesID getType();
 };
 
 class Tronco {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
+	Sprite sp2;
 public:
 	Tronco();
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void draw();
 };
 
 class Tortuga {

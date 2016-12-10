@@ -5,7 +5,8 @@
 enum class ObjectID : const int {
 	CANDY_BLUE, CANDY_GREEN, CANDY_YELLOW, CANDY_RED, CANDY_PURPLE, CANDY_ORANGE, CANDY_MAX, CANDY_EMPTY, // Candies IDs
 	CELL_EMPTY, // Cell IDs
-	BG_00, BG_01  // Background IDs
+	BG_00, BG_01, // Background IDs
+	VEHICLE, TRUNK //frogger IDs
 };
 inline std::ostream &operator<<(std::ostream &os, const ObjectID &id) { return os << int(id); };
 inline std::istream &operator >> (std::istream &is, ObjectID &id) { return is >> reinterpret_cast<int&>(id); };
