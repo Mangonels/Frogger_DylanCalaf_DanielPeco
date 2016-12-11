@@ -5,6 +5,7 @@
 class Player {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
+	int lives;
 	Sprite splayer;
 public:
 	Player();

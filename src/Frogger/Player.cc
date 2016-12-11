@@ -8,6 +8,7 @@ Player::Player() {
 	coords.second = 400;
 	size.first = 21;
 	size.second = 17;
+	lives = 1;
 	splayer.objectID = ObjectID::FROG;
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
 }
