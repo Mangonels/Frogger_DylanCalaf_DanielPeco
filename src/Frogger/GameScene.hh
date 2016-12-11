@@ -1,6 +1,7 @@
 #pragma once
 #include "Grid.hh"
 #include "Agents.hh"
+#include "Player.hh"
 #include "Scene.hh"
 
 // GameScene class with the main gameplay mode
@@ -14,8 +15,10 @@ public:
 	void Draw(void) override;
 private:
 	Grid m_grid;
+	Player player;
 	Vehiculo vehiculo;
 	Tronco tronco;
+
 	Sprite m_background;
 	int m_score{ 0 };
 };

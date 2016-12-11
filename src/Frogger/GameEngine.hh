@@ -23,8 +23,12 @@ namespace GameEngine {
 		R.LoadTexture<ObjectID::CANDY_YELLOW>("gfx/yellow.png");
 		R.LoadTexture<ObjectID::BG_00>("gfx/bg_game.jpg");
 		R.LoadTexture<ObjectID::BG_01>("gfx/bg_menu.jpg");
+		R.LoadTexture<ObjectID::FROG>("gfx/rana.png");
 		R.LoadTexture<ObjectID::VEHICLE>("gfx/vehiculo.png");
-		R.LoadTexture<ObjectID::TRUNK>("gfx/tronco.png");
+		R.LoadTexture<ObjectID::TRUNKL>("gfx/troncoL.png");
+		R.LoadTexture<ObjectID::TRUNKM>("gfx/troncoM.png");
+		R.LoadTexture<ObjectID::TRUNKS>("gfx/troncoS.png");
+
 	}
 	//! Adds the game scenes into the Scene Manager and decides which is the first screen
 	void AddScenes(void) {

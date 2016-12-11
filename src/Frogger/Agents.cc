@@ -22,11 +22,28 @@ void Vehiculo::draw() {
 }
 
 Tronco::Tronco() {
-	coords.first = 200;
-	coords.second = 300;
-	size.first = 177;
-	size.second = 21;
-	sp2.objectID = ObjectID::TRUNK;
+	int type = rand() % 3;
+	if (type = 2) {
+		coords.first = 200;
+		coords.second = 300;
+		size.first = 177;
+		size.second = 21;
+		sp2.objectID = ObjectID::TRUNKL;
+	}
+	else if (type = 1) {
+		coords.first = 200;
+		coords.second = 300;
+		size.first = 116;
+		size.second = 21;
+		sp2.objectID = ObjectID::TRUNKM;
+	}
+	else {
+		coords.first = 200;
+		coords.second = 300;
+		size.first = 84;
+		size.second = 21;
+		sp2.objectID = ObjectID::TRUNKS;
+	}
 	sp2.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Tronco::getCoords() {

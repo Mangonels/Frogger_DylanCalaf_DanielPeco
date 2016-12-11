@@ -45,6 +45,8 @@ void GameScene::Draw(void) {
 	m_background.Draw(); // Render background
 	vehiculo.draw();
 	tronco.draw();
+	player.draw();
+	//tronco.draw();
 	/*
 	m_grid.Draw(); // Render grid
 	GUI::DrawTextShaded<FontID::FACTORY>("ENTI CRUSH",
