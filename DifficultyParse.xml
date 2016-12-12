@@ -10,7 +10,7 @@
 		<time>1/1.5</time>
 		<lives>5</lives>
 		<initSpeed>2</initSpeed>
-	</easy>
+	</medium>
 	
 	<hard>
 		<time>1/2.5</time>
