@@ -31,8 +31,7 @@ namespace IOManager {
 		doc.parse<0>(xmlFile.data());
 		rapidxml::xml_node<> *root_node = doc.first_node("levels");
 		for (rapidxml::xml_node<> * node = root_node->first_node("node"); node; node = node->next_sibling()) {
-			Println("Node: ",
-				node->first_attribute()->value(),
+			Println("Node: ", node->first_attribute()->value());
 		}
 	}
 
