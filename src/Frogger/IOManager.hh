@@ -25,6 +25,17 @@ namespace IOManager {
 		}
 	}
 
+	void xmlReader(std::string &&filename) { 
+		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); 
+		rapidxml::xml_document<> doc;
+		doc.parse<0>(xmlFile.data());
+		rapidxml::xml_node<> *root_node = doc.first_node("levels");
+		for (rapidxml::xml_node<> * node = root_node->first_node("node"); node; node = node->next_sibling()) {
+			Println("Node: ",
+				node->first_attribute()->value(),
+		}
+	}
+
 
 	// Loader function that takes level info for a grid
 	std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
