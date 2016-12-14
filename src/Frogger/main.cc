@@ -10,9 +10,9 @@ using namespace std;
 
 int main(int argc, char* args[]) {
 
-	string difficulty{ "hard" };
+	string level = "hard";
 
-	xmlReader(difficulty);
+	xmlReader(level);
 
 	GameEngine::Run<SCREEN_WIDTH, SCREEN_HEIGHT>("Frogger");
 

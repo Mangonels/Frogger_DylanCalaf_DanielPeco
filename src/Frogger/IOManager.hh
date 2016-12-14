@@ -13,7 +13,7 @@ using namespace Logger;
 namespace IOManager {
 
 	void TestXML(std::string &&filename) { //pasas un string.
-		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML
+		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML     ¿¿QUE HACE RESOURCE_FILE?? PLZ ANSWER>
 		rapidxml::xml_document<> doc; //creem un espai de memoria per a un document xml
 		doc.parse<0>(xmlFile.data()); //parsejem doc i hi asignem el contingut (data()) de xmlFile
 		rapidxml::xml_node<> *root_node = doc.first_node("levels"); //root node contindrá el primer node, que será <levels>
@@ -25,12 +25,13 @@ namespace IOManager {
 		}
 	}
 
-	void xmlReader(std::string &&filename) { 
-		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); 
+	void xmlReader(std::string &&level) {
+
+		rapidxml::file<> xmlFile("difficulties.xml");
 		rapidxml::xml_document<> doc;
 		doc.parse<0>(xmlFile.data());
 		rapidxml::xml_node<> *root_node = doc.first_node("levels");
-		for (rapidxml::xml_node<> * node = root_node->first_node("node"); node; node = node->next_sibling()) {
+		for (rapidxml::xml_node<> * node = root_node->first_node(level); node; node = node->next_sibling()) {
 			Println("Node: ", node->first_attribute()->value());
 		}
 	}
