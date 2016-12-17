@@ -22,7 +22,20 @@ void GameScene::OnExit(void) {
 }
 
 void GameScene::Update(void) {
-	/*
+	vehiculo.collision(player.getCoords(), player.getSize());
+	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
+		player.checkArrowKey(KEY_BUTTON_DOWN);
+	}
+	else if (IM.IsKeyDown<KEY_BUTTON_UP>()) {
+		player.checkArrowKey(KEY_BUTTON_UP);
+	}
+	else if (IM.IsKeyDown<KEY_BUTTON_LEFT>()) {
+		player.checkArrowKey(KEY_BUTTON_LEFT);
+	}
+	else if (IM.IsKeyDown<KEY_BUTTON_RIGHT>()) {
+		player.checkArrowKey(KEY_BUTTON_RIGHT);
+	}
+	
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
 		Println("===============");
@@ -33,6 +46,7 @@ void GameScene::Update(void) {
 		Println("mxn: ", IM.GetMouseCoords());
 		m_grid.CheckMouseSwift(mouseCoords, IM.GetMouseCoords());
 	}
+	/*
 	m_grid.Update(m_score); // Update grid
 							// Test InputManager key methods
 	if (IM.IsKeyHold<'a'>()) Println("a hold");

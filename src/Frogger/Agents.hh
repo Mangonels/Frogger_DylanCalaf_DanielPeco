@@ -11,6 +11,7 @@ public:
 	Vehiculo();
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void collision(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 	//VehiclesID getType();
 };
