@@ -3,6 +3,8 @@
 #include "Logger.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+#include "IOManager.hh"
+
 using namespace Logger;
 
 #define CELL_WIDTH 80
@@ -45,15 +47,18 @@ void MenuScene::Update(void) {
 		}
 		else //We are on the difficulty selection
 		{
-			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) {
+			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
+				TestXML("LvEasy.xml");
 				SM.SetCurScene<GameScene>();
 			}
 			//medium
-			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) {
+			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) { //Normal
+				TestXML("LvMedium.xml");
 				SM.SetCurScene<GameScene>();
 			}
 			//hard
-			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) {
+			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) { //Hard
+				TestXML("LvHard.xml");
 				SM.SetCurScene<GameScene>();
 			}
 		}
