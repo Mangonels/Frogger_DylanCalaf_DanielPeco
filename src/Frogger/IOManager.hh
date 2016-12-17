@@ -25,7 +25,7 @@ namespace IOManager {
 		}
 	}
 
-	void xmlReader(std::string &&level) {
+/*	void xmlReader(std::string &&level) {
 
 		rapidxml::file<> xmlFile("difficulties.xml");
 		rapidxml::xml_document<> doc;
@@ -34,7 +34,7 @@ namespace IOManager {
 		for (rapidxml::xml_node<> * node = root_node->first_node(level); node; node = node->next_sibling()) {
 			Println("Node: ", node->first_attribute()->value());
 		}
-	}
+	}*/
 
 
 	// Loader function that takes level info for a grid
