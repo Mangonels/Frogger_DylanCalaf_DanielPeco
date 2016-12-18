@@ -4,15 +4,18 @@
 #include "Agents.hh"
 #include "Player.hh"
 
-Vehiculo::Vehiculo() {
+
+Vehiculo::Vehiculo(int x, int y) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2.5;
-	coords.first = 10 * coordsMultiplier;
-	coords.second = 14 * coordsMultiplier;
-	size.first = 28 * sizeMultiplier;
-	size.second = 24 * sizeMultiplier;
-	sp1.objectID = ObjectID::VEHICLE;
-	sp1.transform = { coords.first, coords.second, size.first, size.second};
+
+	coords.first	 = x  * coordsMultiplier;
+	coords.second	 = y * coordsMultiplier;
+	size.first		 = 28 * sizeMultiplier;
+	size.second		 = 24 * sizeMultiplier;
+
+	sp.objectID = ObjectID::VEHICLE;
+	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Vehiculo::getCoords() {
 	return coords;
@@ -20,42 +23,87 @@ std::pair<int, int> Vehiculo::getCoords() {
 std::pair<int, int> Vehiculo::getSize() {
 	return size;
 }
-void Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
-	if (coords.second == Pcoords.second && Pcoords.first >= coords.first  && Pcoords.first + Psize.first <= coords.first + size.first) {
-		std::cout << "coll";
+bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	//colisión
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+		std::cout << "car collision!\n";
+		return true;
 	}
-}
-void Vehiculo::draw() {
-	sp1.Draw();
+	return false;
 }
 
-Tronco::Tronco() {
+void Vehiculo::draw() {
+	coords.first+=1;
+	if (coords.first > W.GetWidth()) {
+		coords.first = -size.first;
+	}
+	sp.transform = { coords.first, coords.second, size.first, size.second };
+	sp.Draw();
+}
+
+setVehiculos::setVehiculos() {
+	number = 10;
+	for (int i = 0; i < number; i++) {
+		int posy = 13 - (i % 5);
+		int posx = round(rand() % 20);
+		Vehiculo temp(posx, posy);
+		vehiculos[i] = temp;
+	}
+}
+
+bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	for (int i = 0; i < number; i++) {
+		if ( vehiculos[i].collision(Pcoords, Psize) ) {
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+
+void setVehiculos::draw() {
+	for (int i = 0; i < number; i++) {
+		vehiculos[i].draw();
+	}
+}
+
+Tronco::Tronco(int x, int y) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2;
-	int type = rand() % 3;
-	if (type = 2) {
-		coords.first = 10 * coordsMultiplier;
-		coords.second = 7 * coordsMultiplier;
+	int type = round(rand() % 3);
+	if (type == 2) {
+		coords.first =	 x * coordsMultiplier;
+		coords.second =	 y * coordsMultiplier;
 		size.first = 177 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
-		sp2.objectID = ObjectID::TRUNKL;
+		sp.objectID = ObjectID::TRUNKL;
 	}
-	else if (type = 1) {
-		coords.first = 200;
-		coords.second = 300;
-		size.first = 116;
-		size.second = 21;
-		sp2.objectID = ObjectID::TRUNKM;
+	else if (type == 1) {
+		coords.first =	 x * coordsMultiplier;
+		coords.second =  y * coordsMultiplier;
+		size.first = 116 * sizeMultiplier;
+		size.second = 21 * sizeMultiplier;
+		sp.objectID = ObjectID::TRUNKM;
 	}
 	else {
-		coords.first = 200;
-		coords.second = 300;
-		size.first = 84;
-		size.second = 21;
-		sp2.objectID = ObjectID::TRUNKS;
+		coords.first = x * coordsMultiplier;
+		coords.second = y * coordsMultiplier;
+		size.first = 84 * sizeMultiplier;
+		size.second = 21 * sizeMultiplier;
+		sp.objectID = ObjectID::TRUNKS;
 	}
-	sp2.transform = { coords.first, coords.second, size.first, size.second };
+	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
+
+bool Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	//colisión
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+		std::cout << "trunk collision!\n";
+		return true;
+	}
+	return false;
+}
+
 std::pair<int, int> Tronco::getCoords() {
 	return coords;
 }
@@ -63,8 +111,41 @@ std::pair<int, int> Tronco::getSize() {
 	return size;
 }
 void Tronco::draw() {
-	sp2.Draw();
+	coords.first += 1;
+	if (coords.first > W.GetWidth()) {
+		coords.first = -size.first;
+	}
+	sp.transform = { coords.first, coords.second, size.first, size.second };
+
+	sp.Draw();
 }
+
+setTroncos::setTroncos() {
+	number = 10;
+	for (int i = 0; i < number; i++) {
+		int posy = 7 - (i % 5);
+		int posx = - 10 + round(rand() % 31);
+		Tronco temp(posx, posy);
+		troncos[i] = temp;
+	}
+}
+
+bool setTroncos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	for (int i = 0; i < number; i++) {
+		if (troncos[i].collision(Pcoords, Psize)) {
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+
+void setTroncos::draw() {
+	for (int i = 0; i < number; i++) {
+		troncos[i].draw();
+	}
+}
+
 
 Tortuga::Tortuga() {
 

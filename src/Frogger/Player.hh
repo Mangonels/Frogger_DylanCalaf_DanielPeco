@@ -9,9 +9,13 @@ class Player {
 	int lives;
 	Sprite splayer;
 	bool onWater;
+	bool onTrunk;
+	bool carHit;
 public:
 	Player();
 	void checkArrowKey (const KeyButton &key);
+	void onTrunkFunction (bool p);
+	void carHitFunction (bool p);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void draw();

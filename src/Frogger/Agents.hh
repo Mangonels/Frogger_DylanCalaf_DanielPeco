@@ -5,25 +5,45 @@
 class Vehiculo {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
-	Sprite sp1;
+	Sprite sp;
 	//VehiclesID tipo;
 public:
-	Vehiculo();
+	Vehiculo() {};
+	Vehiculo(int x, int y);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
-	void collision(const std::pair<int, int>, const std::pair<int, int>);
+	bool collision(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 	//VehiclesID getType();
 };
 
+class setVehiculos {
+	int number;
+	Vehiculo vehiculos[10];
+public:
+	setVehiculos();
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	void draw();
+};
 class Tronco {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
-	Sprite sp2;
+	Sprite sp;
 public:
-	Tronco();
+	Tronco() {};
+	Tronco(int x, int y);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	void draw();
+};
+
+class setTroncos {
+	int number;
+	Tronco troncos[10];
+public:
+	setTroncos();
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
