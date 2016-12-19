@@ -25,6 +25,7 @@ public:
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
+
 class Tronco {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;

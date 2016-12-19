@@ -6,15 +6,15 @@
 
 
 Vehiculo::Vehiculo(int x, int y) {
-	int coordsMultiplier = round(W.GetHeight() / 16);
-	int sizeMultiplier = 2.5;
+	int coordsMultiplier = round(W.GetHeight() / 16); //Calculador de "grid"
+	int sizeMultiplier = 2;
 
-	coords.first	 = x  * coordsMultiplier;
-	coords.second	 = y * coordsMultiplier;
+	coords.first	 = x * coordsMultiplier; //Con esto sabemos a que distancia horizontal debe aparecer el vehiculo
+	coords.second	 = y * coordsMultiplier; //Altura
 	size.first		 = 28 * sizeMultiplier;
 	size.second		 = 24 * sizeMultiplier;
 
-	sp.objectID = ObjectID::VEHICLE;
+	sp.objectID = ObjectID::VEHICLE; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Vehiculo::getCoords() {
@@ -23,9 +23,9 @@ std::pair<int, int> Vehiculo::getCoords() {
 std::pair<int, int> Vehiculo::getSize() {
 	return size;
 }
-bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
 	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) { //Cojemos unicamente la altura
 		std::cout << "car collision!\n";
 		return true;
 	}
@@ -38,6 +38,7 @@ void Vehiculo::draw() {
 		coords.first = -size.first;
 	}
 	sp.transform = { coords.first, coords.second, size.first, size.second };
+
 	sp.Draw();
 }
 
@@ -55,7 +56,6 @@ bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair
 	for (int i = 0; i < number; i++) {
 		if ( vehiculos[i].collision(Pcoords, Psize) ) {
 			return true;
-			break;
 		}
 	}
 	return false;

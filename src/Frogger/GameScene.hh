@@ -16,9 +16,7 @@ public:
 private:
 	Grid m_grid;
 	Player player;
-	Vehiculo vehiculo;
 	setVehiculos vehiculos;
-	Tronco tronco;
 	setTroncos troncos;
 	Sprite m_background;
 	int m_score{ 0 };
