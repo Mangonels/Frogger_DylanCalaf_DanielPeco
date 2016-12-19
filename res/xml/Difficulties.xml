@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<levels>
+	<easy>
+		<time>1</time>
+		<lives>10</lives>
+		<initSpeed>1</initSpeed>
+		<last_node></last_node>
+	</easy>
+	
+	<medium>
+		<time>1.5</time>
+		<lives>5</lives>
+		<initSpeed>2</initSpeed>
+		<last_node></last_node>
+	</medium>
+	
+	<hard>
+		<time>2.5</time>
+		<lives>1</lives>
+		<initSpeed>3</initSpeed>
+		<last_node></last_node>
+	</hard>
+</levels>

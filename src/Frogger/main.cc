@@ -1,4 +1,5 @@
 #include "GameEngine.hh"
+#include "IOManager.hh"
 
 // Game constants
 #define SCREEN_WIDTH 1024
@@ -7,8 +8,8 @@
 using namespace std;
 
 int main(int argc, char* args[]) {
-
-	// TextXML("Difficulties.xml");
+	
+   IOManager::XMLParser("xml/Difficulties.xml", "medium");
 
 	GameEngine::Run<SCREEN_WIDTH, SCREEN_HEIGHT>("Frogger");
 

@@ -3,6 +3,7 @@
 #include "Logger.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+//#include "IOManager.hh"
 
 using namespace Logger;
 
@@ -34,8 +35,7 @@ void MenuScene::Update(void) {
 	}
 	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
 		Println("mxn: ", IM.GetMouseCoords());
-		//select difficulty panels
-		//easy
+		
 		if (initialmenu) { //In order to make two different pannels on the same menu scene, we are checking if the player is switched to difficulty selection or not.
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) {
 				initialmenu = false;
@@ -46,9 +46,10 @@ void MenuScene::Update(void) {
 		}
 		else //We are on the difficulty selection
 		{
-			
+			//select difficulty panels
+			//easy
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
-				//TestXML("LvEasy.xml");
+				//IOManager::XMLParser("xml/Difficulties.xml");
 				SM.SetCurScene<GameScene>();
 			}
 			//medium

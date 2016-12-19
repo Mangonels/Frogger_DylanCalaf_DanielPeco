@@ -11,7 +11,7 @@
 using namespace Logger;
 
 namespace IOManager {
-
+	/*
 	void TestXML(std::string &&filename) { //pasas un string.
 		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML     ¿¿QUE HACE RESOURCE_FILE?? PLZ ANSWER>
 		rapidxml::xml_document<> doc; //creem un espai de memoria per a un document xml
@@ -24,7 +24,38 @@ namespace IOManager {
 				node->first_attribute("att2")->value());
 		}
 	}
-
+	*/
+	static void XMLParser(std::string &&filename, std::string &&level) { //pasas un string.
+		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML     ¿¿QUE HACE RESOURCE_FILE?? PLZ ANSWER>
+		rapidxml::xml_document<> doc; //creem un espai de memoria per a un document xml
+		try {
+			doc.parse<0>(xmlFile.data()); //parsejem doc i hi asignem el contingut (data()) de xmlFile
+		}
+		catch (rapidxml::parse_error err) {
+			std::cout << err.what() << std::endl /*<< err.where() << std::endl*/;
+			system("pause");
+		}
+		rapidxml::xml_node<> *root_node = doc.first_node("levels"); //root node contindrá el primer node, que será <levels>
+		
+		rapidxml::xml_node<> *difficulty_node = root_node->first_node(level.c_str());
+	
+		for (rapidxml::xml_node<> *attr = difficulty_node->first_node(); attr != difficulty_node->last_node(); attr = attr->next_sibling()) {
+			Println(
+				attr->name(),
+				"Value: ",
+				attr->value());
+		}
+		
+/*		for (rapidxml::xml_node<> *difficulty_node = root_node->first_node("easy"); difficulty_node; difficulty_node = difficulty_node->next_sibling()) {
+			Println("Node: ",
+				difficulty_node->first_attribute("time")->value(),
+				" - ",
+				difficulty_node->first_attribute("lives")->value(),
+				" - ",
+				difficulty_node->first_attribute("initSpeed")->value());
+		}*/
+	}
+	
 /*	void xmlReader(std::string &&level) {
 
 		rapidxml::file<> xmlFile("difficulties.xml");
@@ -38,7 +69,7 @@ namespace IOManager {
 
 
 	// Loader function that takes level info for a grid
-	std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
+	static std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
 		std::ifstream fileData(RESOURCE_FILE(filename));
 		ASSERT(fileData.good());
 		std::vector<std::vector<ObjectID>> lvlData;
