@@ -9,9 +9,10 @@ class Vehiculo {
 	//VehiclesID tipo;
 public:
 	Vehiculo() {};
-	Vehiculo(int x, int y);
+	Vehiculo(int x, int y, int type);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void update();
 	bool collision(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 	//VehiclesID getType();
@@ -22,6 +23,7 @@ class setVehiculos {
 	Vehiculo vehiculos[10];
 public:
 	setVehiculos();
+	void update();
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
@@ -32,7 +34,7 @@ class Tronco {
 	Sprite sp;
 public:
 	Tronco() {};
-	Tronco(int x, int y);
+	Tronco(int x, int y, int type);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);

@@ -5,16 +5,42 @@
 #include "Player.hh"
 
 
-Vehiculo::Vehiculo(int x, int y) {
+Vehiculo::Vehiculo(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16); //Calculador de "grid"
 	int sizeMultiplier = 2;
 
 	coords.first	 = x * coordsMultiplier; //Con esto sabemos a que distancia horizontal debe aparecer el vehiculo
 	coords.second	 = y * coordsMultiplier; //Altura
-	size.first		 = 28 * sizeMultiplier;
-	size.second		 = 24 * sizeMultiplier;
+	switch (type) {
+	case 0:
+		size.first = 24 * sizeMultiplier;
+		size.second = 25 * sizeMultiplier;
+		sp.objectID = ObjectID::VEHICLE1; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+		break;
+	case 1:
+		size.first = 24 * sizeMultiplier;
+		size.second = 21 * sizeMultiplier;
+		sp.objectID = ObjectID::VEHICLE2; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+		break;
 
-	sp.objectID = ObjectID::VEHICLE; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+	case 2:
+		size.first = 28 * sizeMultiplier;
+		size.second = 19 * sizeMultiplier;
+		sp.objectID = ObjectID::VEHICLE3; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+		break;
+	case 3:
+		size.first = 28 * sizeMultiplier;
+		size.second = 24 * sizeMultiplier;
+		sp.objectID = ObjectID::VEHICLE4; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+		break;
+	case 4:
+		size.first = 45 * sizeMultiplier;
+		size.second = 18 * sizeMultiplier;
+		sp.objectID = ObjectID::VEHICLE5; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
+		break;
+	default:
+		break;
+	}
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Vehiculo::getCoords() {
@@ -22,6 +48,44 @@ std::pair<int, int> Vehiculo::getCoords() {
 }
 std::pair<int, int> Vehiculo::getSize() {
 	return size;
+}
+
+void Vehiculo::update() {
+
+	switch (sp.objectID) {
+	case ObjectID::VEHICLE1:
+		coords.first -= 1;
+		if (coords.first < -size.first) {
+			coords.first = W.GetWidth();
+		}
+		break;
+	case ObjectID::VEHICLE2:
+		coords.first += 1;
+		if (coords.first > W.GetWidth()) {
+			coords.first = -size.first;
+		}
+		break;
+	case ObjectID::VEHICLE3:
+		coords.first -= 1;
+		if (coords.first < -size.first) {
+			coords.first = W.GetWidth();
+		}
+		break;
+	case ObjectID::VEHICLE4:
+		coords.first += 1;
+		if (coords.first > W.GetWidth()) {
+			coords.first = -size.first;
+		}
+		break;
+	case ObjectID::VEHICLE5:
+		coords.first -= 1;
+		if (coords.first < -size.first) {
+			coords.first = W.GetWidth();
+		}
+		break;
+	default:
+		break;
+	}
 }
 bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
 	//colisión
@@ -33,10 +97,7 @@ bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int,
 }
 
 void Vehiculo::draw() {
-	coords.first+=1;
-	if (coords.first > W.GetWidth()) {
-		coords.first = -size.first;
-	}
+	
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 
 	sp.Draw();
@@ -47,9 +108,16 @@ setVehiculos::setVehiculos() {
 	for (int i = 0; i < number; i++) {
 		int posy = 13 - (i % 5);
 		int posx = round(rand() % 20);
-		Vehiculo temp(posx, posy);
+		Vehiculo temp(posx, posy, i % 5);
 		vehiculos[i] = temp;
 	}
+}
+
+void setVehiculos::update() {
+	for (int i = 0; i < number; i++) {
+		vehiculos[i].update();
+		std::cout << i;
+		}
 }
 
 bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
@@ -64,31 +132,31 @@ bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair
 void setVehiculos::draw() {
 	for (int i = 0; i < number; i++) {
 		vehiculos[i].draw();
+		std::cout << "XD";
 	}
 }
 
-Tronco::Tronco(int x, int y) {
+Tronco::Tronco(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2;
-	int type = round(rand() % 3);
-	if (type == 2) {
+	if (type == 2) { //largos
 		coords.first =	 x * coordsMultiplier;
 		coords.second =	 y * coordsMultiplier;
 		size.first = 177 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		sp.objectID = ObjectID::TRUNKL;
 	}
-	else if (type == 1) {
+	else if (type == 1) { //medios
 		coords.first =	 x * coordsMultiplier;
 		coords.second =  y * coordsMultiplier;
 		size.first = 116 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		sp.objectID = ObjectID::TRUNKM;
 	}
-	else {
+	else { //pequeños
 		coords.first = x * coordsMultiplier;
 		coords.second = y * coordsMultiplier;
-		size.first = 84 * sizeMultiplier;
+		size.first =  84 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		sp.objectID = ObjectID::TRUNKS;
 	}
@@ -125,7 +193,7 @@ setTroncos::setTroncos() {
 	for (int i = 0; i < number; i++) {
 		int posy = 7 - (i % 5);
 		int posx = - 10 + round(rand() % 31);
-		Tronco temp(posx, posy);
+		Tronco temp(posx, posy, i % 3);
 		troncos[i] = temp;
 	}
 }

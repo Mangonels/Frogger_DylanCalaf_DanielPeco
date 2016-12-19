@@ -24,7 +24,11 @@ namespace GameEngine {
 		R.LoadTexture<ObjectID::BG_00>("gfx/bg_game.jpg");
 		R.LoadTexture<ObjectID::BG_01>("gfx/bg_menu.jpg");
 		R.LoadTexture<ObjectID::FROG>("gfx/rana.png");
-		R.LoadTexture<ObjectID::VEHICLE>("gfx/vehiculo.png");
+		R.LoadTexture<ObjectID::VEHICLE1>("gfx/vehiculo1.png");
+		R.LoadTexture<ObjectID::VEHICLE2>("gfx/vehiculo2.png");
+		R.LoadTexture<ObjectID::VEHICLE3>("gfx/vehiculo3.png");
+		R.LoadTexture<ObjectID::VEHICLE4>("gfx/vehiculo4.png");
+		R.LoadTexture<ObjectID::VEHICLE5>("gfx/vehiculo5.png");
 		R.LoadTexture<ObjectID::TRUNKL>("gfx/troncoL.png");
 		R.LoadTexture<ObjectID::TRUNKM>("gfx/troncoM.png");
 		R.LoadTexture<ObjectID::TRUNKS>("gfx/troncoS.png");

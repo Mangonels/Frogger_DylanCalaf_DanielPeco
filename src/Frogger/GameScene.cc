@@ -22,7 +22,9 @@ void GameScene::OnExit(void) {
 }
 
 void GameScene::Update(void) {
+	
 	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
+
 	player.onTrunkFunction(troncos.collisions(player.getCoords(), player.getSize()));
 
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
@@ -58,6 +60,7 @@ void GameScene::Update(void) {
 }
 
 void GameScene::Draw(void) {
+	vehiculos.update();
 	m_background.Draw(); // Render background
 	vehiculos.draw();
 	troncos.draw();
