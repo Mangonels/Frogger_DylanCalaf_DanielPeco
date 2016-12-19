@@ -10,13 +10,15 @@ class Player {
 	Sprite splayer;
 	bool onWater;
 	bool onTrunk;
+	bool onTurtle;
 	bool carHit;
 public:
 	Player();
 	void checkArrowKey (const KeyButton &key);
-	void onTrunkFunction (bool p);
-	void carHitFunction (bool p);
+	void onObjectFunction(bool check1, bool check2);
+	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void update();
 	void draw();
 };

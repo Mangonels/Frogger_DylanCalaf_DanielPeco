@@ -39,11 +39,12 @@ void Player::checkArrowKey(const KeyButton &key) {
 	std::cout << "frog position: { " << coords.first / coordsMultiplier << ", " << coords.second / coordsMultiplier << " } \n";
 }
 
-void Player::onTrunkFunction(bool p) {
-	onTrunk = p;
+void Player::onObjectFunction(bool checkTrunk, bool checkTurtle) {
+	onTrunk = checkTrunk;
+	onTurtle = checkTurtle;
 }
-void Player::carHitFunction(bool p) {
-	carHit = p;
+void Player::carHitFunction(bool check) {
+	carHit = check;
 }
 std::pair<int, int> Player::getCoords() {
 	return coords;
@@ -51,20 +52,22 @@ std::pair<int, int> Player::getCoords() {
 std::pair<int, int> Player::getSize() {
 	return size;
 }
-void Player::draw() {
+
+void Player::update() {
 	//dies
-	if (onTrunk == false && onWater || carHit) {
+	if (onTrunk == false && onTurtle == false && onWater) {
 		coords.first = 10 * coordsMultiplier;
 		coords.second = 14 * coordsMultiplier;
 	}
 	else if (onTrunk) {
 		coords.first += 1;
 	}
-
-	splayer.transform = { coords.first, coords.second, size.first, size.second };
-	if (onWater) {
-		//coords.first += 1;
-		splayer.transform = { coords.first, coords.second, size.first, size.second };
+	else if (onTurtle) {
+		coords.first -= 1;
 	}
+
+}
+void Player::draw() {
+	splayer.transform = { coords.first, coords.second, size.first, size.second };
 	splayer.Draw();
 }

@@ -8,7 +8,8 @@ enum class ObjectID : const int {
 	BG_00, BG_01, // Background IDs
 	FROG,
 	VEHICLE1, VEHICLE2, VEHICLE3, VEHICLE4, VEHICLE5,
-	TRUNKL, TRUNKM, TRUNKS //frogger IDs
+	TRUNKL, TRUNKM, TRUNKS,
+	TURTLE//frogger IDs
 };
 inline std::ostream &operator<<(std::ostream &os, const ObjectID &id) { return os << int(id); };
 inline std::istream &operator >> (std::istream &is, ObjectID &id) { return is >> reinterpret_cast<int&>(id); };

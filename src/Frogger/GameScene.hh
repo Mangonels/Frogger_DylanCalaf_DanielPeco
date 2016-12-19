@@ -18,6 +18,7 @@ private:
 	Player player;
 	setVehiculos vehiculos;
 	setTroncos troncos;
+	setTortugas tortugas;
 	Sprite m_background;
 	int m_score{ 0 };
 };

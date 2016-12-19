@@ -37,15 +37,17 @@ public:
 	Tronco(int x, int y, int type);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void update();
 	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
 class setTroncos {
 	int number;
-	Tronco troncos[10];
+	Tronco troncos[9];
 public:
 	setTroncos();
+	void update();
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
@@ -53,10 +55,25 @@ public:
 class Tortuga {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
+	Sprite sp;
 public:
-	Tortuga();
+	Tortuga() {};
+	Tortuga(int x, int y);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	void update();
+	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	void draw();
+};
+
+class setTortugas {
+	int number;
+	Tortuga tortugas[20];
+public:
+	setTortugas();
+	void update();
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	void draw();
 };
 
 class Nutria {

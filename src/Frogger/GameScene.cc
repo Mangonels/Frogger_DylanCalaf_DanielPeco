@@ -24,8 +24,7 @@ void GameScene::OnExit(void) {
 void GameScene::Update(void) {
 	
 	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
-
-	player.onTrunkFunction(troncos.collisions(player.getCoords(), player.getSize()));
+	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()), tortugas.collisions(player.getCoords(), player.getSize()));
 
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 		player.checkArrowKey(KEY_BUTTON_DOWN);
@@ -61,10 +60,15 @@ void GameScene::Update(void) {
 
 void GameScene::Draw(void) {
 	vehiculos.update();
+	troncos.update();
+	tortugas.update();
+	player.update();
 	m_background.Draw(); // Render background
 	vehiculos.draw();
 	troncos.draw();
+	tortugas.draw();
 	player.draw();
+	
 	/*
 	m_grid.Draw(); // Render grid
 	GUI::DrawTextShaded<FontID::FACTORY>("ENTI CRUSH",

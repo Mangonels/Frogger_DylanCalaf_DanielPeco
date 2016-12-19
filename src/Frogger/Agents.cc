@@ -116,8 +116,7 @@ setVehiculos::setVehiculos() {
 void setVehiculos::update() {
 	for (int i = 0; i < number; i++) {
 		vehiculos[i].update();
-		std::cout << i;
-		}
+	}
 }
 
 bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
@@ -132,7 +131,6 @@ bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair
 void setVehiculos::draw() {
 	for (int i = 0; i < number; i++) {
 		vehiculos[i].draw();
-		std::cout << "XD";
 	}
 }
 
@@ -178,23 +176,38 @@ std::pair<int, int> Tronco::getCoords() {
 std::pair<int, int> Tronco::getSize() {
 	return size;
 }
-void Tronco::draw() {
+
+void Tronco::update() {
 	coords.first += 1;
 	if (coords.first > W.GetWidth()) {
 		coords.first = -size.first;
 	}
+}
+void Tronco::draw() {
+	
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 
 	sp.Draw();
 }
 
 setTroncos::setTroncos() {
-	number = 10;
+	number = 9;
+	
+	//troncos de la fila 
+	troncos[0] = Tronco(1, 6, 0);
+	troncos[1] = Tronco(7, 6, 0);
+	troncos[2] = Tronco(13, 6, 0);
+	troncos[3] = Tronco(19, 6, 0);
+	troncos[4] = Tronco(3, 5, 2);
+	troncos[5] = Tronco(18, 5, 2);
+	troncos[6] = Tronco(4, 3, 1);
+	troncos[7] = Tronco(13, 3, 1);
+	troncos[8] = Tronco(22, 3, 1);
+}
+
+void setTroncos::update() {
 	for (int i = 0; i < number; i++) {
-		int posy = 7 - (i % 5);
-		int posx = - 10 + round(rand() % 31);
-		Tronco temp(posx, posy, i % 3);
-		troncos[i] = temp;
+		troncos[i].update();
 	}
 }
 
@@ -202,7 +215,6 @@ bool setTroncos::collisions(const std::pair<int, int> Pcoords, const std::pair<i
 	for (int i = 0; i < number; i++) {
 		if (troncos[i].collision(Pcoords, Psize)) {
 			return true;
-			break;
 		}
 	}
 	return false;
@@ -214,16 +226,102 @@ void setTroncos::draw() {
 	}
 }
 
+Tortuga::Tortuga(int x, int y) {
+	int coordsMultiplier = round(W.GetHeight() / 16);
+	int sizeMultiplier = 2;
 
-Tortuga::Tortuga() {
+	coords.first = x * coordsMultiplier;
+	coords.second = y * coordsMultiplier;
+	size.first = 31 * sizeMultiplier;
+	size.second = 22 * sizeMultiplier;
 
+	sp.objectID = ObjectID::TURTLE;
+	
+	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
+
+bool Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	//colisión
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+		std::cout << "turtle collision!\n";
+		return true;
+	}
+	return false;
+}
+
 std::pair<int, int> Tortuga::getCoords() {
 	return coords;
 }
 std::pair<int, int> Tortuga::getSize() {
 	return size;
 }
+
+void Tortuga::update() {
+	coords.first -= 1;
+	if (coords.first < -size.first) {
+		coords.first = W.GetWidth();
+	}
+}
+void Tortuga::draw() {
+
+	sp.transform = { coords.first, coords.second, size.first, size.second };
+	sp.Draw();
+}
+
+setTortugas::setTortugas() {
+	number = 20;
+
+	//troncos de la fila 
+	tortugas[0] = Tortuga(0, 7);
+	tortugas[1] = Tortuga(1, 7);
+	tortugas[2] = Tortuga(2, 7);
+
+	tortugas[3] = Tortuga(5, 7);
+	tortugas[4] = Tortuga(6, 7);
+	tortugas[5] = Tortuga(7, 7);
+
+	tortugas[6] = Tortuga(10, 7);
+	tortugas[7] = Tortuga(11, 7);
+	tortugas[8] = Tortuga(12, 7);
+
+	tortugas[9] = Tortuga(15, 7);
+	tortugas[10] = Tortuga(16, 7);
+	tortugas[11] = Tortuga(17, 7);
+
+	tortugas[12] = Tortuga(0, 4);
+	tortugas[13] = Tortuga(1, 4);
+
+	tortugas[14] = Tortuga(6, 4);
+	tortugas[15] = Tortuga(7, 4);
+
+	tortugas[16] = Tortuga(12, 4);
+	tortugas[17] = Tortuga(13, 4);
+
+	tortugas[18] = Tortuga(18, 4);
+	tortugas[19] = Tortuga(19, 4);
+}
+
+void setTortugas::update() {
+	for (int i = 0; i < number; i++) {
+		tortugas[i].update();
+	}
+}
+
+bool setTortugas::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	for (int i = 0; i < number; i++) {
+		if (tortugas[i].collision(Pcoords, Psize)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void setTortugas::draw() {
+	for (int i = 0; i < number; i++) {
+		tortugas[i].draw();
+	}
+}
+
 Nutria::Nutria() {
 
 }
