@@ -163,7 +163,7 @@ Tronco::Tronco(int x, int y, int type) {
 
 bool Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
 		std::cout << "trunk collision!\n";
 		return true;
 	}
@@ -242,7 +242,7 @@ Tortuga::Tortuga(int x, int y) {
 
 bool Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) {
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first/2 <= coords.first + size.first) {
 		std::cout << "turtle collision!\n";
 		return true;
 	}
@@ -322,6 +322,88 @@ void setTortugas::draw() {
 	}
 }
 
+Insecto::Insecto(int x) {
+	int coordsMultiplier = round(W.GetHeight() / 16);
+	int sizeMultiplier = 2;
+
+	coords.first = x;
+	coords.second = 2 * coordsMultiplier;
+	size.first = 31 * sizeMultiplier;
+	size.second = 22 * sizeMultiplier;
+	insectActive = true;
+	frogs = false;
+	spInsect.objectID = ObjectID::INSECT;
+	spFrog.objectID = ObjectID::FROG;
+	spInsect.transform = { coords.first, coords.second, size.first, size.second };
+	spFrog.transform = { coords.first, coords.second, size.first, size.second };
+}
+
+bool Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	//colisión
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
+		std::cout << "insect collision!\n";
+		if (insectActive) {
+			//sumar puntos
+			insectActive = false;
+		}
+		frogs = true;
+		return true;
+	}
+	return false;
+}
+
+std::pair<int, int> Insecto::getCoords() {
+	return coords;
+}
+std::pair<int, int> Insecto::getSize() {
+	return size;
+}
+
+void Insecto::update() {
+	
+}
+void Insecto::draw() {
+	if (frogs) {
+		spFrog.Draw();
+	}
+	else {
+		spInsect.transform = { coords.first, coords.second, size.first, size.second };
+		spInsect.Draw();
+	}
+}
+
+setInsectos::setInsectos() {
+	number = 5;
+
+	insectos[0] = Insecto(40) ;
+	insectos[1] = Insecto(260);
+	insectos[2] = Insecto(475);
+	insectos[3] = Insecto(690);
+	insectos[4] = Insecto(910);
+}
+
+void setInsectos::update() {
+	for (int i = 0; i < number; i++) {
+		insectos[i].update();
+	}
+}
+
+bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	for (int i = 0; i < number; i++) {
+		if (insectos[i].collision(Pcoords, Psize)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void setInsectos::draw() {
+	for (int i = 0; i < number; i++) {
+		insectos[i].draw();
+	}
+}
+
+
 Nutria::Nutria() {
 
 }
@@ -349,15 +431,7 @@ std::pair<int, int> Serpiente::getCoords() {
 std::pair<int, int> Serpiente::getSize() {
 	return size;
 }
-Insecto::Insecto() {
 
-}
-std::pair<int, int> Insecto::getCoords() {
-	return coords;
-}
-std::pair<int, int> Insecto::getSize() {
-	return size;
-}
 LadyFrog::LadyFrog() {
 
 }

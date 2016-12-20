@@ -33,6 +33,7 @@ namespace GameEngine {
 		R.LoadTexture<ObjectID::TRUNKM>("gfx/troncoM.png");
 		R.LoadTexture<ObjectID::TRUNKS>("gfx/troncoS.png");
 		R.LoadTexture<ObjectID::TURTLE>("gfx/tortuga.png");
+		R.LoadTexture<ObjectID::INSECT>("gfx/insecto.png");
 	}
 	//! Adds the game scenes into the Scene Manager and decides which is the first screen
 	void AddScenes(void) {

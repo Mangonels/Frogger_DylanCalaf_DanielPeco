@@ -76,6 +76,35 @@ public:
 	void draw();
 };
 
+class Insecto {
+	std::pair<int, int> coords;
+	std::pair<int, int> size;
+	bool insectActive;
+	bool frogs;
+	Sprite spInsect;
+	Sprite spFrog;
+public:
+	Insecto() {};
+	Insecto(int x);
+	std::pair<int, int> getCoords();
+	std::pair<int, int> getSize();
+	void update();
+	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	void draw();
+};
+
+class setInsectos {
+	int number;
+	Insecto insectos[5];
+public:
+	setInsectos();
+	void update();
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	void draw();
+};
+
+
+
 class Nutria {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
@@ -101,15 +130,6 @@ class Serpiente {
 	std::pair<int, int> size;
 public:
 	Serpiente();
-	std::pair<int, int> getCoords();
-	std::pair<int, int> getSize();
-};
-
-class Insecto {
-	std::pair<int, int> coords;
-	std::pair<int, int> size;
-public:
-	Insecto();
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 };

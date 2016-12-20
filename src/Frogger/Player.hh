@@ -11,11 +11,12 @@ class Player {
 	bool onWater;
 	bool onTrunk;
 	bool onTurtle;
+	bool onGoal;
 	bool carHit;
 public:
 	Player();
 	void checkArrowKey (const KeyButton &key);
-	void onObjectFunction(bool check1, bool check2);
+	void onObjectFunction(bool check1, bool check2, bool check3);
 	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();

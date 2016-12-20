@@ -8,7 +8,7 @@ using namespace Logger;
 #define CELL_WIDTH 80
 #define CELL_HEIGHT 80
 
-GameScene::GameScene(void) : m_grid("lvl/testLvl.dat", CELL_WIDTH, CELL_HEIGHT) {
+GameScene::GameScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_00 };
 }
 
@@ -24,8 +24,10 @@ void GameScene::OnExit(void) {
 void GameScene::Update(void) {
 	
 	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
-	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()), tortugas.collisions(player.getCoords(), player.getSize()));
-
+	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
+							tortugas.collisions(player.getCoords(), player.getSize()), 
+							insectos.collisions(player.getCoords(), player.getSize()));
+	
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 		player.checkArrowKey(KEY_BUTTON_DOWN);
 	}
@@ -47,35 +49,30 @@ void GameScene::Update(void) {
 	}
 	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
 		Println("mxn: ", IM.GetMouseCoords());
-		m_grid.CheckMouseSwift(mouseCoords, IM.GetMouseCoords());
 	}
-	/*
-	m_grid.Update(m_score); // Update grid
-							// Test InputManager key methods
-	if (IM.IsKeyHold<'a'>()) Println("a hold");
-	if (IM.IsKeyDown<'0'>()) Println("0 down");
-	if (IM.IsKeyUp<KEY_BUTTON_DOWN>()) Println("down arrow up");
-	*/
+	
 }
 
 void GameScene::Draw(void) {
+	
 	vehiculos.update();
 	troncos.update();
 	tortugas.update();
+	insectos.update();
 	player.update();
 	m_background.Draw(); // Render background
 	vehiculos.draw();
 	troncos.draw();
 	tortugas.draw();
+	insectos.draw();
 	player.draw();
 	
 	/*
-	m_grid.Draw(); // Render grid
 	GUI::DrawTextShaded<FontID::FACTORY>("ENTI CRUSH",
 	{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
 	{ 190, 0, 160 }, { 50, 200, 230 }); // Render score that will be different when updated
-	GUI::DrawTextBlended<FontID::CANDY>("Score: " + std::to_string(m_score),
-	{ W.GetWidth() >> 1, int(W.GetHeight()*.9f), 1, 1 },
-	{ 115, 0, 180 }); // Render score that will be different when updated
 	*/
+	GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
+	{ int(W.GetWidth()*.1f), int(W.GetHeight()*.97f), 1, 1 },
+	{ 255, 255, 255 }); // Render score that will be different when updated
 }

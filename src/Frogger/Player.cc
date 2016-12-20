@@ -31,17 +31,14 @@ void Player::checkArrowKey(const KeyButton &key) {
 		coords.first += 1 * coordsMultiplier;
 	}
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
-
-	//water
-	if (coords.second < 8 * coordsMultiplier) onWater = true;
-	else onWater = false;
 	
 	std::cout << "frog position: { " << coords.first / coordsMultiplier << ", " << coords.second / coordsMultiplier << " } \n";
 }
 
-void Player::onObjectFunction(bool checkTrunk, bool checkTurtle) {
+void Player::onObjectFunction(bool checkTrunk, bool checkTurtle, bool checkGoal) {
 	onTrunk = checkTrunk;
 	onTurtle = checkTurtle;
+	onGoal = checkGoal;
 }
 void Player::carHitFunction(bool check) {
 	carHit = check;
@@ -54,8 +51,12 @@ std::pair<int, int> Player::getSize() {
 }
 
 void Player::update() {
-	//dies
-	if (onTrunk == false && onTurtle == false && onWater) {
+	//water
+	if (coords.second < 8 * coordsMultiplier) onWater = true;
+	else onWater = false;
+
+	//dies / win
+	if (onTrunk == false && onTurtle == false && onWater || carHit) {
 		coords.first = 10 * coordsMultiplier;
 		coords.second = 14 * coordsMultiplier;
 	}
@@ -64,6 +65,10 @@ void Player::update() {
 	}
 	else if (onTurtle) {
 		coords.first -= 1;
+	}
+	else if (onGoal) {
+		coords.first = 10 * coordsMultiplier;
+		coords.second = 14 * coordsMultiplier;
 	}
 
 }
