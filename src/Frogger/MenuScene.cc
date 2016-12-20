@@ -3,8 +3,11 @@
 #include "Logger.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+#include <iostream>
+#include <cstdlib>
 //#include "IOManager.hh"
 
+using namespace std;
 using namespace Logger;
 
 #define CELL_WIDTH 80
@@ -39,9 +42,10 @@ void MenuScene::Update(void) {
 		if (initialmenu) { //In order to make two different pannels on the same menu scene, we are checking if the player is switched to difficulty selection or not.
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) {
 				initialmenu = false;
+
 			}
-			if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) {
-				//Cerrar ventana/salir del juego
+			if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) {
+				exit(0);
 			}
 		}
 		else //We are on the difficulty selection
