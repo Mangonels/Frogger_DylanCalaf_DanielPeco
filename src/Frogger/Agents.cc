@@ -338,14 +338,15 @@ Insecto::Insecto(int x) {
 	spFrog.transform = { coords.first, coords.second, size.first, size.second };
 }
 
-bool Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+bool Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int score) {
 	//colisión
 	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
 		std::cout << "insect collision!\n";
 		if (insectActive) {
-			//sumar puntos
+			score += 200;
 			insectActive = false;
 		}
+		score += 50;
 		frogs = true;
 		return true;
 	}
@@ -388,9 +389,11 @@ void setInsectos::update() {
 	}
 }
 
-bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int score) {
 	for (int i = 0; i < number; i++) {
-		if (insectos[i].collision(Pcoords, Psize)) {
+		if (insectos[i].collision(Pcoords, Psize, score)) {
+			totalGoals++;
+			if (totalGoals == 5) score += 1000;
 			return true;
 		}
 	}

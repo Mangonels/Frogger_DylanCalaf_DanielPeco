@@ -40,7 +40,7 @@ void GameScene::Update(void) {
 	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
 							tortugas.collisions(player.getCoords(), player.getSize()), 
-							insectos.collisions(player.getCoords(), player.getSize()));
+							insectos.collisions(player.getCoords(), player.getSize(), m_score));
 	
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 		player.checkArrowKey(KEY_BUTTON_DOWN);
@@ -81,12 +81,13 @@ void GameScene::Draw(void) {
 	insectos.draw();
 	player.draw();
 	
-	/*
-	GUI::DrawTextShaded<FontID::FACTORY>("ENTI CRUSH",
-	{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
-	{ 190, 0, 160 }, { 50, 200, 230 }); // Render score that will be different when updated
-	*/
 	GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
 	{ int(W.GetWidth()*.1f), int(W.GetHeight()*.97f), 1, 1 },
+	{ 255, 255, 255 }); // Render score that will be different when updated
+	GUI::DrawTextBlended<FontID::ARIAL>("Time: " + std::to_string(m_score),
+	{ int(W.GetWidth()*.5f), int(W.GetHeight()*.97f), 1, 1 },
+	{ 255, 255, 255 }); // Render score that will be different when updated
+	GUI::DrawTextBlended<FontID::ARIAL>("Lives: " + std::to_string(player.getLives()),
+	{ int(W.GetWidth()*.8f), int(W.GetHeight()*.97f), 1, 1 },
 	{ 255, 255, 255 }); // Render score that will be different when updated
 }

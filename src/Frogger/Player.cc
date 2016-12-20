@@ -54,16 +54,24 @@ std::pair<int, int> Player::getCoords() {
 std::pair<int, int> Player::getSize() {
 	return size;
 }
+int Player::getLives() {
+	return lives;
+}
 
 void Player::update() {
 	//water
 	if (coords.second < 8 * coordsMultiplier) onWater = true;
 	else onWater = false;
 
-	//dies / win
-	if (onTrunk == false && onTurtle == false && onWater || carHit) {
+	if (onGoal) {
 		coords.first = 10 * coordsMultiplier;
 		coords.second = 14 * coordsMultiplier;
+	}
+	//dies / win
+	else if (onTrunk == false && onTurtle == false && onWater || carHit) {
+		coords.first = 10 * coordsMultiplier;
+		coords.second = 14 * coordsMultiplier;
+		lives--;
 	}
 	else if (onTrunk) {
 		coords.first += 1;
@@ -71,11 +79,6 @@ void Player::update() {
 	else if (onTurtle) {
 		coords.first -= 1;
 	}
-	else if (onGoal) {
-		coords.first = 10 * coordsMultiplier;
-		coords.second = 14 * coordsMultiplier;
-	}
-
 }
 void Player::draw() {
 	splayer.transform = { coords.first, coords.second, size.first, size.second };

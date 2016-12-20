@@ -21,6 +21,7 @@ public:
 	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
+	int getLives();
 	void update();
 	void draw();
 };
