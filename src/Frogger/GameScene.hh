@@ -11,8 +11,10 @@ public:
 	~GameScene() override;
 	void OnEntry(void) override;
 	void OnExit(void) override;
+	void XMLSceneSetter(std::string &&difficulty);
 	void Update(void) override;
 	void Draw(void) override;
+	
 private:
 	Player player;
 	setVehiculos vehiculos;

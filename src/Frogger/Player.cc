@@ -17,6 +17,11 @@ Player::Player() {
 	
 }
 
+void Player::setLives(int l) 
+{
+	lives = l;
+}
+
 void Player::checkArrowKey(const KeyButton &key) {
 	if (key == KEY_BUTTON_DOWN) {
 		coords.second += 1 * coordsMultiplier;

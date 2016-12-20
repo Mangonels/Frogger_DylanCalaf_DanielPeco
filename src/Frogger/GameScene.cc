@@ -3,6 +3,7 @@
 #include "Logger.hh"
 #include "GameScene.hh"
 #include "MenuScene.hh"
+#include "IOManager.hh"
 using namespace Logger;
 
 #define CELL_WIDTH 80
@@ -19,6 +20,19 @@ void GameScene::OnEntry(void) {
 }
 
 void GameScene::OnExit(void) {
+}
+
+void GameScene::XMLSceneSetter(std::string &&difficulty)
+{
+	int PHealth;
+	int Gtime;
+	int GinitSpeed;
+
+	IOManager::XMLParser("xml/Difficulties.xml", "easy", &PHealth, &Gtime, &GinitSpeed);
+
+	player.setLives(PHealth);
+
+	//<Insertar aqui + funciones to lokas para rellenar el juego>
 }
 
 void GameScene::Update(void) {

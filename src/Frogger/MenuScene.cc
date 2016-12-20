@@ -3,6 +3,7 @@
 #include "Logger.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+#include "IOManager.hh"
 #include <iostream>
 #include <cstdlib>
 //#include "IOManager.hh"
@@ -55,16 +56,23 @@ void MenuScene::Update(void) {
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
 				//IOManager::XMLParser("xml/Difficulties.xml");
 				SM.SetCurScene<GameScene>();
+				cout << "Opened level Easy:" << endl;
+				XMLSceneSetter("easy");
+
 			}
 			//medium
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) { //Normal
 				//TestXML("LvMedium.xml");
 				SM.SetCurScene<GameScene>();
+				cout << "Opened level Medium:" << endl;
+				IOManager::XMLParser("xml/Difficulties.xml", "medium");
 			}
 			//hard
 			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) { //Hard
 				//TestXML("LvHard.xml");
 				SM.SetCurScene<GameScene>();
+				cout << "Opened level Hard:" << endl;
+				IOManager::XMLParser("xml/Difficulties.xml", "hard");
 			}
 		}
 	}
