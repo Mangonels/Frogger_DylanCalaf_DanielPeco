@@ -18,7 +18,7 @@ public:
 		static_assert(std::is_base_of<Scene, S>::value, "Can't add scene that doesn't inherit from IScene");
 		m_scenes.emplace(typeid(S), new S);
 	}
-	template<class S> void SetCurScene(void) {
+	template<class S> void SetCurScene(std::string difficulty) {
 		static_assert(std::is_base_of<Scene, S>::value, "Can't add scene that doesn't inherit from IScene");
 		if (m_curScene != nullptr)
 			m_curScene->OnExit(),

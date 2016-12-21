@@ -11,13 +11,15 @@ using namespace Logger;
 
 GameScene::GameScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_00 };
-	level = 1;
+	level = 0;
 }
 
 GameScene::~GameScene(void) {
 }
 
 void GameScene::OnEntry(void) {
+	
+
 }
 
 void GameScene::OnExit(void) {

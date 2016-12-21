@@ -13,5 +13,4 @@ public:
 	void Draw(void) override;
 private:
 	Sprite m_background;
-	int m_score{ 0 };
 };
