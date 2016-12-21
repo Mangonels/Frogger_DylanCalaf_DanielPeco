@@ -98,7 +98,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score);
+	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -109,7 +109,7 @@ class setInsectos {
 public:
 	setInsectos();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>, int score);
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
