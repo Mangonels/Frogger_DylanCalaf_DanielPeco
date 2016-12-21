@@ -97,8 +97,8 @@ public:
 	Insecto(int x);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
-	void update();
-	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	void update(bool active);
+	std::pair<bool, bool> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -106,10 +106,13 @@ class setInsectos {
 	int number;
 	Insecto insectos[5];
 	int totalGoals;
+	float spawnCounter;
+	float spawnTime;
+	bool active;
 public:
 	setInsectos();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>, int &score, int &totalfrogs);
 	void draw();
 };
 

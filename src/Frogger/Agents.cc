@@ -184,7 +184,6 @@ Tronco::Tronco(int x, int y, int type) {
 bool Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
 	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
-		std::cout << "trunk collision!\n";
 		return true;
 	}
 	return false;
@@ -271,7 +270,6 @@ Tortuga::Tortuga(int x, int y) {
 bool Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
 	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first/2 <= coords.first + size.first) {
-		std::cout << "turtle collision!\n";
 		return true;
 	}
 	return false;
@@ -363,7 +361,7 @@ Insecto::Insecto(int x) {
 	coords.second = 2 * coordsMultiplier;
 	size.first = 31 * sizeMultiplier;
 	size.second = 22 * sizeMultiplier;
-	insectActive = true;
+	insectActive = false;
 	frogs = false;
 	spInsect.objectID = ObjectID::INSECT;
 	spFrog.objectID = ObjectID::FROG;
@@ -371,19 +369,24 @@ Insecto::Insecto(int x) {
 	spFrog.transform = { coords.first, coords.second, size.first, size.second };
 }
 
-bool Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+std::pair<bool, bool> Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
+	std::pair<bool, bool> temp; //1r bool si la rana ha llegado al final, segundo bool si ha sido con insecto
 	if (!frogs) {
 		if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
-			std::cout << "insect collision!\n";
+			temp.first = true;
 			if (insectActive) {
+				temp.second = true;
 				insectActive = false;
 			}
+			else temp.second = false;
 			frogs = true;
-			return true;
+			return temp;
 		}
 	}
-	return false;
+	temp.first = false;
+	temp.second = false;
+	return temp;
 }
 
 std::pair<int, int> Insecto::getCoords() {
@@ -393,14 +396,19 @@ std::pair<int, int> Insecto::getSize() {
 	return size;
 }
 
-void Insecto::update() {
-	
+void Insecto::update(bool active) {
+	if (!frogs) {
+		if (active) {
+			insectActive = true;
+		}
+		else insectActive = false;
+	}
 }
 void Insecto::draw() {
 	if (frogs) {
 		spFrog.Draw();
 	}
-	else {
+	else if (insectActive) {
 		spInsect.transform = { coords.first, coords.second, size.first, size.second };
 		spInsect.Draw();
 	}
@@ -408,7 +416,9 @@ void Insecto::draw() {
 
 setInsectos::setInsectos() {
 	number = 5;
-
+	spawnCounter = 0;
+	spawnTime = 100;
+	active = false;
 	insectos[0] = Insecto(40) ;
 	insectos[1] = Insecto(260);
 	insectos[2] = Insecto(475);
@@ -417,14 +427,32 @@ setInsectos::setInsectos() {
 }
 
 void setInsectos::update() {
-	for (int i = 0; i < number; i++) {
-		insectos[i].update();
+	spawnCounter += 0.1;
+	if (spawnCounter > spawnTime) {
+		if (!active) {
+			active = true;
+			int randomInsect = rand() % 5;
+			insectos[randomInsect].update(true);
+		}
+		else {
+			active = false;
+			for (int i = 0; i < number; i++) {
+				insectos[i].update(false);
+			}
+		}
+		spawnCounter = 0;
 	}
 }
 
-bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score, int &totalfrogs) {
+	
 	for (int i = 0; i < number; i++) {
-		if (insectos[i].collision(Pcoords, Psize)) {
+		std::pair<bool, bool> temp = (insectos[i].collision(Pcoords, Psize)); //recoge ambos datos de la colision original
+		if (temp.first) {
+			if (temp.second) score += 200;
+			score += 50;
+			++totalfrogs;
+			if (totalfrogs == 5) score += 1000;
 			return true;
 		}
 	}
@@ -437,7 +465,7 @@ void setInsectos::draw() {
 	}
 }
 
-
+///////////////////////////////////////////////////////////////////////////////////////////////unused
 Nutria::Nutria() {
 
 }

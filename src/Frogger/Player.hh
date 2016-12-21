@@ -13,6 +13,7 @@ class Player {
 	bool onTurtle;
 	bool onGoal;
 	bool carHit;
+	bool newLines[12];
 public:
 	Player();
 	void setLives(int l);
@@ -20,9 +21,8 @@ public:
 	void onObjectFunction(bool check1, bool check2, bool check3);
 	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
-	int getCoordsX();
 	std::pair<int, int> getSize();
 	int getLives();
-	void update();
+	void update(int &score);
 	void draw();
 };
