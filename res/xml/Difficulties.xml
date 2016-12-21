@@ -3,22 +3,22 @@
 <levels>
 	<easy>
 		<PHealth>10</PHealth>
-		<Gtime>1</Gtime>
-		<GinitSpeed>1</GinitSpeed>
+		<GTime>1</GTime>
+		<GInitSpeed>1</GInitSpeed>
 		<last_node></last_node>
 	</easy>
 	
 	<medium>
 		<PHealth>5</PHealth>
-		<Gtime>1.5</Gtime>
-		<GinitSpeed>2</GinitSpeed>
+		<GTime>1.5</GTime>
+		<GInitSpeed>2</GInitSpeed>
 		<last_node></last_node>
 	</medium>
 	
 	<hard>
 		<PHealth>1</PHealth>
-		<Gtime>2.5</Gtime>
-		<GinitSpeed>3</GinitSpeed>
+		<GTime>2.5</GTime>
+		<GInitSpeed>3</GInitSpeed>
 		<last_node></last_node>
 	</hard>
 </levels>

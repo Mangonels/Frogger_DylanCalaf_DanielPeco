@@ -25,16 +25,15 @@ void GameScene::OnExit(void) {
 
 void GameScene::XMLSceneSetter(std::string &&difficulty)
 {
-	/*
+
 	int PHealth;
-	int Gtime;
-	int GinitSpeed;
-	*/
-	//IOManager::XMLParser("xml/Difficulties.xml", "easy", &PHealth, &Gtime, &GinitSpeed);
+	int GTime;
+	int GInitSpeed;
+	
+	IOManager::XMLParser("xml/Difficulties.xml", std::move(difficulty), PHealth, GTime, GInitSpeed);
 
-	//player.setLives(PHealth);
-
-	//<Insertar aqui + funciones to lokas para rellenar el juego>
+	player.setLives(PHealth);
+	//<Insertar aqui + metodos para rellenar el juego>
 }
 
 void GameScene::Update(void) {

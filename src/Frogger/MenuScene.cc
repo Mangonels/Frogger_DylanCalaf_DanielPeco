@@ -54,25 +54,25 @@ void MenuScene::Update(void) {
 			//select difficulty panels
 			//easy
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
-				//IOManager::XMLParser("xml/Difficulties.xml");
+				IOManager::XMLParserBasic("xml/Difficulties.xml", "easy");
+				//XMLSceneSetter("easy"); <-WIP
 				SM.SetCurScene<GameScene>();
 				cout << "Opened level Easy:" << endl;
-				//XMLSceneSetter("easy");
 
 			}
 			//medium
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) { //Normal
-				//TestXML("LvMedium.xml");
+				//TestXML("LvMedium.xml"); <-WIP
 				SM.SetCurScene<GameScene>();
 				cout << "Opened level Medium:" << endl;
-				//IOManager::XMLParser("xml/Difficulties.xml", "medium");
+				IOManager::XMLParserBasic("xml/Difficulties.xml", "medium");
 			}
 			//hard
 			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) { //Hard
-				//TestXML("LvHard.xml");
+				//TestXML("LvHard.xml"); <-WIP
 				SM.SetCurScene<GameScene>();
 				cout << "Opened level Hard:" << endl;
-				//IOManager::XMLParser("xml/Difficulties.xml", "hard");
+				IOManager::XMLParserBasic("xml/Difficulties.xml", "hard");
 			}
 		}
 	}
