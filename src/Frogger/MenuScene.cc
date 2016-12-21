@@ -54,10 +54,11 @@ void MenuScene::Update(void) {
 			//select difficulty panels
 			//easy
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
-				IOManager::XMLParserBasic("xml/Difficulties.xml", "easy");
+				
 				//XMLSceneSetter("easy"); <-WIP
 				SM.SetCurScene<GameScene>();
 				cout << "Opened level Easy:" << endl;
+				IOManager::XMLParserBasic("xml/Difficulties.xml", "easy");
 
 			}
 			//medium

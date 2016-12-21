@@ -30,14 +30,14 @@ Vehiculo::Vehiculo(int x, int y, int type) {
 		size.first = 28 * sizeMultiplier;
 		size.second = 19 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.5;
+		maxSpeedCounter = 0.4;
 		sp.objectID = ObjectID::VEHICLE3; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	case 3:
 		size.first = 28 * sizeMultiplier;
 		size.second = 24 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.3;
+		maxSpeedCounter = 0.2;
 		sp.objectID = ObjectID::VEHICLE4; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	case 4:
@@ -101,8 +101,7 @@ void Vehiculo::update() {
 }
 bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
 	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) { //Cojemos unicamente la altura
-		std::cout << "car collision!\n";
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) { //Cogemos unicamente la altura
 		return true;
 	}
 	return false;
