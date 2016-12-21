@@ -4,7 +4,6 @@
 #include "Agents.hh"
 #include "Player.hh"
 
-
 Vehiculo::Vehiculo(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16); //Calculador de "grid"
 	int sizeMultiplier = 2;
@@ -117,12 +116,14 @@ void Vehiculo::draw() {
 }
 
 setVehiculos::setVehiculos() {
-	number = 10;
+	number = 8;
+	int split = 0;
 	for (int i = 0; i < number; i++) {
 		int posy = 13 - (i % 5);
-		int posx = round(rand() % 20);
+		int posx = split;
 		Vehiculo temp(posx, posy, i % 5);
 		vehiculos[i] = temp;
+		split += 2;
 	}
 }
 
@@ -141,6 +142,17 @@ bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair
 	return false;
 }
 
+void setVehiculos::NewLevel(int level) {
+	number = 8 + level % 3;
+	int split = 0;
+	for (int i = 0; i < number; i++) {
+		int posy = 13 - (i % 5);
+		int posx = split;
+		Vehiculo temp(posx, posy, i % 5);
+		vehiculos[i] = temp;
+		split += 2;
+	}
+}
 void setVehiculos::draw() {
 	for (int i = 0; i < number; i++) {
 		vehiculos[i].draw();
@@ -457,6 +469,16 @@ bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<
 		}
 	}
 	return false;
+}
+
+void setInsectos::reset() {
+	spawnCounter = 0;
+	active = false;
+	insectos[0] = Insecto(40);
+	insectos[1] = Insecto(260);
+	insectos[2] = Insecto(475);
+	insectos[3] = Insecto(690);
+	insectos[4] = Insecto(910);
 }
 
 void setInsectos::draw() {

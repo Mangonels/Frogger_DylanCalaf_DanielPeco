@@ -11,6 +11,7 @@ using namespace Logger;
 
 GameScene::GameScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_00 };
+	level = 1;
 }
 
 GameScene::~GameScene(void) {
@@ -37,8 +38,6 @@ void GameScene::XMLSceneSetter(std::string &&difficulty)
 }
 
 void GameScene::Update(void) {
-	
-
 	
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 		player.checkArrowKey(KEY_BUTTON_DOWN);
@@ -68,7 +67,7 @@ void GameScene::Update(void) {
 void GameScene::Draw(void) {
 	m_background.Draw();
 
-	if (totalFrogs < 5 && player.getLives() > 0) {
+	if (player.getLives() > 0 && totalFrogs < 5) {
 		//collisions
 		player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 		player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
@@ -88,6 +87,12 @@ void GameScene::Draw(void) {
 		tortugas.draw();
 		insectos.draw();
 		player.draw();
+	}
+	else if (totalFrogs == 5) {
+		totalFrogs = 0;
+		level+=1;
+		vehiculos.NewLevel(level);
+		insectos.reset();
 	}
 	
 	GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),

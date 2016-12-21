@@ -28,6 +28,7 @@ public:
 	setVehiculos();
 	void update();
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	void NewLevel(int level);
 	void draw();
 };
 
@@ -113,6 +114,7 @@ public:
 	setInsectos();
 	void update();
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>, int &score, int &totalfrogs);
+	void reset();
 	void draw();
 };
 
