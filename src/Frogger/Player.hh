@@ -20,6 +20,7 @@ public:
 	void onObjectFunction(bool check1, bool check2, bool check3);
 	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
+	int getCoordsX();
 	std::pair<int, int> getSize();
 	int getLives();
 	void update();

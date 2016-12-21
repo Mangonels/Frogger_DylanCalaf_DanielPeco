@@ -24,13 +24,14 @@ void GameScene::OnExit(void) {
 
 void GameScene::XMLSceneSetter(std::string &&difficulty)
 {
+	/*
 	int PHealth;
 	int Gtime;
 	int GinitSpeed;
+	*/
+	//IOManager::XMLParser("xml/Difficulties.xml", "easy", &PHealth, &Gtime, &GinitSpeed);
 
-	IOManager::XMLParser("xml/Difficulties.xml", "easy", &PHealth, &Gtime, &GinitSpeed);
-
-	player.setLives(PHealth);
+	//player.setLives(PHealth);
 
 	//<Insertar aqui + funciones to lokas para rellenar el juego>
 }
@@ -39,9 +40,9 @@ void GameScene::Update(void) {
 	
 	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
-							tortugas.collisions(player.getCoords(), player.getSize()), 
-							insectos.collisions(player.getCoords(), player.getSize(), m_score));
-	
+		tortugas.collisions(player.getCoords(), player.getSize()),
+		insectos.collisions(player.getCoords(), player.getSize(), m_score));
+
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 		player.checkArrowKey(KEY_BUTTON_DOWN);
 	}
@@ -69,17 +70,22 @@ void GameScene::Update(void) {
 
 void GameScene::Draw(void) {
 	
-	vehiculos.update();
-	troncos.update();
-	tortugas.update();
-	insectos.update();
-	player.update();
-	m_background.Draw(); // Render background
-	vehiculos.draw();
-	troncos.draw();
-	tortugas.draw();
-	insectos.draw();
-	player.draw();
+	if (totalFrogs < 5) {
+		//updates
+		vehiculos.update();
+		troncos.update();
+		tortugas.update();
+		insectos.update();
+		player.update();
+
+		// Render background
+		m_background.Draw();
+		vehiculos.draw();
+		troncos.draw();
+		tortugas.draw();
+		insectos.draw();
+		player.draw();
+	}
 	
 	GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
 	{ int(W.GetWidth()*.1f), int(W.GetHeight()*.97f), 1, 1 },

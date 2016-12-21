@@ -22,5 +22,6 @@ private:
 	setTortugas tortugas;
 	setInsectos insectos;
 	Sprite m_background;
+	int totalFrogs { 0 };
 	int m_score{ 0 };
 };

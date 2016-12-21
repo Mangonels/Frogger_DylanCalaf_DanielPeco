@@ -51,6 +51,9 @@ void Player::carHitFunction(bool check) {
 std::pair<int, int> Player::getCoords() {
 	return coords;
 }
+int Player::getCoordsX() {
+	return coords.first;
+}
 std::pair<int, int> Player::getSize() {
 	return size;
 }
