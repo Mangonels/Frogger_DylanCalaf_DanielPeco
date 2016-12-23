@@ -23,6 +23,9 @@ MenuScene::MenuScene(void) {
 MenuScene::~MenuScene(void) {
 }
 
+void MenuScene::setCurDifficulty(std::string t) {
+
+}
 void MenuScene::OnEntry(void) {
 }
 
@@ -56,24 +59,24 @@ void MenuScene::Update(void) {
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 355 && mouseCoords.y < 415) { //Easy
 				
 				//XMLSceneSetter("easy"); <-WIP
-				SM.SetCurScene<GameScene>();
+	
 				cout << "Opened level Easy:" << endl;
-				IOManager::XMLParserBasic("xml/Difficulties.xml", "easy");
+				SM.SetCurScene<GameScene>("easy");
 
 			}
 			//medium
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 510 && mouseCoords.y < 570) { //Normal
 				//TestXML("LvMedium.xml"); <-WIP
-				SM.SetCurScene<GameScene>();
+	
 				cout << "Opened level Medium:" << endl;
-				IOManager::XMLParserBasic("xml/Difficulties.xml", "medium");
+				SM.SetCurScene<GameScene>("medium");
 			}
 			//hard
 			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 660 && mouseCoords.y < 715) { //Hard
 				//TestXML("LvHard.xml"); <-WIP
-				SM.SetCurScene<GameScene>();
+				
 				cout << "Opened level Hard:" << endl;
-				IOManager::XMLParserBasic("xml/Difficulties.xml", "hard");
+				SM.SetCurScene<GameScene>("hard");
 			}
 		}
 	}

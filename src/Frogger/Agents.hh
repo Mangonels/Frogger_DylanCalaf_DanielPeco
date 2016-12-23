@@ -8,7 +8,7 @@ class Vehiculo {
 	Sprite sp;
 	int speed;
 	int timeCounter;
-	int maxTime;
+	int maxTimeCounter;
 	int timeInterval;
 	//VehiclesID tipo;
 public:

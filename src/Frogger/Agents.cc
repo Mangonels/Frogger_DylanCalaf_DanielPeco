@@ -7,49 +7,50 @@
 Vehiculo::Vehiculo(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16); //Calculador de "grid"
 	int sizeMultiplier = 2;
-	speedCounter = 0;
+	timeCounter = 0;
 	coords.first	 = x * coordsMultiplier; //Con esto sabemos a que distancia horizontal debe aparecer el vehiculo
 	coords.second	 = y * coordsMultiplier; //Altura
 	switch (type) {
 	case 0:
 		size.first = 24 * sizeMultiplier;
 		size.second = 25 * sizeMultiplier;
-		speed = 1;
-		maxSpeedCounter = 0.1;
+		speed = -1;
+		timeInterval = 20;
 		sp.objectID = ObjectID::VEHICLE1; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	case 1:
 		size.first = 24 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
-		speed = 3;
-		maxSpeedCounter = 0.1;
+		speed = 1;
+		timeInterval = 16;
 		sp.objectID = ObjectID::VEHICLE2; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 
 	case 2:
 		size.first = 28 * sizeMultiplier;
 		size.second = 19 * sizeMultiplier;
-		speed = 1;
-		maxSpeedCounter = 0.4;
+		speed = -1;
+		timeInterval = 18;
 		sp.objectID = ObjectID::VEHICLE3; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	case 3:
 		size.first = 28 * sizeMultiplier;
 		size.second = 24 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.2;
+		timeInterval = 16;
 		sp.objectID = ObjectID::VEHICLE4; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	case 4:
 		size.first = 45 * sizeMultiplier;
 		size.second = 18 * sizeMultiplier;
-		speed = 2;
-		maxSpeedCounter = 0.1;
+		speed = -1;
+		timeInterval = 14;
 		sp.objectID = ObjectID::VEHICLE5; //De que tipo de vehiculo se trata, lo mete en el struct "sp"
 		break;
 	default:
 		break;
 	}
+	maxTimeCounter = timeInterval;
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 std::pair<int, int> Vehiculo::getCoords() {
@@ -60,11 +61,12 @@ std::pair<int, int> Vehiculo::getSize() {
 }
 
 void Vehiculo::update() {
-	speedCounter += 0.1;
-	if (speedCounter >= maxSpeedCounter) {
+	
+	timeCounter = SDL_GetTicks();
+	if (timeCounter >= maxTimeCounter) {
 		switch (sp.objectID) {
 		case ObjectID::VEHICLE1:
-			coords.first -= speed;
+			coords.first += speed;
 			if (coords.first < -size.first) {
 				coords.first = W.GetWidth();
 			}
@@ -76,7 +78,7 @@ void Vehiculo::update() {
 			}
 			break;
 		case ObjectID::VEHICLE3:
-			coords.first -= speed;
+			coords.first += speed;
 			if (coords.first < -size.first) {
 				coords.first = W.GetWidth();
 			}
@@ -88,7 +90,7 @@ void Vehiculo::update() {
 			}
 			break;
 		case ObjectID::VEHICLE5:
-			coords.first -= speed;
+			coords.first += speed;
 			if (coords.first < -size.first) {
 				coords.first = W.GetWidth();
 			}
@@ -96,8 +98,11 @@ void Vehiculo::update() {
 		default:
 			break;
 		}
-		speedCounter = 0;
+		maxTimeCounter += timeInterval;
 	}
+}
+void Vehiculo::SetSpeedModifier(int speedModifier) {
+	speed *= speedModifier;
 }
 bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
 	//colisión
@@ -125,7 +130,11 @@ setVehiculos::setVehiculos() {
 		split += 2;
 	}
 }
-
+void setVehiculos::SetSpeedModifier(int speedModifier) {
+	for (int i = 0; i < number; i++) {
+		vehiculos[i].SetSpeedModifier(speedModifier);
+	}
+}
 void setVehiculos::update() {
 	for (int i = 0; i < number; i++) {
 		vehiculos[i].update();
