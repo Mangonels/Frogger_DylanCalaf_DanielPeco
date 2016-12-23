@@ -28,6 +28,8 @@ void MenuScene::OnEntry(void) {
 
 void MenuScene::OnExit(void) {
 }
+void MenuScene::setCurDifficulty(std::string t) {
+}
 
 void MenuScene::Update(void) {
 	static MouseCoords mouseCoords(0, 0);

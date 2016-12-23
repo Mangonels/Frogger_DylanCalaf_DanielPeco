@@ -9,12 +9,11 @@ class GameScene : public Scene {
 public:
 	explicit GameScene();
 	~GameScene() override;
-	void OnEntry(void) override;
+	void OnEntry() override;
 	void OnExit(void) override;
-	void XMLSceneSetter(std::string &&difficulty);
 	void Update(void) override;
 	void Draw(void) override;
-	
+	void setCurDifficulty(std::string) override;
 private:
 	Player player;
 	setVehiculos vehiculos;
@@ -25,4 +24,10 @@ private:
 	int level;
 	int totalFrogs { 0 };
 	int m_score{ 0 };
-};
+	int timeCounter;
+	int timeInterval;
+	//xml files
+	int livestoFrog{};
+	int initialTime{};
+	int initialAgentSpeed{};
+};	

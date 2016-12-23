@@ -7,8 +7,9 @@ class Vehiculo {
 	std::pair<int, int> size;
 	Sprite sp;
 	int speed;
-	float speedCounter;
-	float maxSpeedCounter;
+	int timeCounter;
+	int maxTime;
+	int timeInterval;
 	//VehiclesID tipo;
 public:
 	Vehiculo() {};
@@ -16,6 +17,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
+	void SetSpeedModifier(int speedModifier);
 	bool collision(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 	//VehiclesID getType();
@@ -27,6 +29,7 @@ class setVehiculos {
 public:
 	setVehiculos();
 	void update();
+	void SetSpeedModifier(int speedModifier);
 	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void NewLevel(int level);
 	void draw();

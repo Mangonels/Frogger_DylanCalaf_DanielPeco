@@ -11,6 +11,7 @@ public:
 	void OnExit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
+	void setCurDifficulty(std::string) override;
 private:
 	Sprite m_background;
 };

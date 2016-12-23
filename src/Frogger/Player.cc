@@ -23,6 +23,9 @@ void Player::setLives(int l)
 {
 	lives = l;
 }
+void Player::TimeOut() {
+	lives--;
+}
 
 void Player::checkArrowKey(const KeyButton &key) {
 	if (key == KEY_BUTTON_DOWN) {

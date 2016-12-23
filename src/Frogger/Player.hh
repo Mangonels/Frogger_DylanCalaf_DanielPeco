@@ -23,6 +23,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	int getLives();
+	void TimeOut();
 	void update(int &score);
 	void draw();
 };

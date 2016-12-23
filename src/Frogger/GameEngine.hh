@@ -39,7 +39,7 @@ namespace GameEngine {
 	void AddScenes(void) {
 		SM.AddScene<GameScene>();
 		SM.AddScene<MenuScene>();
-		SM.SetCurScene<MenuScene>(NULL);
+		SM.SetCurScene<MenuScene>("");
 	}
 	/**
 	* Runs the game specifying the window's name and dimensions

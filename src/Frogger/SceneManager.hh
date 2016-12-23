@@ -26,6 +26,7 @@ public:
 		ASSERT((m_curScene = GetScene<S>()) != nullptr);
 		m_curScene->SetState<SceneState::RUNNING>();
 		m_curScene->OnEntry();
+		m_curScene->setCurDifficulty(difficulty);
 	}
 	inline Scene *&GetCurScene(void) { return m_curScene; }
 private:
