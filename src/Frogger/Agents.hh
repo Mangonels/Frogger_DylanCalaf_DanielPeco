@@ -39,8 +39,10 @@ class Tronco {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
 	int speed;
-	float speedCounter;
-	float maxSpeedCounter;
+	int timeCounter;
+	int maxTimeCounter;
+	int timeInterval;
+	bool moveFrog;
 	Sprite sp;
 public:
 	Tronco() {};
@@ -48,7 +50,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	std::pair<bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	std::pair <bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -58,7 +60,7 @@ class setTroncos {
 public:
 	setTroncos();
 	void update();
-	std::pair<bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
+	std::pair <bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
@@ -75,7 +77,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	std::pair<bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -85,7 +87,7 @@ class setTortugas {
 public:
 	setTortugas();
 	void update();
-	std::pair<bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 

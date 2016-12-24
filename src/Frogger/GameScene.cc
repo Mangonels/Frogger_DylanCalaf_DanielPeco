@@ -37,8 +37,14 @@ void GameScene::setCurDifficulty(std::string difficulty){
 
 void GameScene::Update(void) {
 
-	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
+	//updates
 	vehiculos.update();
+	troncos.update();
+
+	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
+		tortugas.collisions(player.getCoords(), player.getSize()),
+		insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
+	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 
 	timeCounter = SDL_GetTicks();
 
@@ -71,12 +77,7 @@ void GameScene::Draw(void) {
 
 	if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
 		//collisions
-		player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
-			tortugas.collisions(player.getCoords(), player.getSize()),
-			insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
 		
-		//updates
-		troncos.update();
 		tortugas.update();
 		insectos.update();
 		player.update(m_score);

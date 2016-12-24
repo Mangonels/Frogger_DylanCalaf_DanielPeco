@@ -170,15 +170,14 @@ void setVehiculos::draw() {
 Tronco::Tronco(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2;
-	speedCounter = 0;
-	
+	timeCounter = 0;
 	if (type == 2) { //largos
 		coords.first =	 x * coordsMultiplier;
 		coords.second =	 y * coordsMultiplier;
 		size.first = 177 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.1;
+		timeInterval = 15;
 		sp.objectID = ObjectID::TRUNKL;
 	}
 	else if (type == 1) { //medios
@@ -187,7 +186,7 @@ Tronco::Tronco(int x, int y, int type) {
 		size.first = 116 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.1;
+		timeInterval = 5;
 		sp.objectID = ObjectID::TRUNKM;
 	}
 	else { //pequeños
@@ -196,22 +195,25 @@ Tronco::Tronco(int x, int y, int type) {
 		size.first =  84 * sizeMultiplier;
 		size.second = 21 * sizeMultiplier;
 		speed = 1;
-		maxSpeedCounter = 0.1;
+		timeInterval = 9;
 		sp.objectID = ObjectID::TRUNKS;
 	}
+	maxTimeCounter = timeInterval;
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 
-std::pair<bool,int> Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+std::pair <bool, int> Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
-	std::pair<bool, int> temp;
+	std::pair <bool, int> temp;
+	temp.second = 0;
 	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
 		temp.first = true;
-		temp.second = speed;
+		if (moveFrog)temp.second = speed;
 		return temp;
 	}
-	temp.first = false;
-	temp.second = 0;	
+	else {
+		temp.first = false;
+	}
 	return temp;
 }
 
@@ -224,15 +226,17 @@ std::pair<int, int> Tronco::getSize() {
 
 void Tronco::update() {
 	
-	speedCounter += 0.1;
-	if (speedCounter >= maxSpeedCounter) {
-		
+	timeCounter = SDL_GetTicks();
+	if (timeCounter >= maxTimeCounter) {
+		moveFrog = true;
 		coords.first += speed;
+		
 		if (coords.first > W.GetWidth()) {
 			coords.first = -size.first;
 		}
-		speedCounter = 0;
+		maxTimeCounter += timeInterval;
 	}
+	else moveFrog = false;
 }
 void Tronco::draw() {
 	
@@ -262,14 +266,16 @@ void setTroncos::update() {
 	}
 }
 
-std::pair<bool, int> setTroncos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
-	std::pair<bool, int> temp;
+std::pair <bool, int> setTroncos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	std::pair <bool, int> temp;
 	for (int i = 0; i < number; i++) {
 		temp = troncos[i].collision(Pcoords, Psize);
-		if (temp.first) {
+		if (temp.first){
 			return temp;
 		}
 	}
+	temp.first = false;
+	temp.second = 0;
 	return temp;
 }
 
@@ -295,16 +301,12 @@ Tortuga::Tortuga(int x, int y) {
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
 
-std::pair<bool, int> Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
-	std::pair<bool, int> temp;
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
-		temp.first = true;
-		temp.second = speed;
-		return temp;
+bool Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	//colisión
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first/2 <= coords.first + size.first) {
+		return true;
 	}
-	temp.first = false;
-	temp.second = 0;
-	return temp;
+	return false;
 }
 
 std::pair<int, int> Tortuga::getCoords() {
@@ -370,15 +372,13 @@ void setTortugas::update() {
 	}
 }
 
-std::pair<bool, int> setTortugas::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
-	std::pair<bool, int> temp;
+bool setTortugas::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	for (int i = 0; i < number; i++) {
-		temp = tortugas[i].collision(Pcoords, Psize);
-		if (temp.first) {
-			return temp;
+		if (tortugas[i].collision(Pcoords, Psize)) {
+			return true;
 		}
 	}
-	return temp;
+	return false;
 }
 
 void setTortugas::draw() {

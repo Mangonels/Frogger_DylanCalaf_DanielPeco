@@ -51,16 +51,14 @@ void Player::checkArrowKey(const KeyButton &key) {
 	std::cout << "frog position: { " << coords.first / coordsMultiplier << ", " << coords.second / coordsMultiplier << " } \n";
 }
 
-void Player::onObjectFunction(std::pair<bool, int> checkTrunk, std::pair<bool, int> checkTurtle, bool checkGoal) {
+void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, bool checkTurtle, bool checkGoal) {
 	onTrunk = checkTrunk.first;
-	onTurtle = checkTurtle.first;
+	onTurtle = checkTurtle;
 	onGoal = checkGoal;
-	ObjectMove(checkTrunk.second);
-	ObjectMove(checkTurtle.second);
+	if (checkTrunk.first) move(checkTrunk.second);
 }
-
-void Player::ObjectMove(int objectSpeed) {
-	coords.first += objectSpeed;
+void Player::move(int speed) {
+	coords.first += speed;
 }
 void Player::carHitFunction(bool check) {
 	carHit = check;
@@ -94,6 +92,9 @@ void Player::update(int &score) {
 		coords.first = 10 * coordsMultiplier;
 		coords.second = 14 * coordsMultiplier;
 		lives--;
+	}
+	else if (onTurtle) {
+		coords.first -= 1;
 	}
 	//adding points for new lines
 	for (int i = 0; i < 12; i++) {
