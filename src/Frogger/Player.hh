@@ -18,7 +18,8 @@ public:
 	Player();
 	void setLives(int l);
 	void checkArrowKey (const KeyButton &key);
-	void onObjectFunction(bool check1, bool check2, bool check3);
+	void onObjectFunction(std::pair<bool, int>  check1, std::pair<bool, int> check2, bool check3);
+	void ObjectMove(int speed);
 	void carHitFunction (bool check);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();

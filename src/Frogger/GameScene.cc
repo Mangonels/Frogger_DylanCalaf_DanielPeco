@@ -76,7 +76,6 @@ void GameScene::Draw(void) {
 			insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
 		
 		//updates
-		
 		troncos.update();
 		tortugas.update();
 		insectos.update();

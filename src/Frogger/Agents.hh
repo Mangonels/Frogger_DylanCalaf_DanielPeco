@@ -48,7 +48,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	std::pair<bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -58,7 +58,7 @@ class setTroncos {
 public:
 	setTroncos();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	std::pair<bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
@@ -75,7 +75,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	bool collision(const std::pair<int, int> pCoords, const std::pair<int, int> pSize);
+	std::pair<bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -85,7 +85,7 @@ class setTortugas {
 public:
 	setTortugas();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	std::pair<bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
