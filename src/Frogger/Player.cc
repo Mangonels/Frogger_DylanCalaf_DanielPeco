@@ -27,6 +27,10 @@ void Player::TimeOut() {
 	lives--;
 }
 
+void Player::ResetPos() {
+	coords.first = 10 * coordsMultiplier;
+	coords.second = 14 * coordsMultiplier;
+}
 void Player::checkArrowKey(const KeyButton &key) {
 	if (key == KEY_BUTTON_DOWN) {
 		if (coords.second < 14 * coordsMultiplier) {
@@ -51,13 +55,14 @@ void Player::checkArrowKey(const KeyButton &key) {
 	std::cout << "frog position: { " << coords.first / coordsMultiplier << ", " << coords.second / coordsMultiplier << " } \n";
 }
 
-void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, bool checkTurtle, bool checkGoal) {
+void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, std::pair <bool, int> checkTurtle, bool checkGoal) {
 	onTrunk = checkTrunk.first;
-	onTurtle = checkTurtle;
+	onTurtle = checkTurtle.first;
 	onGoal = checkGoal;
-	if (checkTrunk.first) move(checkTrunk.second);
+	if (checkTrunk.first) MoveOnObject(checkTrunk.second);
+	if (checkTurtle.first) MoveOnObject(checkTurtle.second);
 }
-void Player::move(int speed) {
+void Player::MoveOnObject(int speed) {
 	coords.first += speed;
 }
 void Player::carHitFunction(bool check) {
@@ -80,8 +85,7 @@ void Player::update(int &score) {
 
 	//dies / win
 	if (onGoal) {
-		coords.first = 10 * coordsMultiplier;
-		coords.second = 14 * coordsMultiplier;
+		ResetPos();
 
 		//reiniciamos bools de newlines
 		for (int i = 0; i < 12; i++) {
@@ -89,13 +93,10 @@ void Player::update(int &score) {
 		}
 	}
 	else if (onTrunk == false && onTurtle == false && onWater || carHit) {
-		coords.first = 10 * coordsMultiplier;
-		coords.second = 14 * coordsMultiplier;
+		ResetPos();
 		lives--;
 	}
-	else if (onTurtle) {
-		coords.first -= 1;
-	}
+	
 	//adding points for new lines
 	for (int i = 0; i < 12; i++) {
 		if (newLines[i] == false && coords.second == (13 - i) * coordsMultiplier) {
@@ -104,6 +105,7 @@ void Player::update(int &score) {
 		}
 	}
 }
+
 void Player::draw() {
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
 	splayer.Draw();

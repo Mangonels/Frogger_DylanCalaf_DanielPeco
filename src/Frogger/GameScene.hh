@@ -26,6 +26,7 @@ private:
 	int m_score{ 0 };
 	int timeCounter;
 	int timeInterval;
+	int speedPerScore{1000};
 	//xml files
 	int livestoFrog{};
 	int initialTime{};

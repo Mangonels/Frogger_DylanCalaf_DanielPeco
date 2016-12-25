@@ -50,6 +50,7 @@ public:
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
+	void SetSpeedModifier(int speedModifier);
 	std::pair <bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
@@ -60,6 +61,7 @@ class setTroncos {
 public:
 	setTroncos();
 	void update();
+	void SetSpeedModifier(int speedModifier);
 	std::pair <bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
@@ -68,16 +70,25 @@ class Tortuga {
 	std::pair<int, int> coords;
 	std::pair<int, int> size;
 	int speed;
-	float speedCounter;
-	float maxSpeedCounter;
+	int timeCounter;
+	int maxTimeCounter;
+	int timeInterval;
+
+	int maxStateCounter;
+	int stateIntervalSubmerge;
+	int stateIntervalEmerge;
+	bool moveFrog;
+	bool submerge;
+	bool visible;
 	Sprite sp;
 public:
 	Tortuga() {};
-	Tortuga(int x, int y);
+	Tortuga(int x, int type, bool disappear);
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
 	void update();
-	bool collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
+	void SetSpeedModifier(int speedModifier);
+	std::pair <bool, int> collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize);
 	void draw();
 };
 
@@ -87,7 +98,8 @@ class setTortugas {
 public:
 	setTortugas();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>);
+	void SetSpeedModifier(int speedModifier);
+	std::pair <bool, int> collisions(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };
 
@@ -112,8 +124,9 @@ class setInsectos {
 	int number;
 	Insecto insectos[5];
 	int totalGoals;
-	float spawnCounter;
-	float spawnTime;
+	int timeCounter;
+	int maxTimeCounter;
+	int timeInterval;
 	bool active;
 public:
 	setInsectos();

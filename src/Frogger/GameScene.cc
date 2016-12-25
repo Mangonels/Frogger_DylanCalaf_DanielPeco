@@ -33,19 +33,41 @@ void GameScene::setCurDifficulty(std::string difficulty){
 	initialTime += SDL_GetTicks();
 	//set speeds
 	vehiculos.SetSpeedModifier(initialAgentSpeed);
+	troncos.SetSpeedModifier(initialAgentSpeed);
+	tortugas.SetSpeedModifier(initialAgentSpeed);
 }
 
 void GameScene::Update(void) {
+	if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
 
-	//updates
-	vehiculos.update();
-	troncos.update();
+		vehiculos.update();
+		troncos.update();
+		tortugas.update();
+		insectos.update();
 
-	player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
-		tortugas.collisions(player.getCoords(), player.getSize()),
-		insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
-	player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
+		player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
+			tortugas.collisions(player.getCoords(), player.getSize()),
+			insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
+		player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 
+		vehiculos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
+		troncos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
+		tortugas.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
+		
+	}
+	//cuando las 5 ranas se completan se sube de nivel
+	else if (totalFrogs == 5 && player.getLives() > 0) {
+		totalFrogs = 0;
+		level += 1;
+		vehiculos.NewLevel(level);
+		insectos.reset();
+		player.ResetPos();
+	}
+	//cuando el jugador se queda sin tiempo
+	else if (timeCounter > initialTime && player.getLives() > 0) {
+		player.TimeOut();
+		initialTime += timeInterval;
+	}
 	timeCounter = SDL_GetTicks();
 
 	if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
@@ -76,12 +98,7 @@ void GameScene::Draw(void) {
 	m_background.Draw();
 
 	if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
-		//collisions
-		
-		tortugas.update();
-		insectos.update();
 		player.update(m_score);
-
 		// Render background
 		vehiculos.draw();
 		troncos.draw();
@@ -89,16 +106,7 @@ void GameScene::Draw(void) {
 		insectos.draw();
 		player.draw();
 	}
-	else if (totalFrogs == 5 && player.getLives() > 0) {
-		totalFrogs = 0;
-		level += 1;
-		vehiculos.NewLevel(level);
-		insectos.reset();
-	}
-	else if (timeCounter > initialTime && player.getLives() > 0) {
-		player.TimeOut();
-		initialTime += timeInterval;
-	}
+	
 	
 	GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
 	{ int(W.GetWidth()*.1f), int(W.GetHeight()*.97f), 1, 1 },

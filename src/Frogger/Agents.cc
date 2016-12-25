@@ -102,7 +102,26 @@ void Vehiculo::update() {
 	}
 }
 void Vehiculo::SetSpeedModifier(int speedModifier) {
-	speed *= speedModifier;
+	
+	switch (sp.objectID) {
+	case ObjectID::VEHICLE1:
+		speed = -speedModifier;
+		break;
+	case ObjectID::VEHICLE2:
+		speed = speedModifier;
+		break;
+	case ObjectID::VEHICLE3:
+		speed = -speedModifier;
+		break;
+	case ObjectID::VEHICLE4:
+		speed = speedModifier;
+		break;
+	case ObjectID::VEHICLE5:
+		speed = -speedModifier;
+		break;
+	default:
+		break;
+	}
 }
 bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
 	//colisión
@@ -171,37 +190,43 @@ Tronco::Tronco(int x, int y, int type) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2;
 	timeCounter = 0;
-	if (type == 2) { //largos
-		coords.first =	 x * coordsMultiplier;
-		coords.second =	 y * coordsMultiplier;
-		size.first = 177 * sizeMultiplier;
-		size.second = 21 * sizeMultiplier;
-		speed = 1;
-		timeInterval = 15;
-		sp.objectID = ObjectID::TRUNKL;
-	}
-	else if (type == 1) { //medios
-		coords.first =	 x * coordsMultiplier;
-		coords.second =  y * coordsMultiplier;
-		size.first = 116 * sizeMultiplier;
-		size.second = 21 * sizeMultiplier;
-		speed = 1;
-		timeInterval = 5;
-		sp.objectID = ObjectID::TRUNKM;
-	}
-	else { //pequeños
-		coords.first = x * coordsMultiplier;
-		coords.second = y * coordsMultiplier;
-		size.first =  84 * sizeMultiplier;
-		size.second = 21 * sizeMultiplier;
-		speed = 1;
-		timeInterval = 9;
-		sp.objectID = ObjectID::TRUNKS;
+	coords.first = x * coordsMultiplier;
+	coords.second = y * coordsMultiplier;
+
+	switch (type) {
+	//grande
+	case 2:
+			size.first = 177 * sizeMultiplier;
+			size.second = 21 * sizeMultiplier;
+			speed = 1;
+			timeInterval = 15;
+			sp.objectID = ObjectID::TRUNKL;
+			break;
+	//mediano
+	case 1:
+			size.first = 116 * sizeMultiplier;
+			size.second = 21 * sizeMultiplier;
+			speed = 1;
+			timeInterval = 17;
+			sp.objectID = ObjectID::TRUNKM;
+			break;
+
+	//pequeño
+	case 0:
+			size.first = 84 * sizeMultiplier;
+			size.second = 21 * sizeMultiplier;
+			speed = 1;
+			timeInterval = 20;
+			sp.objectID = ObjectID::TRUNKS;
+			break;
 	}
 	maxTimeCounter = timeInterval;
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
+void Tronco::SetSpeedModifier(int speedModifier) {
+	speed = speedModifier;
 
+}
 std::pair <bool, int> Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
 	std::pair <bool, int> temp;
@@ -241,7 +266,6 @@ void Tronco::update() {
 void Tronco::draw() {
 	
 	sp.transform = { coords.first, coords.second, size.first, size.second };
-
 	sp.Draw();
 }
 
@@ -259,7 +283,11 @@ setTroncos::setTroncos() {
 	troncos[7] = Tronco(13, 3, 1);
 	troncos[8] = Tronco(22, 3, 1);
 }
-
+void setTroncos::SetSpeedModifier(int speedModifier) {
+	for (int i = 0; i < number; i++) {
+		troncos[i].SetSpeedModifier(speedModifier);
+	}
+}
 void setTroncos::update() {
 	for (int i = 0; i < number; i++) {
 		troncos[i].update();
@@ -285,28 +313,56 @@ void setTroncos::draw() {
 	}
 }
 
-Tortuga::Tortuga(int x, int y) {
+Tortuga::Tortuga(int x, int type, bool disappear) {
 	int coordsMultiplier = round(W.GetHeight() / 16);
 	int sizeMultiplier = 2;
-
-	coords.first = x * coordsMultiplier;
-	coords.second = y * coordsMultiplier;
 	size.first = 31 * sizeMultiplier;
 	size.second = 22 * sizeMultiplier;
-	maxSpeedCounter = 0.1;
+	coords.first = x * coordsMultiplier;
 	speed = -1;
-	speedCounter = 0;
-	sp.objectID = ObjectID::TURTLE;
+	submerge = disappear;
+	visible = true;
+	stateIntervalSubmerge = 5000;
+	stateIntervalEmerge = 1000;
+	maxStateCounter = stateIntervalSubmerge;
+	switch (type) {
+		//cadenas de 3
+	case 0:
+		coords.second = 7 * coordsMultiplier;
+		timeInterval = 22;
+		break;
+		//cadenas de 2
+	case 1:
+		coords.second = 4 * coordsMultiplier;
+		timeInterval = 17;
+		break;
+	default:
+		break;
+	}
+
+	timeCounter = 0;
+	maxTimeCounter = timeInterval;
+	sp.objectID = ObjectID::TURTLE1;
 	
 	sp.transform = { coords.first, coords.second, size.first, size.second };
 }
-
-bool Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+void Tortuga::SetSpeedModifier(int speedModifier) {
+	speed = -speedModifier;
+}
+std::pair <bool, int> Tortuga::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first/2 <= coords.first + size.first) {
-		return true;
+	std::pair <bool, int> temp;
+	temp.second = 0;
+
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first && visible) {
+		temp.first = true;
+		if (moveFrog)temp.second = speed;
+		return temp;
 	}
-	return false;
+	else {
+		temp.first = false;
+	}
+	return temp;
 }
 
 std::pair<int, int> Tortuga::getCoords() {
@@ -317,53 +373,81 @@ std::pair<int, int> Tortuga::getSize() {
 }
 
 void Tortuga::update() {
-	speedCounter += 0.1;
-	if (speedCounter >= maxSpeedCounter) {
-
+	timeCounter = SDL_GetTicks();
+	if (timeCounter >= maxTimeCounter) {
+		moveFrog = true;
 		coords.first += speed;
+
 		if (coords.first < -size.first) {
 			coords.first = W.GetWidth();
 		}
-		speedCounter = 0;
+
+		//submerge
+		if (timeCounter > maxStateCounter - stateIntervalSubmerge / 5 && submerge == true) {
+			sp.objectID = sp.objectID = ObjectID::TURTLE2;
+		}
+		else {
+			sp.objectID = sp.objectID = ObjectID::TURTLE1;
+		}
+		if (timeCounter > maxStateCounter && submerge == true) {
+			if (visible) {
+				visible = false;
+				maxStateCounter += stateIntervalEmerge;
+			}
+			else {
+				visible = true;
+				maxStateCounter += stateIntervalSubmerge;
+			}
+		}
+		maxTimeCounter += timeInterval;
 	}
+	else moveFrog = false;
 }
 void Tortuga::draw() {
 
 	sp.transform = { coords.first, coords.second, size.first, size.second };
-	sp.Draw();
+	if (visible) {
+		sp.Draw();
+	}
 }
 
 setTortugas::setTortugas() {
 	number = 20;
 
 	//troncos de la fila 
-	tortugas[0] = Tortuga(0, 7);
-	tortugas[1] = Tortuga(1, 7);
-	tortugas[2] = Tortuga(2, 7);
+	tortugas[0] = Tortuga(0, 0, true);
+	tortugas[1] = Tortuga(1, 0, true);
+	tortugas[2] = Tortuga(2, 0, true);
 
-	tortugas[3] = Tortuga(5, 7);
-	tortugas[4] = Tortuga(6, 7);
-	tortugas[5] = Tortuga(7, 7);
+	tortugas[3] = Tortuga(5, 0, false);
+	tortugas[4] = Tortuga(6, 0, false);
+	tortugas[5] = Tortuga(7, 0, false);
 
-	tortugas[6] = Tortuga(10, 7);
-	tortugas[7] = Tortuga(11, 7);
-	tortugas[8] = Tortuga(12, 7);
+	tortugas[6] = Tortuga(10, 0, true);
+	tortugas[7] = Tortuga(11, 0, true);
+	tortugas[8] = Tortuga(12, 0, true);
 
-	tortugas[9] = Tortuga(15, 7);
-	tortugas[10] = Tortuga(16, 7);
-	tortugas[11] = Tortuga(17, 7);
+	tortugas[9] = Tortuga(15, 0, false);
+	tortugas[10] = Tortuga(16, 0, false);
+	tortugas[11] = Tortuga(17, 0, false);
 
-	tortugas[12] = Tortuga(0, 4);
-	tortugas[13] = Tortuga(1, 4);
+	tortugas[12] = Tortuga(0, 1, true);
+	tortugas[13] = Tortuga(1, 1, true);
 
-	tortugas[14] = Tortuga(6, 4);
-	tortugas[15] = Tortuga(7, 4);
+	tortugas[14] = Tortuga(6, 1, false);
+	tortugas[15] = Tortuga(7, 1, false);
 
-	tortugas[16] = Tortuga(12, 4);
-	tortugas[17] = Tortuga(13, 4);
+	tortugas[16] = Tortuga(12, 1, true);
+	tortugas[17] = Tortuga(13, 1, true);
 
-	tortugas[18] = Tortuga(18, 4);
-	tortugas[19] = Tortuga(19, 4);
+	tortugas[18] = Tortuga(18, 1, false);
+	tortugas[19] = Tortuga(19, 1, false);
+}
+
+void setTortugas::SetSpeedModifier(int speedModifier) {
+	for (int i = 0; i < number; i++) {
+		tortugas[i].SetSpeedModifier(speedModifier);
+	}
 }
 
 void setTortugas::update() {
@@ -372,13 +456,17 @@ void setTortugas::update() {
 	}
 }
 
-bool setTortugas::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+std::pair <bool, int> setTortugas::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
+	std::pair <bool, int> temp;
 	for (int i = 0; i < number; i++) {
-		if (tortugas[i].collision(Pcoords, Psize)) {
-			return true;
+		temp = tortugas[i].collision(Pcoords, Psize);
+		if (temp.first) {
+			return temp;
 		}
 	}
-	return false;
+	temp.first = false;
+	temp.second = 0;
+	return temp;
 }
 
 void setTortugas::draw() {
@@ -450,8 +538,9 @@ void Insecto::draw() {
 
 setInsectos::setInsectos() {
 	number = 5;
-	spawnCounter = 0;
-	spawnTime = 100;
+	timeCounter = 0;
+	timeInterval = 20000;
+	maxTimeCounter = timeInterval;
 	active = false;
 	insectos[0] = Insecto(40) ;
 	insectos[1] = Insecto(260);
@@ -461,20 +550,22 @@ setInsectos::setInsectos() {
 }
 
 void setInsectos::update() {
-	spawnCounter += 0.1;
-	if (spawnCounter > spawnTime) {
+	timeCounter = SDL_GetTicks();
+	if (timeCounter > maxTimeCounter) {
 		if (!active) {
 			active = true;
 			int randomInsect = rand() % 5;
 			insectos[randomInsect].update(true);
+			maxTimeCounter += timeInterval / 2;
 		}
 		else {
 			active = false;
 			for (int i = 0; i < number; i++) {
 				insectos[i].update(false);
 			}
+			maxTimeCounter += timeInterval;
 		}
-		spawnCounter = 0;
+		
 	}
 }
 
@@ -494,7 +585,6 @@ bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<
 }
 
 void setInsectos::reset() {
-	spawnCounter = 0;
 	active = false;
 	insectos[0] = Insecto(40);
 	insectos[1] = Insecto(260);
