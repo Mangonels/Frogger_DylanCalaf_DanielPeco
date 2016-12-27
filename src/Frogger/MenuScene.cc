@@ -14,10 +14,9 @@ using namespace Logger;
 #define CELL_WIDTH 80
 #define CELL_HEIGHT 80
 
-bool initialmenu = true; //A bool is enough for checking the group of buttons we want.
-
 MenuScene::MenuScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
+	initialmenu = true;
 }
 
 MenuScene::~MenuScene(void) {
@@ -81,11 +80,6 @@ void MenuScene::Update(void) {
 		}
 	}
 
-	// Test InputManager key methods
-	if (IM.IsKeyHold<'a'>()) Println("a hold");
-	if (IM.IsKeyDown<'0'>()) Println("0 down");
-
-	if (IM.IsKeyUp<KEY_BUTTON_DOWN>()) Println("down arrow up");
 }
 
 void MenuScene::Draw(void) {

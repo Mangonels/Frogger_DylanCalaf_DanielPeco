@@ -4,6 +4,7 @@
 #pragma region GAME_SCENES
 #include "GameScene.hh"
 #include "MenuScene.hh"
+#include "RankingScene.hh"
 #pragma endregion TODO
 
 //! Initializes game needs and controls the game loop
@@ -40,6 +41,7 @@ namespace GameEngine {
 	void AddScenes(void) {
 		SM.AddScene<GameScene>();
 		SM.AddScene<MenuScene>();
+		SM.AddScene<RankingScene>();
 		SM.SetCurScene<MenuScene>("");
 	}
 	/**

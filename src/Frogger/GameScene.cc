@@ -3,6 +3,7 @@
 #include "Logger.hh"
 #include "GameScene.hh"
 #include "MenuScene.hh"
+#include "RankingScene.hh"
 #include "IOManager.hh"
 using namespace Logger;
 
@@ -67,6 +68,9 @@ void GameScene::Update(void) {
 	else if (timeCounter > initialTime && player.getLives() > 0) {
 		player.TimeOut();
 		initialTime += timeInterval;
+	}
+	else {
+		SM.SetCurScene<RankingScene>("");
 	}
 	timeCounter = SDL_GetTicks();
 

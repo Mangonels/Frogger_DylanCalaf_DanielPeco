@@ -1,5 +1,4 @@
 #pragma once
-#include "Grid.hh"
 #include "Agents.hh"
 #include "Player.hh"
 #include "Scene.hh"

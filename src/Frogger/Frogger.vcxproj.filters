@@ -31,6 +31,9 @@
     <ClCompile Include="Agents.cc">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="RankingScene.cc">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameEngine.hh">
@@ -97,6 +100,9 @@
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="Agents.hh">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="RankingScene.hh">
       <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
