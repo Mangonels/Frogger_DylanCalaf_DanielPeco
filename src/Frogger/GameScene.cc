@@ -5,6 +5,7 @@
 #include "MenuScene.hh"
 #include "RankingScene.hh"
 #include "IOManager.hh"
+
 using namespace Logger;
 
 #define CELL_WIDTH 80
@@ -40,7 +41,18 @@ void GameScene::setCurDifficulty(std::string difficulty){
 }
 
 void GameScene::Update(void) {
+	static MouseCoords mouseCoords(0, 0);
+	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
+		Println("===============");
+		Println("mxp: ", mouseCoords);
+		mouseCoords = IM.GetMouseCoords();
+	}
+	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
+		Println("mxn: ", IM.GetMouseCoords());
+	}
 	if (IM.IsKeyDown<KEY_BUTTON_ESCAPE>()) { //Pausar el juego
+		mouseCoords.x = 0; //<- We make sure these are set to 0 in order to fix a bug where certain buttons are pressed right on display if the coords where saved at it's location.
+		mouseCoords.y = 0;
 		if (paused == true) paused = false;
 		else paused = true;
 	}
@@ -92,15 +104,14 @@ void GameScene::Update(void) {
 		else if (IM.IsKeyDown<KEY_BUTTON_RIGHT>()) {
 			player.checkArrowKey(KEY_BUTTON_RIGHT);
 		}
-
-		static MouseCoords mouseCoords(0, 0);
-		if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
-			Println("===============");
-			Println("mxp: ", mouseCoords);
-			mouseCoords = IM.GetMouseCoords();
+	}
+	else {
+		if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Back To First Phase Menu
+			std::cout << "Went Back To Menu Scene" << std::endl;
+			SM.SetCurScene<MenuScene>("");
 		}
-		else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
-			Println("mxn: ", IM.GetMouseCoords());
+		else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Leave the game entirely
+			exit(0);
 		}
 	}
 }
@@ -133,7 +144,13 @@ void GameScene::Draw(void) {
 	}
 	else {
 		GUI::DrawTextBlended<FontID::RAKOON>("GAME PAUSED",
-		{ W.GetWidth() >> 1, int(W.GetHeight()*.4f), 1, 1 },
+		{ W.GetWidth() >> 1, int(W.GetHeight()*.3f), 1, 1 },
 		{ 255, 255, 255 });
+		GUI::DrawTextShaded<FontID::ARIAL>("Exit To Menu", //Back To First Phase Menu
+		{ W.GetWidth() >> 1, int(W.GetHeight()*.4f), 1, 1 },
+		{ 115, 0, 180 }, { 50, 200, 230 });
+		GUI::DrawTextShaded<FontID::ARIAL>("Leave", //Leave the game entirely
+		{ W.GetWidth() >> 1, int(W.GetHeight()*.5f), 1, 1 },
+		{ 115, 0, 180 }, { 50, 200, 230 });
 	}
 }
