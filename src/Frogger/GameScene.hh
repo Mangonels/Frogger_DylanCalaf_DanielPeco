@@ -26,6 +26,8 @@ private:
 	int timeCounter;
 	int timeInterval;
 	int speedPerScore{1000};
+	//pause mode
+	bool paused;
 	//xml files
 	int livestoFrog{};
 	int initialTime{};
