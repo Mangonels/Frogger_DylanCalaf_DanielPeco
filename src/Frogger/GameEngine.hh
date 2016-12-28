@@ -42,6 +42,7 @@ namespace GameEngine {
 		SM.AddScene<GameScene>();
 		SM.AddScene<MenuScene>();
 		SM.AddScene<RankingScene>();
+
 		SM.SetCurScene<MenuScene>("");
 	}
 	/**

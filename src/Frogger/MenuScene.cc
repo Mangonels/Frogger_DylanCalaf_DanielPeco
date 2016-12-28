@@ -3,6 +3,7 @@
 #include "Logger.hh"
 #include "MenuScene.hh"
 #include "GameScene.hh"
+#include "RankingScene.hh"
 #include "IOManager.hh"
 #include <iostream>
 #include <cstdlib>
@@ -52,7 +53,8 @@ void MenuScene::Update(void) {
 				exit(0);
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
-				cout << "ranking" << endl;
+				cout << "Ranking Scene" << endl;
+				SM.SetCurScene<RankingScene>("");
 			}
 		}
 		else //We are on the difficulty selection
@@ -80,7 +82,6 @@ void MenuScene::Update(void) {
 			}
 		}
 	}
-
 }
 
 void MenuScene::Draw(void) {
