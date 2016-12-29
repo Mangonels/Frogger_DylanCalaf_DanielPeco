@@ -17,7 +17,6 @@ using namespace Logger;
 
 MenuScene::MenuScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
-	initialmenu = true;
 }
 
 MenuScene::~MenuScene(void) {
@@ -27,6 +26,7 @@ void MenuScene::setCurDifficulty(std::string t) {
 
 }
 void MenuScene::OnEntry(void) {
+	initialmenu = true;
 }
 
 void MenuScene::OnExit(void) {

@@ -83,15 +83,15 @@ void Player::update(int &score) {
 	if (coords.second < 8 * coordsMultiplier) onWater = true;
 	else onWater = false;
 
-	//dies / win
+	//goal
 	if (onGoal) {
 		ResetPos();
-
 		//reiniciamos bools de newlines
 		for (int i = 0; i < 12; i++) {
 			newLines[i] = false;
 		}
 	}
+	//death
 	else if (onTrunk == false && onTurtle == false && onWater || carHit) {
 		ResetPos();
 		lives--;

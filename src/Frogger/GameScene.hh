@@ -25,7 +25,8 @@ private:
 	int m_score{ 0 };
 	int timeCounter;
 	int timeInterval;
-	int speedPerScore{1000};
+	int speedPerScore{1500};
+	int pauseCounter;
 	//pause mode
 	bool paused;
 	//xml files

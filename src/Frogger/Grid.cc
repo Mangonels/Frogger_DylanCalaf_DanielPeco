@@ -3,7 +3,7 @@
 #include "Window.hh"
 #include "IOManager.hh"
 #include "TimeManager.hh"
-
+/*
 Grid::Grid(std::string &&filename, int cellWidth, int cellHeight) {
 	auto lvlData(IOManager::LoadLevel(std::move(filename), m_rows, m_cols));
 	cellData = new Cell*[m_rows];
@@ -180,3 +180,4 @@ void Grid::Draw() {
 	for (int i = 0; i < m_rows; ++i) for (int j = 0; j < m_cols; ++j) cellData[i][j].Draw();
 	for (int i = 0; i < m_rows; ++i) for (int j = 0; j < m_cols; ++j) if (CandyID(i, j) != ObjectID::CANDY_EMPTY) cellData[i][j].candy.Draw();
 }
+*/

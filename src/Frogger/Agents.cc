@@ -63,7 +63,7 @@ std::pair<int, int> Vehiculo::getSize() {
 void Vehiculo::update() {
 	
 	timeCounter = SDL_GetTicks();
-	if (timeCounter >= maxTimeCounter) {
+	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
 		switch (sp.objectID) {
 		case ObjectID::VEHICLE1:
 			coords.first += speed;
@@ -98,6 +98,9 @@ void Vehiculo::update() {
 		default:
 			break;
 		}
+		maxTimeCounter += timeInterval;
+	}
+	else if(timeCounter >= maxTimeCounter) {
 		maxTimeCounter += timeInterval;
 	}
 }
@@ -252,7 +255,7 @@ std::pair<int, int> Tronco::getSize() {
 void Tronco::update() {
 	
 	timeCounter = SDL_GetTicks();
-	if (timeCounter >= maxTimeCounter) {
+	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
 		moveFrog = true;
 		coords.first += speed;
 		
@@ -260,6 +263,10 @@ void Tronco::update() {
 			coords.first = -size.first;
 		}
 		maxTimeCounter += timeInterval;
+	}
+	else if (timeCounter >= maxTimeCounter) {
+		maxTimeCounter += timeInterval;
+		moveFrog = false;
 	}
 	else moveFrog = false;
 }
@@ -374,7 +381,7 @@ std::pair<int, int> Tortuga::getSize() {
 
 void Tortuga::update() {
 	timeCounter = SDL_GetTicks();
-	if (timeCounter >= maxTimeCounter) {
+	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
 		moveFrog = true;
 		coords.first += speed;
 
@@ -400,6 +407,10 @@ void Tortuga::update() {
 			}
 		}
 		maxTimeCounter += timeInterval;
+	}
+	else if (timeCounter >= maxTimeCounter) {
+		maxTimeCounter += timeInterval;
+		moveFrog = false;
 	}
 	else moveFrog = false;
 }
@@ -539,7 +550,7 @@ void Insecto::draw() {
 setInsectos::setInsectos() {
 	number = 5;
 	timeCounter = 0;
-	timeInterval = 20000;
+	timeInterval = 15000;
 	maxTimeCounter = timeInterval;
 	active = false;
 	insectos[0] = Insecto(40) ;
@@ -551,7 +562,7 @@ setInsectos::setInsectos() {
 
 void setInsectos::update() {
 	timeCounter = SDL_GetTicks();
-	if (timeCounter > maxTimeCounter) {
+	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
 		if (!active) {
 			active = true;
 			int randomInsect = rand() % 5;
@@ -566,6 +577,9 @@ void setInsectos::update() {
 			maxTimeCounter += timeInterval;
 		}
 		
+	}
+	else if (timeCounter >= maxTimeCounter) {
+		maxTimeCounter += timeInterval;
 	}
 }
 
