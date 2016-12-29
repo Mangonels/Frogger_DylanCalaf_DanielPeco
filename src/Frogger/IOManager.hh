@@ -6,7 +6,9 @@
 #include "Logger.hh"
 #include "Assert.hh"
 #include "Resource.hh"
+#include "Window.hh"
 #include <../inc/XML/rapidxml_utils.hpp>
+#include <SDL/SDL.h>
 
 using namespace Logger;
 
@@ -105,4 +107,19 @@ namespace IOManager {
 
 */
 
+/*
+	void bFileScoreInsert(std::string input) //Inserta puntuación en el archivo "scores.dat"
+	{
+		std::fstream outfile("scores.dat", ios::out|ios::binary); //preparamos el archivo scores.dat (el cual se generará si no existe) y determinamos que será un archivo de salida(ios::out) en binario(ios::binary).
+		outfile.write(reinterpret_cast<char *>(&input), input.size()); //write(s,n) 
+																		//s = Puntero a un array que tiene como minimo n caracteres. "reinterpret_cast<char *>", delante de la dirección de memoria del input, transforma el contenido de la dirección de memoria de input a una cadena de caracteres.
+																		//n = Numero de caracteres a insertar (En este caso tantos como el tamaño de input)
+		outfile.close();
+	}
+
+	void bFileScoresRead() //Lee todas las puntuaciones del archivo "scores.dat"
+	{
+		
+	}
+*/
 }
