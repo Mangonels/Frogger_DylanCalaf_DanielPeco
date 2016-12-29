@@ -23,6 +23,12 @@ GameScene::~GameScene(void) {
 void GameScene::OnEntry() {	
 	paused = false;
 	pauseCounter = 0;
+	totalFrogs = 0;
+	level = 1;
+	m_score = 0;
+	vehiculos.NewLevel(level);
+	insectos.reset();
+	player.ResetPos();
 }
 
 void GameScene::OnExit(void) {
@@ -70,15 +76,18 @@ void GameScene::Update(void) {
 				initialTime += SDL_GetTicks() - pauseCounter;
 				pauseCounter = 0;
 			}
+
 			vehiculos.update();
 			troncos.update();
 			tortugas.update();
 			insectos.update();
-
+			
 			player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
 				tortugas.collisions(player.getCoords(), player.getSize()),
 				insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
 			player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
+
+			player.update(m_score);
 
 			vehiculos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
 			troncos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
@@ -133,7 +142,6 @@ void GameScene::Draw(void) {
 	m_background.Draw();
 
 	if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
-		player.update(m_score);
 		// Render background
 		vehiculos.draw();
 		troncos.draw();
