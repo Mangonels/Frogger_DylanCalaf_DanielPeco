@@ -21,6 +21,8 @@ GameScene::~GameScene(void) {
 }
 
 void GameScene::OnEntry() {	
+	paused = false;
+	pauseCounter = 0;
 }
 
 void GameScene::OnExit(void) {
@@ -41,6 +43,8 @@ void GameScene::setCurDifficulty(std::string difficulty){
 }
 
 void GameScene::Update(void) {
+
+	timeCounter = SDL_GetTicks();
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
 		Println("===============");
@@ -51,14 +55,21 @@ void GameScene::Update(void) {
 		Println("mxn: ", IM.GetMouseCoords());
 	}
 	if (IM.IsKeyDown<KEY_BUTTON_ESCAPE>()) { //Pausar el juego
+		
 		mouseCoords.x = 0; //<- We make sure these are set to 0 in order to fix a bug where certain buttons are pressed right on display if the coords where saved at it's location.
 		mouseCoords.y = 0;
 		if (paused == true) paused = false;
-		else paused = true;
+		else {
+			paused = true;
+			pauseCounter = SDL_GetTicks();
+		}
 	}
 	if (paused == false) {
 		if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
-
+			if (pauseCounter != 0) {
+				initialTime += SDL_GetTicks() - pauseCounter;
+				pauseCounter = 0;
+			}
 			vehiculos.update();
 			troncos.update();
 			tortugas.update();
@@ -90,7 +101,6 @@ void GameScene::Update(void) {
 		else {
 			SM.SetCurScene<RankingScene>("");
 		}
-		timeCounter = SDL_GetTicks();
 
 		if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 			player.checkArrowKey(KEY_BUTTON_DOWN);
@@ -105,13 +115,16 @@ void GameScene::Update(void) {
 			player.checkArrowKey(KEY_BUTTON_RIGHT);
 		}
 	}
+	//pause events
 	else {
-		if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Back To First Phase Menu
-			std::cout << "Went Back To Menu Scene" << std::endl;
-			SM.SetCurScene<MenuScene>("");
-		}
-		else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Leave the game entirely
-			exit(0);
+		if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
+			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Back To First Phase Menu
+				std::cout << "Went Back To Menu Scene" << std::endl;
+				SM.SetCurScene<MenuScene>("");
+			}
+			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Leave the game entirely
+				exit(0);
+			}
 		}
 	}
 }
