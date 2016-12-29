@@ -10,7 +10,7 @@
 
 using namespace Logger;
 
-namespace IOManager { //WIP
+namespace IOManager {
 
 	static void XMLParser(std::string &&filename, std::string &&level, int &PHealth, int &GTime, int &GInitSpeed) {
 		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML
@@ -57,18 +57,19 @@ namespace IOManager { //WIP
 				"Value: ",
 				attr->value());
 	}
-		
-/*		for (rapidxml::xml_node<> *difficulty_node = root_node->first_node("easy"); difficulty_node; difficulty_node = difficulty_node->next_sibling()) {
+/*
+		for (rapidxml::xml_node<> *difficulty_node = root_node->first_node("easy"); difficulty_node; difficulty_node = difficulty_node->next_sibling()) {
 			Println("Node: ",
 				difficulty_node->first_attribute("time")->value(),
 				" - ",
 				difficulty_node->first_attribute("lives")->value(),
 				" - ",
 				difficulty_node->first_attribute("initSpeed")->value());
-		}*/
+		}
+*/
 	}
-	
-/*	void xmlReader(std::string &&level) {
+/*
+	void xmlReader(std::string &&level) {
 
 		rapidxml::file<> xmlFile("difficulties.xml");
 		rapidxml::xml_document<> doc;
@@ -77,11 +78,11 @@ namespace IOManager { //WIP
 		for (rapidxml::xml_node<> * node = root_node->first_node(level); node; node = node->next_sibling()) {
 			Println("Node: ", node->first_attribute()->value());
 		}
-	}*/
-
-
+	}
+*/
+/*
 	// Loader function that takes level info for a grid
-	static std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
+    static std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
 		std::ifstream fileData(RESOURCE_FILE(filename));
 		ASSERT(fileData.good());
 		std::vector<std::vector<ObjectID>> lvlData;
@@ -101,5 +102,7 @@ namespace IOManager { //WIP
 #pragma endregion
 		return std::move(lvlData);
 	}
+
+*/
 
 }
