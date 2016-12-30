@@ -71,9 +71,9 @@ void RankingScene::Draw(void) {
 }
 
 void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new player result here
+	/*
 	if (results.empty) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
-	else 
-	{
+	else {
 		for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
 			if (iterator->score < playerResult.score) //Checking if the stored score, starting from the first position onwards, is lower than what we want to insert
 			{
@@ -83,6 +83,7 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 			}
 		}
 	}
+	*/
 }
 
 void RankingScene::seeResults(void) {

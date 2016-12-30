@@ -5,7 +5,7 @@
 
 struct result
 {
-	string player;
+	std::string player;
 	int score;
 };
 
