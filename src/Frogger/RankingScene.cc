@@ -85,8 +85,16 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 	}
 }
 
-void RankingScene::seeResults(void) { //At the moment, it prints top 10 results through console
+void RankingScene::seeResults(void) {
+	float startingHeight = .3f; //Height at which the ranking will start being displayed
 	for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
-		cout << "Player: " << iterator->player << " Score: " << iterator->score << endl;
+		GUI::DrawTextBlended<FontID::ARIAL>("Player: " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
+		{ W.GetWidth() >> 1, int(W.GetHeight() * startingHeight), 1, 1 }, //The score slots will be inserted from startingHeight upwards.
+		{ 255, 255, 255 });
+		
+		startingHeight += .05f; //Summed up height for next ranking slot
+
+		//Alternative displayer:
+		// cout << "Player: " << iterator->player << " Score: " << iterator->score << endl;
 	}
 }
