@@ -107,19 +107,28 @@ namespace IOManager {
 
 */
 
-/*
-	void bFileScoreInsert(std::string input) //Inserta puntuación en el archivo "scores.dat"
-	{
-		std::fstream outfile("scores.dat", ios::out|ios::binary); //preparamos el archivo scores.dat (el cual se generará si no existe) y determinamos que será un archivo de salida(ios::out) en binario(ios::binary).
-		outfile.write(reinterpret_cast<char *>(&input), input.size()); //write(s,n) 
-																		//s = Puntero a un array que tiene como minimo n caracteres. "reinterpret_cast<char *>", delante de la dirección de memoria del input, transforma el contenido de la dirección de memoria de input a una cadena de caracteres.
-																		//n = Numero de caracteres a insertar (En este caso tantos como el tamaño de input)
-		outfile.close();
-	}
+	void inputOutput() { //Hace las 2 cosas a la vez
+		char input[100];
+		strcpy(input, "wololo"); //Insertar la cadena de caracteres en el array de chars.
 
-	void bFileScoresRead() //Lee todas las puntuaciones del archivo "scores.dat"
-	{
-		
+		std::fstream file("ranking.bin", ios::binary | ios::in | ios::out | ios::trunc); //trunc -> se carga el contenido del archivo para reusarlo.
+
+		if (!file.is_open()) std::cout << "Error while opening the file" << std::endl;
+		else
+		{
+			int length = strlen(input);
+			for (int counter = 0; counter <= length; counter++)
+			{
+				file.put(input[counter]);
+			}
+
+			file.seekg(0);
+			char ch;
+			while (file.good())
+			{
+				file.get(ch);
+				std::cout << ch;
+			}
+		}
 	}
-*/
 }
