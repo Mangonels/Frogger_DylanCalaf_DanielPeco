@@ -27,6 +27,8 @@ RankingScene::~RankingScene(void) {
 void RankingScene::setCurDifficulty(std::string t) {
 
 }
+void RankingScene::SendNewScore(int s) {
+}
 void RankingScene::OnEntry(void) {
 	insertResultInOrder(r1);
 	insertResultInOrder(r2);
@@ -57,7 +59,7 @@ void RankingScene::Update(void) {
 
 		if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
 		std::cout << "Menu Scene" << std::endl;
-			SM.SetCurScene<MenuScene>("");
+			SM.SetCurScene<MenuScene>("",0);
 		}
 		else if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 669 && mouseCoords.y < 714) { //Exit the game
 			exit(0);
@@ -95,7 +97,7 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 			}
 		}
 	}
-	*/
+	
 }
 
 void RankingScene::seeResults(void) {

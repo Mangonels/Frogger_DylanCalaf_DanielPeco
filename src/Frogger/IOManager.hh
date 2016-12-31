@@ -40,7 +40,7 @@ namespace IOManager {
 		GInitSpeed = std::stoi(initspeedAttr->value());
 	}
 
-/*Alternatives amb iteradors: */
+	/*Alternatives amb iteradors: */
 
 	static void XMLParserBasic(std::string &&filename, std::string &&level) {
 		rapidxml::file<> xmlFile(RESOURCE_FILE(filename)); //carreguem filename a un a variable file de XML
@@ -53,14 +53,15 @@ namespace IOManager {
 			system("pause");
 		}
 		rapidxml::xml_node<> *root_node = doc.first_node("levels"); //root node contindrá el primer node, que será <levels>
-			rapidxml::xml_node<> *difficulty_node = root_node->first_node(level.c_str()); //basicament aqui estem escalant de node en node, fins arrivar al nivell de l'arbre que volem.
+		rapidxml::xml_node<> *difficulty_node = root_node->first_node(level.c_str()); //basicament aqui estem escalant de node en node, fins arrivar al nivell de l'arbre que volem.
 
 		for (rapidxml::xml_node<> *attr = difficulty_node->first_node(); attr != difficulty_node->last_node(); attr = attr->next_sibling()) {
 			Println(
 				attr->name(),
 				"Value: ",
 				attr->value());
-	}
+		}
+
 /*	void inputOutput() { //Hace las 2 cosas a la vez
 		char input[100];
 		strcpy(input, "wololo"); //Insertar la cadena de caracteres en el array de chars.
@@ -83,10 +84,11 @@ namespace IOManager {
 				file.get(ch);
 				std::cout << ch;
 			}
-		}
+			*/
 	}
-*/
 }
+
+
 
 namespace binaryIO {
 

@@ -23,7 +23,8 @@ MenuScene::~MenuScene(void) {
 }
 
 void MenuScene::setCurDifficulty(std::string t) {
-
+}
+void MenuScene::SendNewScore(int s) {
 }
 void MenuScene::OnEntry(void) {
 	initialmenu = true;
@@ -54,7 +55,7 @@ void MenuScene::Update(void) {
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
 				cout << "Ranking Scene" << endl;
-				SM.SetCurScene<RankingScene>("");
+				SM.SetCurScene<RankingScene>("", 0);
 			}
 		}
 		else //We are on the difficulty selection
@@ -63,17 +64,17 @@ void MenuScene::Update(void) {
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Easy
 
 				cout << "Opened level Easy:" << endl;
-				SM.SetCurScene<GameScene>("easy");
+				SM.SetCurScene<GameScene>("easy", 0);
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Normal
 
 				cout << "Opened level Medium:" << endl;
-				SM.SetCurScene<GameScene>("medium");
+				SM.SetCurScene<GameScene>("medium", 0);
 			}
 			else if (mouseCoords.x > 452 && mouseCoords.x < 584 && mouseCoords.y > 436 && mouseCoords.y < 482) { //Hard
 
 				cout << "Opened level Hard:" << endl;
-				SM.SetCurScene<GameScene>("hard");
+				SM.SetCurScene<GameScene>("hard", 0);
 			}
 
 

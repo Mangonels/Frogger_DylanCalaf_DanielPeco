@@ -20,6 +20,7 @@ public:
 	void Update(void) override;
 	void Draw(void) override;
 	void setCurDifficulty(std::string) override;
+	void SendNewScore(int) override;
 	void insertResultInOrder(result);
 	void seeResults();
 private:

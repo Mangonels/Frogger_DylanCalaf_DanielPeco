@@ -24,6 +24,7 @@ public:
 	virtual void Draw(void) = 0;
 	
 	virtual void setCurDifficulty(std::string t) = 0;
+	virtual void SendNewScore(int s) = 0;
 	// State methods
 	template <SceneState state> inline void SetState(void) { currentState = state; };
 	inline SceneState GetState(void) const { return currentState; };

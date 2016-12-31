@@ -18,7 +18,7 @@ public:
 		static_assert(std::is_base_of<Scene, S>::value, "Can't add scene that doesn't inherit from IScene");
 		m_scenes.emplace(typeid(S), new S);
 	}
-	template<class S> void SetCurScene(std::string difficulty) {
+	template<class S> void SetCurScene(std::string difficulty, int score) {
 		static_assert(std::is_base_of<Scene, S>::value, "Can't add scene that doesn't inherit from IScene");
 		if (m_curScene != nullptr)
 			m_curScene->OnExit(),
@@ -27,6 +27,8 @@ public:
 		m_curScene->SetState<SceneState::RUNNING>();
 		m_curScene->OnEntry();
 		m_curScene->setCurDifficulty(difficulty);
+		m_curScene->SendNewScore(score);
+
 	}
 	inline Scene *&GetCurScene(void) { return m_curScene; }
 private:

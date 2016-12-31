@@ -1,5 +1,5 @@
 #include "GameEngine.hh"
-#include "binaryIO.hh"
+#include "IOManager.hh"
 
 // Game constants
 #define SCREEN_WIDTH 1024
