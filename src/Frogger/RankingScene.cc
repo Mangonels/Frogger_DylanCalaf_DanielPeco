@@ -71,7 +71,7 @@ void RankingScene::Draw(void) {
 }
 
 void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new player result here
-	/*
+
 	if (results.empty) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
 	else {
 		for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
@@ -83,7 +83,7 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 			}
 		}
 	}
-	*/
+
 }
 
 void RankingScene::seeResults(void) {

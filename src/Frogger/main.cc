@@ -1,4 +1,5 @@
 #include "GameEngine.hh"
+#include "binaryIO.hh"
 
 // Game constants
 #define SCREEN_WIDTH 1024
@@ -7,6 +8,9 @@
 using namespace std;
 
 int main(int argc, char* args[]) {
+
+	binaryIO::bFileScoreInsert("Pingas", 999);
+	binaryIO::bFileScoresRead();
 
 	GameEngine::Run<SCREEN_WIDTH, SCREEN_HEIGHT>("Frogger");
 

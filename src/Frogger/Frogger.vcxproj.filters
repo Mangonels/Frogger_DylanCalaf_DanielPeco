@@ -105,5 +105,8 @@
     <ClInclude Include="RankingScene.hh">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="binaryIO.hh">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
