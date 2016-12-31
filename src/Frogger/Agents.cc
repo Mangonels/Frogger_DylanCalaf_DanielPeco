@@ -100,8 +100,8 @@ void Vehiculo::update() {
 		}
 		maxTimeCounter += timeInterval;
 	}
-	else if(timeCounter >= maxTimeCounter) {
-		maxTimeCounter += timeInterval;
+	else if(timeCounter > maxTimeCounter + timeInterval) {
+		maxTimeCounter = timeCounter + timeInterval;
 	}
 }
 void Vehiculo::SetSpeedModifier(int speedModifier) {
@@ -228,8 +228,8 @@ Tronco::Tronco(int x, int y, int type) {
 }
 void Tronco::SetSpeedModifier(int speedModifier) {
 	speed = speedModifier;
-
 }
+
 std::pair <bool, int> Tronco::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
 	std::pair <bool, int> temp;
@@ -264,8 +264,8 @@ void Tronco::update() {
 		}
 		maxTimeCounter += timeInterval;
 	}
-	else if (timeCounter >= maxTimeCounter) {
-		maxTimeCounter += timeInterval;
+	else if (timeCounter > maxTimeCounter + timeInterval) {
+		maxTimeCounter = timeCounter + timeInterval;
 		moveFrog = false;
 	}
 	else moveFrog = false;
@@ -389,13 +389,14 @@ void Tortuga::update() {
 			coords.first = W.GetWidth();
 		}
 
-		//submerge
+		//submerge sprites
 		if (timeCounter > maxStateCounter - stateIntervalSubmerge / 5 && submerge == true) {
 			sp.objectID = sp.objectID = ObjectID::TURTLE2;
 		}
 		else {
 			sp.objectID = sp.objectID = ObjectID::TURTLE1;
 		}
+		//submerge switch
 		if (timeCounter > maxStateCounter && submerge == true) {
 			if (visible) {
 				visible = false;
@@ -409,10 +410,10 @@ void Tortuga::update() {
 		maxTimeCounter += timeInterval;
 	}
 	else if (timeCounter > maxTimeCounter + timeInterval) {
-		std::cout << "l";
-		maxTimeCounter += timeInterval;
-		if (visible) maxStateCounter += stateIntervalSubmerge;
-		else maxStateCounter += stateIntervalEmerge;
+		maxTimeCounter = timeCounter + timeInterval;
+
+		if (visible) maxStateCounter = timeCounter + stateIntervalSubmerge;
+		else maxStateCounter = timeCounter + stateIntervalEmerge;
 		
 		moveFrog = false;
 	}
@@ -582,9 +583,11 @@ void setInsectos::update() {
 		}
 		
 	}
-	else if (timeCounter >= maxTimeCounter) {
-		maxTimeCounter += timeInterval;
+	else if (timeCounter >= maxTimeCounter + timeInterval) {
+		if (!active) maxTimeCounter = timeCounter + timeInterval / 2;
+		else maxTimeCounter = timeCounter + timeInterval;
 	}
+	
 }
 
 bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score, int &totalfrogs) {

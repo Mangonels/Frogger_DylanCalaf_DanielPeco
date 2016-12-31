@@ -26,4 +26,13 @@ private:
 	std::list<result> results; //Lista ordenada.
 	int rankingSlots;
 	Sprite m_background;
+
+	result r1{ "pingas1", 10000 };
+	result r2{ "pingas2", 9000 };
+	result r3{ "pingas3", 11140 };
+	result r4{ "pingas4", 190 };
+	result r5{ "fsopfwfjw", 1111190 };
+	result r6{ "p4342", 10 };
+	result r7{ "suspendido", 0 };
+
 };

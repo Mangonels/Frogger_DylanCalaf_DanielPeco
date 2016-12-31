@@ -18,6 +18,7 @@ using namespace Logger;
 RankingScene::RankingScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 	rankingSlots = 10;
+	results.resize(rankingSlots);
 }
 
 RankingScene::~RankingScene(void) {
@@ -27,13 +28,23 @@ void RankingScene::setCurDifficulty(std::string t) {
 
 }
 void RankingScene::OnEntry(void) {
-
+	insertResultInOrder(r1);
+	insertResultInOrder(r2);
+	insertResultInOrder(r2);
+	insertResultInOrder(r2);
+	insertResultInOrder(r2);
+	insertResultInOrder(r2);
+	insertResultInOrder(r3);
+	insertResultInOrder(r4);
+	insertResultInOrder(r5);
+	insertResultInOrder(r7);
 }
 
 void RankingScene::OnExit(void) {
 }
 
 void RankingScene::Update(void) {
+
 
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
@@ -56,6 +67,7 @@ void RankingScene::Update(void) {
 
 void RankingScene::Draw(void) {
 	m_background.Draw(); // Render background
+	seeResults();
 
 	GUI::DrawTextBlended<FontID::RAKOON>("RANKING",
 	{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
@@ -71,8 +83,8 @@ void RankingScene::Draw(void) {
 }
 
 void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new player result here
-	/*
-	if (results.empty) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
+	
+	if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
 	else {
 		for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
 			if (iterator->score < playerResult.score) //Checking if the stored score, starting from the first position onwards, is lower than what we want to insert
@@ -83,18 +95,19 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 			}
 		}
 	}
-	*/
+	
 }
 
 void RankingScene::seeResults(void) {
-	float startingHeight = .3f; //Height at which the ranking will start being displayed
+	float startingHeight = .2f; //Height at which the ranking will start being displayed
+	int position = 1;
 	for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
-		GUI::DrawTextBlended<FontID::ARIAL>("Player: " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
+		GUI::DrawTextBlended<FontID::ARIAL>("#" + to_string(position) + " " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
 		{ W.GetWidth() >> 1, int(W.GetHeight() * startingHeight), 1, 1 }, //The score slots will be inserted from startingHeight upwards.
-		{ 255, 255, 255 });
+		{ 0, 0, 0 });
 		
 		startingHeight += .05f; //Summed up height for next ranking slot
-
+		position++;
 		//Alternative displayer:
 		// cout << "Player: " << iterator->player << " Score: " << iterator->score << endl;
 	}

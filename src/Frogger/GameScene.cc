@@ -24,9 +24,8 @@ void GameScene::OnEntry() {
 	paused = false;
 	pauseCounter = 0;
 	totalFrogs = 0;
-	level = 1;
+	level = 0;
 	m_score = 0;
-	vehiculos.NewLevel(level);
 	insectos.reset();
 	player.ResetPos();
 }
