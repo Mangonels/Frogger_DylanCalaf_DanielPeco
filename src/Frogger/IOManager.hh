@@ -9,8 +9,10 @@
 #include "Window.hh"
 #include <../inc/XML/rapidxml_utils.hpp>
 #include <SDL/SDL.h>
+#include <string>
 
 using namespace Logger;
+using namespace std;
 
 namespace IOManager {
 
@@ -59,55 +61,7 @@ namespace IOManager {
 				"Value: ",
 				attr->value());
 	}
-/*
-		for (rapidxml::xml_node<> *difficulty_node = root_node->first_node("easy"); difficulty_node; difficulty_node = difficulty_node->next_sibling()) {
-			Println("Node: ",
-				difficulty_node->first_attribute("time")->value(),
-				" - ",
-				difficulty_node->first_attribute("lives")->value(),
-				" - ",
-				difficulty_node->first_attribute("initSpeed")->value());
-		}
-*/
-	}
-/*
-	void xmlReader(std::string &&level) {
-
-		rapidxml::file<> xmlFile("difficulties.xml");
-		rapidxml::xml_document<> doc;
-		doc.parse<0>(xmlFile.data());
-		rapidxml::xml_node<> *root_node = doc.first_node("levels");
-		for (rapidxml::xml_node<> * node = root_node->first_node(level); node; node = node->next_sibling()) {
-			Println("Node: ", node->first_attribute()->value());
-		}
-	}
-*/
-/*
-	// Loader function that takes level info for a grid
-    static std::vector<std::vector<ObjectID>> LoadLevel(std::string &&filename, int &rows, int &cols) {
-		std::ifstream fileData(RESOURCE_FILE(filename));
-		ASSERT(fileData.good());
-		std::vector<std::vector<ObjectID>> lvlData;
-		std::string line;
-		while (std::getline(fileData, line)) {
-			std::istringstream strData(std::move(line));
-			lvlData.emplace_back(std::istream_iterator<ObjectID>(std::move(strData)), std::istream_iterator<ObjectID>());
-		}
-		rows = int(lvlData.size()); cols = int(lvlData[0].size());
-		fileData.close();
-#pragma region DEBUG_DATA
-		Println("Level: ", filename);
-		for (auto &r : lvlData) {
-			for (auto &c : r) Print(c, ' ');
-			Endln();
-		}
-#pragma endregion
-		return std::move(lvlData);
-	}
-
-*/
-
-	void inputOutput() { //Hace las 2 cosas a la vez
+/*	void inputOutput() { //Hace las 2 cosas a la vez
 		char input[100];
 		strcpy(input, "wololo"); //Insertar la cadena de caracteres en el array de chars.
 
@@ -131,4 +85,33 @@ namespace IOManager {
 			}
 		}
 	}
+*/
+}
+
+namespace binaryIO {
+
+	static void bFileScoreInsert(std::string player, int score) //Inserta puntuación en el archivo "scores.dat"
+	{
+		string strScore = to_string(score);
+		string input = player + " " + strScore;
+
+		std::fstream outfile("scores.dat", ios::out | ios::binary); //preparamos el archivo scores.dat (el cual se generará si no existe) y determinamos que será un archivo de salida(ios::out) en binario(ios::binary).
+		outfile.write(reinterpret_cast<char *>(&input), input.size()); //write(s,n) 
+																	   //s = Puntero a un array que tiene como minimo n caracteres. "reinterpret_cast<char *>", delante de la dirección de memoria del input, transforma el contenido de la dirección de memoria de input a una cadena de caracteres.
+																	   //n = Numero de caracteres a insertar (En este caso tantos como el tamaño de input)
+		outfile.close();
+	}
+
+	static void bFileScoresRead() //Lee todas las puntuaciones del archivo "scores.dat"
+	{
+		string output = "";
+
+		std::fstream infile("scores.dat", ios::in | ios::binary);
+		infile.read(reinterpret_cast<char *>(&output), output.size());
+
+		infile.close();
+
+		cout << output << endl;
+	}
+	//linea random adicional
 }
