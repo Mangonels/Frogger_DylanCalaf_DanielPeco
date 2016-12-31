@@ -95,7 +95,7 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 			}
 		}
 	}
-	
+	*/
 }
 
 void RankingScene::seeResults(void) {
