@@ -30,7 +30,7 @@
   <ItemGroup>
     <ClInclude Include="Agents.hh" />
     <ClInclude Include="Assert.hh" />
-    <ClInclude Include="binaryIO.hh" />
+    <ClInclude Include="binaryIO.h" />
     <ClInclude Include="Color.hh" />
     <ClInclude Include="GameEngine.hh" />
     <ClInclude Include="GameScene.hh" />
