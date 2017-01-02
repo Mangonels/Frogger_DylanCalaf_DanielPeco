@@ -19,17 +19,6 @@ RankingScene::RankingScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 	rankingSlots = 10;
 	results.resize(rankingSlots);
-}
-
-RankingScene::~RankingScene(void) {
-}
-
-void RankingScene::setCurDifficulty(std::string t) {
-
-}
-void RankingScene::SendNewScore(int s) {
-}
-void RankingScene::OnEntry(void) {
 	insertResultInOrder(r1);
 	insertResultInOrder(r2);
 	insertResultInOrder(r2);
@@ -42,27 +31,44 @@ void RankingScene::OnEntry(void) {
 	insertResultInOrder(r7);
 }
 
+RankingScene::~RankingScene(void) {
+}
+
+void RankingScene::setCurDifficulty(std::string t) {
+
+}
+void RankingScene::SendNewScore(int s) {
+	newScore = s;
+}
+void RankingScene::OnEntry(void) {
+
+}
 void RankingScene::OnExit(void) {
 }
 
 void RankingScene::Update(void) {
 
-
-	static MouseCoords mouseCoords(0, 0);
-	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
-		Println("===============");
-		Println("mxp: ", mouseCoords);
-		mouseCoords = IM.GetMouseCoords();
+	if (newScore > 0) {
+		MakeNewResult(newScore);
+		newScore = 0;
 	}
-	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
-		Println("mxn: ", IM.GetMouseCoords());
-
-		if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
-		std::cout << "Menu Scene" << std::endl;
-			SM.SetCurScene<MenuScene>("",0);
+	else {
+		static MouseCoords mouseCoords(0, 0);
+		if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
+			Println("===============");
+			Println("mxp: ", mouseCoords);
+			mouseCoords = IM.GetMouseCoords();
 		}
-		else if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 669 && mouseCoords.y < 714) { //Exit the game
-			exit(0);
+		else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
+			Println("mxn: ", IM.GetMouseCoords());
+
+			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
+				std::cout << "Menu Scene" << std::endl;
+				SM.SetCurScene<MenuScene>("", 0);
+			}
+			else if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 669 && mouseCoords.y < 714) { //Exit the game
+				exit(0);
+			}
 		}
 	}
 }
@@ -81,14 +87,13 @@ void RankingScene::Draw(void) {
 	GUI::DrawTextShaded<FontID::ARIAL>("Leave", //Exit the game
 	{ W.GetWidth() >> 1, int(W.GetHeight()*.9f), 1, 1 },
 	{ 115, 0, 180 }, { 50, 200, 230 });
-
 }
 
-void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new player result here
+void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new player result here
 	
 	if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
 	else {
-		for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
+		for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
 			if (iterator->score < playerResult.score) //Checking if the stored score, starting from the first position onwards, is lower than what we want to insert
 			{
 				results.insert(iterator, playerResult); //inserts "playerResult" in its corresponding position (Before the current iterated slot).
@@ -100,10 +105,18 @@ void RankingScene::insertResultInOrder(result playerResult) { //<-Insert the new
 	
 }
 
+void RankingScene::MakeNewResult(int score) {
+	Result newResult;
+	newResult.score = score;
+	std::cout << "PLEASE insert a name for the new score: ";
+	std::cin >> newResult.player;
+	insertResultInOrder(newResult);
+}
+
 void RankingScene::seeResults(void) {
 	float startingHeight = .2f; //Height at which the ranking will start being displayed
 	int position = 1;
-	for (std::list<result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 		GUI::DrawTextBlended<FontID::ARIAL>("#" + to_string(position) + " " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
 		{ W.GetWidth() >> 1, int(W.GetHeight() * startingHeight), 1, 1 }, //The score slots will be inserted from startingHeight upwards.
 		{ 0, 0, 0 });

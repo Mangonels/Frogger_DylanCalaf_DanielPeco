@@ -3,7 +3,7 @@
 #include "Scene.hh"
 #include <list>
 
-struct result
+struct Result
 {
 	std::string player;
 	int score;
@@ -21,19 +21,22 @@ public:
 	void Draw(void) override;
 	void setCurDifficulty(std::string) override;
 	void SendNewScore(int) override;
-	void insertResultInOrder(result);
+
+	void insertResultInOrder(Result);
+	void MakeNewResult(int);
 	void seeResults();
 private:
-	std::list<result> results; //Lista ordenada.
+	std::list<Result> results; //Lista ordenada.
 	int rankingSlots;
 	Sprite m_background;
 
-	result r1{ "pingas1", 10000 };
-	result r2{ "pingas2", 9000 };
-	result r3{ "pingas3", 11140 };
-	result r4{ "pingas4", 190 };
-	result r5{ "fsopfwfjw", 1111190 };
-	result r6{ "p4342", 10 };
-	result r7{ "suspendido", 0 };
+	int newScore;
+	Result r1{ "pingas1", 10000 };
+	Result r2{ "pingas2", 9000 };
+	Result r3{ "pingas3", 11140 };
+	Result r4{ "pingas4", 190 };
+	Result r5{ "fsopfwfjw", 1111190 };
+	Result r6{ "p4342", 10 };
+	Result r7{ "suspendido", 0 };
 
 };

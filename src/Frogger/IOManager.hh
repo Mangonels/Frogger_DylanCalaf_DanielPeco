@@ -97,7 +97,7 @@ namespace binaryIO {
 		string strScore = to_string(score);
 		string input = player + " " + strScore;
 
-		std::fstream outfile("scores.dat", ios::out | ios::binary); //preparamos el archivo scores.dat (el cual se generará si no existe) y determinamos que será un archivo de salida(ios::out) en binario(ios::binary).
+		std::fstream outfile("scores.dat", ios::out | ios::binary);    //preparamos el archivo scores.dat (el cual se generará si no existe) y determinamos que será un archivo de salida(ios::out) en binario(ios::binary).
 		outfile.write(reinterpret_cast<char *>(&input), input.size()); //write(s,n) 
 																	   //s = Puntero a un array que tiene como minimo n caracteres. "reinterpret_cast<char *>", delante de la dirección de memoria del input, transforma el contenido de la dirección de memoria de input a una cadena de caracteres.
 																	   //n = Numero de caracteres a insertar (En este caso tantos como el tamaño de input)

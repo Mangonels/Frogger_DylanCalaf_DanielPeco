@@ -411,10 +411,6 @@ void Tortuga::update() {
 	}
 	else if (timeCounter > maxTimeCounter + timeInterval) {
 		maxTimeCounter = timeCounter + timeInterval;
-
-		if (visible) maxStateCounter = timeCounter + stateIntervalSubmerge;
-		else maxStateCounter = timeCounter + stateIntervalEmerge;
-		
 		moveFrog = false;
 	}
 	else moveFrog = false;

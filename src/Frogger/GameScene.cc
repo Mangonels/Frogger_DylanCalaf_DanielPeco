@@ -129,7 +129,7 @@ void GameScene::Update(void) {
 		if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Back To First Phase Menu
 				std::cout << "Went Back To Menu Scene" << std::endl;
-				SM.SetCurScene<MenuScene>("",0);
+				SM.SetCurScene<MenuScene>("", 0);
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Leave the game entirely
 				exit(0);
