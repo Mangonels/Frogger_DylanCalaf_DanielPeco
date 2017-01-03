@@ -53,6 +53,25 @@ void RankingScene::Update(void) {
 		}
 		else {
 			GetChars();
+
+			/*
+			 while (SDL_PollEvent(&event)) {
+				if (event.type == SDL_KEYDOWN) {
+					std::cout << "cualquier cosa";
+					//Keep a copy of the current version of the string 
+					std::string temp = newPlayerName;
+					//If the string less than maximum size
+					if (newPlayerName.length() <= 16) {
+						//If the key is a space 
+						if (event.key.keysym.sym >=  (Uint16)'a' && event.key.keysym.sym <= (Uint16)'z') {
+							//Append the character
+							newPlayerName += (char)event.key.keysym.sym;
+						}
+					}
+				}
+			}
+			*/
+
 		}
 		if (displayRanking == true) {
 			MakeNewResult(newScore, newPlayerName);
@@ -145,6 +164,13 @@ void RankingScene::seeResults(void) {
 
 //WIP de momento, chapucero a saco XD
 void RankingScene::GetChars(void) {
+	/*
+	for (char i = 'a'; i < 'z'; i++) {
+		if (IM.IsKeyDown<i>()) {
+			newPlayerName += i;
+		}
+	}
+	*/
 	if (IM.IsKeyDown<'a'>()) {
 		newPlayerName += 'a';
 	}
