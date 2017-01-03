@@ -23,14 +23,18 @@ public:
 	void SendNewScore(int) override;
 
 	void insertResultInOrder(Result);
-	void MakeNewResult(int);
+	void MakeNewResult(int, std::string);
 	void seeResults();
+	void GetChars();
 private:
 	std::list<Result> results; //Lista ordenada.
 	int rankingSlots;
 	Sprite m_background;
-
+	SDL_Event event;
 	int newScore;
+	std::string newPlayerName;
+	bool displayRanking{ true };
+	
 	Result r1{ "pingas1", 10000 };
 	Result r2{ "pingas2", 9000 };
 	Result r3{ "pingas3", 11140 };

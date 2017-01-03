@@ -123,6 +123,7 @@ public:
 	template<Sint32 key> bool IsKeyDown(void) {
 		return CheckInput<key, InputValue::DOWN>();
 	}
+	
 	/**
 	* Check if a mouse button is being held down.
 	* @tparam key Indicates the key to be checked (e.g., 'a', '0', KEY_BUTTON_DOWN, KEY_BUTTON_ESCAPE, ...).

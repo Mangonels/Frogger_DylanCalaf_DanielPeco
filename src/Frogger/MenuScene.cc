@@ -34,6 +34,7 @@ void MenuScene::OnExit(void) {
 }
 
 void MenuScene::Update(void) {
+	
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
 		Println("===============");

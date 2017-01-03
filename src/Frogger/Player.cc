@@ -14,6 +14,7 @@ Player::Player() {
 	splayer.objectID = ObjectID::FROG;
 	onWater = false;
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
+
 	for (int i = 0; i < 12; i++) {
 		newLines[i] = false;
 	}
@@ -22,6 +23,9 @@ Player::Player() {
 void Player::setLives(int l) 
 {
 	lives = l;
+	for (int i = 0; i < 12; i++) {
+		newLines[i] = false;
+	}
 }
 void Player::TimeOut() {
 	lives--;
