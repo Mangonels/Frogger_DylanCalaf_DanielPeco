@@ -19,13 +19,8 @@ RankingScene::RankingScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 	rankingSlots = 10;
 	results.resize(rankingSlots);
-	
-	insertResultInOrder(r1);
-	insertResultInOrder(r2);
-	insertResultInOrder(r2);
-	insertResultInOrder(r2);
-	insertResultInOrder(r5);
-	insertResultInOrder(r7);
+
+	ReadBinaryFile();
 }
 
 RankingScene::~RankingScene(void) {
@@ -53,25 +48,6 @@ void RankingScene::Update(void) {
 		}
 		else {
 			GetChars();
-
-			/*
-			 while (SDL_PollEvent(&event)) {
-				if (event.type == SDL_KEYDOWN) {
-					std::cout << "cualquier cosa";
-					//Keep a copy of the current version of the string 
-					std::string temp = newPlayerName;
-					//If the string less than maximum size
-					if (newPlayerName.length() <= 16) {
-						//If the key is a space 
-						if (event.key.keysym.sym >=  (Uint16)'a' && event.key.keysym.sym <= (Uint16)'z') {
-							//Append the character
-							newPlayerName += (char)event.key.keysym.sym;
-						}
-					}
-				}
-			}
-			*/
-
 		}
 		if (displayRanking == true) {
 			MakeNewResult(newScore, newPlayerName);
@@ -130,9 +106,8 @@ void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new
 	if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
 	else {
 		for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
-			if (iterator->score < playerResult.score) //Checking if the stored score, starting from the first position onwards, is lower than what we want to insert
-			{
-				results.insert(iterator, playerResult); //inserts "playerResult" in its corresponding position (Before the current iterated slot).
+			if (iterator->score < playerResult.score){
+				results.insert(iterator, playerResult); 
 				results.resize(rankingSlots); //Making sure the map doesn't exceed it's maximum ammount of data, and removing data beyond max_size. This should remove lower scores.
 				break; //If we don't break here it will be caos.
 			}
@@ -140,11 +115,64 @@ void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new
 	}	
 }
 
+void  RankingScene::WriteOnBinaryFile() {
+
+	remove("scores.dat");
+	
+	int i = 0;
+	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+		resultArray[i].player = iterator->player;
+		resultArray[i].score = iterator->score;
+		i++;
+	}
+
+	std::ofstream outfile("scores.dat", ios::app | ios::out | ios::binary);
+	outfile.write(reinterpret_cast<char *>(&resultArray), sizeof(resultArray));
+	outfile.close();
+	/*
+	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+	binaryIO::bFileScoreInsert(iterator->player , iterator->score);
+	}
+	*/
+}
+
+void RankingScene::ReadBinaryFile() {
+
+	
+	std::ifstream infile("scores.dat", ios::in | ios::binary);
+	if (infile.is_open()) {
+		infile.read(reinterpret_cast<char*>(&resultArray), sizeof(resultArray));
+		infile.close();
+
+		int i = 0;
+		for (std::list<Result>::iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+			iterator->player = resultArray[i].player;
+			iterator->score = resultArray[i].score;
+			i++;
+		}
+	}
+	/*
+	std::list<Result> temp;
+	Result temp2;
+
+	std::ifstream infile("scores.dat", ios::in | ios::binary);
+	temp.resize(10);
+	for (int i = 0; i < 10; i++) {
+	infile.read(reinterpret_cast<char*>(&temp2), sizeof(temp2));
+	temp.push_back(temp2);
+	}
+
+	results = temp;
+	infile.close();
+	*/
+}
+
 void RankingScene::MakeNewResult(int score, std::string playerName) {
 	Result newResult;
 	newResult.score = score;
 	newResult.player = playerName;
 	insertResultInOrder(newResult);
+	WriteOnBinaryFile();
 }
 
 void RankingScene::seeResults(void) {
@@ -157,20 +185,29 @@ void RankingScene::seeResults(void) {
 		
 		startingHeight += .05f; //Summed up height for next ranking slot
 		position++;
-		//Alternative displayer:
-		// cout << "Player: " << iterator->player << " Score: " << iterator->score << endl;
 	}
 }
 
-//WIP de momento, chapucero a saco XD
 void RankingScene::GetChars(void) {
-	/*
-	for (char i = 'a'; i < 'z'; i++) {
-		if (IM.IsKeyDown<i>()) {
-			newPlayerName += i;
-		}
-	}
+
+	/*  -- este metodo es más optimo pero por alguna razón no funciona tan fluido como el otro --
+			 while (SDL_PollEvent(&event)) {
+				if (event.type == SDL_KEYDOWN) {
+					std::cout << "cualquier cosa";
+					//Keep a copy of the current version of the string 
+					std::string temp = newPlayerName;
+					//If the string less than maximum size
+					if (newPlayerName.length() <= 16) {
+						//If the key is a space 
+						if (event.key.keysym.sym >=  (Uint16)'a' && event.key.keysym.sym <= (Uint16)'z') {
+							//Append the character
+							newPlayerName += (char)event.key.keysym.sym;
+						}
+					}
+				}
+			}
 	*/
+
 	if (IM.IsKeyDown<'a'>()) {
 		newPlayerName += 'a';
 	}
@@ -249,6 +286,37 @@ void RankingScene::GetChars(void) {
 	else if (IM.IsKeyDown<'z'>()) {
 		newPlayerName += 'z';
 	}
+	else if (IM.IsKeyDown<'z'>()) {
+		newPlayerName += 'z';
+	}
+	else if (IM.IsKeyDown<'1'>()) {
+		newPlayerName += '1';
+	}
+	else if (IM.IsKeyDown<'2'>()) {
+		newPlayerName += '2';
+	}
+	else if (IM.IsKeyDown<'3'>()) {
+		newPlayerName += '3';
+	}
+	else if (IM.IsKeyDown<'4'>()) {
+		newPlayerName += '4';
+	}
+	else if (IM.IsKeyDown<'5'>()) {
+		newPlayerName += '5';
+	}
+	else if (IM.IsKeyDown<'6'>()) {
+		newPlayerName += '6';
+	}
+	else if (IM.IsKeyDown<'7'>()) {
+		newPlayerName += '7';
+	}
+	else if (IM.IsKeyDown<'8'>()) {
+		newPlayerName += '8';
+	}
+	else if (IM.IsKeyDown<'9'>()) {
+		newPlayerName += '9';
+	}
+
 	else if (IM.IsKeyDown<KEY_BUTTON_BACKSPACE>()) {
 		if (newPlayerName.size() > 0) newPlayerName.pop_back();
 	}

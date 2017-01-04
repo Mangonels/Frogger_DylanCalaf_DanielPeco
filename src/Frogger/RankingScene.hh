@@ -24,13 +24,15 @@ public:
 
 	void insertResultInOrder(Result);
 	void MakeNewResult(int, std::string);
+	void WriteOnBinaryFile();
+	void ReadBinaryFile();
 	void seeResults();
 	void GetChars();
 private:
-	std::list<Result> results; //Lista ordenada.
+	std::list<Result> results; //Lista ordenada
+	Result resultArray[10]; //array para escribir y leer los valores del archivo binario
 	int rankingSlots;
 	Sprite m_background;
-	SDL_Event event;
 	int newScore;
 	std::string newPlayerName;
 	bool displayRanking{ true };
@@ -40,7 +42,7 @@ private:
 	Result r3{ "pingas3", 11140 };
 	Result r4{ "pingas4", 190 };
 	Result r5{ "fsopfwfjw", 1111190 };
-	Result r6{ "p4342", 10 };
+	Result r6{ "p1ng4s", 7 };
 	Result r7{ "suspendido", 0 };
 
 };

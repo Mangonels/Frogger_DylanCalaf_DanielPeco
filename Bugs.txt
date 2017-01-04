@@ -1,8 +1,0 @@
-BUGS:
-
-- Desde la GameScene, hacer click en ESC y luego pulsar el boton de volver al menú hace que no se pueda volver a la GameScene pulsando un botón de dificultad.
-- Pausar el juego con ESC, solo pausa su avance visual, pero no su progreso interno (No es suficiente con congelar el update de la GameScene)
-
-PULIR:
-
-- Los tamaños de detección de los botones quizá podrían ajustarse, tambien directamente podríamos insertar sprites del mismo tamaño para botones.
