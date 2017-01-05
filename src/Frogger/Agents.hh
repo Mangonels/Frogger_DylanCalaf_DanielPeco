@@ -74,6 +74,7 @@ class Tortuga {
 	int maxTimeCounter;
 	int timeInterval;
 
+	int stateCounter;
 	int maxStateCounter;
 	int stateIntervalSubmerge;
 	int stateIntervalEmerge;
@@ -124,6 +125,8 @@ class setInsectos {
 	int number;
 	Insecto insectos[5];
 	int totalGoals;
+	int switchCounter;
+	int maxSwitchCounter;
 	int timeCounter;
 	int maxTimeCounter;
 	int timeInterval;
@@ -131,7 +134,7 @@ class setInsectos {
 public:
 	setInsectos();
 	void update();
-	bool collisions(const std::pair<int, int>, const std::pair<int, int>, int &score, int &totalfrogs);
+	bool collisions(const std::pair<int, int>, const std::pair<int, int>, int &score, int &totalfrogs, int timeRemaining);
 	void reset();
 	void draw();
 };

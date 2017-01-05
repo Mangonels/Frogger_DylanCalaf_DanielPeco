@@ -22,11 +22,13 @@ private:
 	setInsectos insectos;
 	Sprite m_background;
 	int level;
+	int scoreMultiplier;
 	int totalFrogs { 0 };
 	int m_score{ 0 };
+	int timeRemaining;
 	int timeCounter;
 	int timeInterval;
-	int speedPerScore{1500};
+	int speedPerScore{5000};
 	int pauseCounter;
 	//pause mode
 	bool paused;

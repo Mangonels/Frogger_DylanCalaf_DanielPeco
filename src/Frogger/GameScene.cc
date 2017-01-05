@@ -40,17 +40,22 @@ void GameScene::setCurDifficulty(std::string difficulty){
 	player.setLives(livestoFrog);
 	//set timer
 	timeInterval = initialTime;
+
 	initialTime += SDL_GetTicks();
 	//set speeds
 	vehiculos.SetSpeedModifier(initialAgentSpeed);
 	troncos.SetSpeedModifier(initialAgentSpeed);
 	tortugas.SetSpeedModifier(initialAgentSpeed);
+	//set multipliers
+	if (difficulty == "easy" || difficulty == "medium") scoreMultiplier = 1;
+	else scoreMultiplier = 2;
 }
 void GameScene::SendNewScore(int s) {
 }
 void GameScene::Update(void) {
 
 	timeCounter = SDL_GetTicks();
+	timeRemaining = (initialTime - timeCounter) / 1000;
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
 		Println("===============");
@@ -84,7 +89,7 @@ void GameScene::Update(void) {
 			
 			player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
 				tortugas.collisions(player.getCoords(), player.getSize()),
-				insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs));
+				insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs, timeRemaining));
 			player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
 
 			player.update(m_score);
@@ -108,7 +113,7 @@ void GameScene::Update(void) {
 			initialTime += timeInterval;
 		}
 		else {
-			SM.SetCurScene<RankingScene>("", m_score);
+			SM.SetCurScene<RankingScene>("", round(m_score * scoreMultiplier));
 		}
 
 		if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
@@ -152,11 +157,11 @@ void GameScene::Draw(void) {
 	}
 	
 	if (paused == false) {
-		GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
-		{ int(W.GetWidth()*.1f), int(W.GetHeight()*.97f), 1, 1 },
+		GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score * scoreMultiplier),
+		{ int(W.GetWidth()*.2f), int(W.GetHeight()*.97f), 1, 1 },
 		{ 255, 255, 255 }); // Render score that will be different when updated
 
-		GUI::DrawTextBlended<FontID::ARIAL>("Time: " + std::to_string(1 + (initialTime - timeCounter) / 1000),
+		GUI::DrawTextBlended<FontID::ARIAL>("Time: " + std::to_string(1 + timeRemaining),
 		{ int(W.GetWidth()*.5f), int(W.GetHeight()*.97f), 1, 1 },
 		{ 255, 255, 255 }); // Render score that will be different when updated
 

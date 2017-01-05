@@ -329,8 +329,9 @@ Tortuga::Tortuga(int x, int type, bool disappear) {
 	speed = -1;
 	submerge = disappear;
 	visible = true;
-	stateIntervalSubmerge = 5000;
-	stateIntervalEmerge = 1000;
+	stateIntervalSubmerge = 300;
+	stateIntervalEmerge = 80;
+	stateCounter = 0;
 	maxStateCounter = stateIntervalSubmerge;
 	switch (type) {
 		//cadenas de 3
@@ -389,23 +390,30 @@ void Tortuga::update() {
 			coords.first = W.GetWidth();
 		}
 
-		//submerge sprites
-		if (timeCounter > maxStateCounter - stateIntervalSubmerge / 5 && submerge == true) {
-			sp.objectID = sp.objectID = ObjectID::TURTLE2;
-		}
-		else {
-			sp.objectID = sp.objectID = ObjectID::TURTLE1;
-		}
+		
 		//submerge switch
-		if (timeCounter > maxStateCounter && submerge == true) {
-			if (visible) {
-				visible = false;
-				maxStateCounter += stateIntervalEmerge;
+		if (timeCounter > maxStateCounter && submerge) {
+			stateCounter += 1;
+
+			//submerge sprites
+			if (stateCounter > maxStateCounter - stateIntervalSubmerge / 5) {
+				sp.objectID = sp.objectID = ObjectID::TURTLE2;
 			}
 			else {
-				visible = true;
-				maxStateCounter += stateIntervalSubmerge;
+				sp.objectID = sp.objectID = ObjectID::TURTLE1;
 			}
+
+			if (visible && stateCounter >= maxStateCounter) {
+				visible = false;
+				maxStateCounter = stateIntervalEmerge;
+				stateCounter = 0;
+			}
+			else if (visible == false && stateCounter >= maxStateCounter / 2) {
+				visible = true;
+				maxStateCounter = stateIntervalSubmerge;
+				stateCounter = 0;
+			}
+			
 		}
 		maxTimeCounter += timeInterval;
 	}
@@ -551,8 +559,10 @@ void Insecto::draw() {
 setInsectos::setInsectos() {
 	number = 5;
 	timeCounter = 0;
-	timeInterval = 15000;
+	timeInterval = 1000; 
 	maxTimeCounter = timeInterval;
+	switchCounter = 0;
+	maxSwitchCounter = 15;
 	active = false;
 	insectos[0] = Insecto(40) ;
 	insectos[1] = Insecto(260);
@@ -564,35 +574,36 @@ setInsectos::setInsectos() {
 void setInsectos::update() {
 	timeCounter = SDL_GetTicks();
 	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
-		if (!active) {
+		switchCounter += 1;
+		if (!active && switchCounter > maxSwitchCounter) {
 			active = true;
 			int randomInsect = rand() % 5;
 			insectos[randomInsect].update(true);
-			maxTimeCounter += timeInterval / 2;
+			switchCounter = 0;
 		}
-		else {
+		else if (active && switchCounter > maxSwitchCounter) {
 			active = false;
 			for (int i = 0; i < number; i++) {
 				insectos[i].update(false);
 			}
-			maxTimeCounter += timeInterval;
+			switchCounter = 0;
 		}
 		
+		maxTimeCounter += timeInterval;
 	}
 	else if (timeCounter >= maxTimeCounter + timeInterval) {
-		if (!active) maxTimeCounter = timeCounter + timeInterval / 2;
-		else maxTimeCounter = timeCounter + timeInterval;
+		maxTimeCounter = timeCounter + timeInterval;
 	}
 	
 }
 
-bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score, int &totalfrogs) {
+bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score, int &totalfrogs, int timeRemaining) {
 	
 	for (int i = 0; i < number; i++) {
 		std::pair<bool, bool> temp = (insectos[i].collision(Pcoords, Psize)); //recoge ambos datos de la colision original
 		if (temp.first) {
 			if (temp.second) score += 200;
-			score += 50;
+			score += round(timeRemaining * 10)+50;
 			++totalfrogs;
 			if (totalfrogs == 5) score += 1000;
 			return true;
