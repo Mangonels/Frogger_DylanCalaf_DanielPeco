@@ -12,16 +12,8 @@ namespace GameEngine {
 	//! Loads main resources such as game images and fonts
 	void LoadMedia(void) {
 		R.LoadFont<FontID::ARIAL>("fnt/arial.ttf", 40);
-		R.LoadFont<FontID::CANDY>("fnt/candy.ttf", 50);
 		R.LoadFont<FontID::FACTORY>("fnt/candsb.ttf", 80);
 		R.LoadFont<FontID::RAKOON>("fnt/rakoon.ttf", 80);
-		R.LoadTexture<ObjectID::CELL_EMPTY>("gfx/empty.png");
-		R.LoadTexture<ObjectID::CANDY_BLUE>("gfx/blue.png");
-		R.LoadTexture<ObjectID::CANDY_RED>("gfx/red.png");
-		R.LoadTexture<ObjectID::CANDY_ORANGE>("gfx/orange.png");
-		R.LoadTexture<ObjectID::CANDY_PURPLE>("gfx/purple.png");
-		R.LoadTexture<ObjectID::CANDY_GREEN>("gfx/green.png");
-		R.LoadTexture<ObjectID::CANDY_YELLOW>("gfx/yellow.png");
 		R.LoadTexture<ObjectID::BG_00>("gfx/bg_game.jpg");
 		R.LoadTexture<ObjectID::BG_01>("gfx/bg_menu.jpg");
 		R.LoadTexture<ObjectID::FROG>("gfx/rana.png");

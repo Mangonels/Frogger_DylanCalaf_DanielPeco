@@ -52,7 +52,7 @@ void MenuScene::Update(void) {
 				initialmenu = false;
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 437 && mouseCoords.y < 483) { //Leave
-				exit(0);
+				SM.ExitScene();
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
 				cout << "Ranking Scene" << endl;

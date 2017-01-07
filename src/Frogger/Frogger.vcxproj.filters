@@ -18,9 +18,6 @@
     <ClCompile Include="GameScene.cc">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cc">
-      <Filter>Model</Filter>
-    </ClCompile>
     <ClCompile Include="main.cc" />
     <ClCompile Include="MenuScene.cc">
       <Filter>Model</Filter>
@@ -52,9 +49,6 @@
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="GameScene.hh">
-      <Filter>Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Grid.hh">
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="GUI.hh">

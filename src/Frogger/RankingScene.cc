@@ -19,11 +19,11 @@ RankingScene::RankingScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 	rankingSlots = 10;
 	results.resize(rankingSlots);
-
 	ReadBinaryFile();
 }
 
 RankingScene::~RankingScene(void) {
+
 }
 
 void RankingScene::setCurDifficulty(std::string t) {
@@ -68,7 +68,7 @@ void RankingScene::Update(void) {
 				SM.SetCurScene<MenuScene>("", 0);
 			}
 			else if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 669 && mouseCoords.y < 714) { //Exit the game
-				exit(0);
+				SM.ExitScene();
 			}
 		}
 }
@@ -117,7 +117,7 @@ void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new
 
 void  RankingScene::WriteOnBinaryFile() {
 
-	remove("scores.dat");
+	remove("../../res/scores.dat");
 	
 	int i = 0;
 	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
@@ -126,24 +126,18 @@ void  RankingScene::WriteOnBinaryFile() {
 		i++;
 	}
 
-	std::ofstream outfile("scores.dat", ios::app | ios::out | ios::binary);
+	std::fstream outfile("../../res/scores.dat",  ios::out | ios::binary);
 	outfile.write(reinterpret_cast<char *>(&resultArray), sizeof(resultArray));
 	outfile.close();
-	/*
-	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
-	binaryIO::bFileScoreInsert(iterator->player , iterator->score);
-	}
-	*/
+
 }
 
 void RankingScene::ReadBinaryFile() {
 
-	
-	std::ifstream infile("scores.dat", ios::in | ios::binary);
+	std::fstream infile("../../res/scores.dat", ios::in | ios::binary);
 	if (infile.is_open()) {
 		infile.read(reinterpret_cast<char*>(&resultArray), sizeof(resultArray));
-		infile.close();
-
+		
 		int i = 0;
 		for (std::list<Result>::iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 			iterator->player = resultArray[i].player;
@@ -151,6 +145,8 @@ void RankingScene::ReadBinaryFile() {
 			i++;
 		}
 	}
+
+	infile.close();
 	/*
 	std::list<Result> temp;
 	Result temp2;
@@ -163,7 +159,6 @@ void RankingScene::ReadBinaryFile() {
 	}
 
 	results = temp;
-	infile.close();
 	*/
 }
 
@@ -178,6 +173,7 @@ void RankingScene::MakeNewResult(int score, std::string playerName) {
 void RankingScene::seeResults(void) {
 	float startingHeight = .2f; //Height at which the ranking will start being displayed
 	int position = 1;
+	
 	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 		GUI::DrawTextBlended<FontID::ARIAL>("#" + to_string(position) + " " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
 		{ W.GetWidth() >> 1, int(W.GetHeight() * startingHeight), 1, 1 }, //The score slots will be inserted from startingHeight upwards.

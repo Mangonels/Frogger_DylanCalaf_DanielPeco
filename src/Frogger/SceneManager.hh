@@ -30,6 +30,9 @@ public:
 		m_curScene->SendNewScore(score);
 
 	}
+	void ExitScene(void) {
+		m_curScene->SetState<SceneState::EXIT>();
+	}
 	inline Scene *&GetCurScene(void) { return m_curScene; }
 private:
 	SceneManager() = default;

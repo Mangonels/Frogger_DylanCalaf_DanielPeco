@@ -137,7 +137,7 @@ void GameScene::Update(void) {
 				SM.SetCurScene<MenuScene>("", 0);
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 360 && mouseCoords.y < 408) { //Leave the game entirely
-				exit(0);
+				SM.ExitScene();
 			}
 		}
 	}
