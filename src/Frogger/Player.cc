@@ -4,25 +4,28 @@
 #include "TimeManager.hh"
 
 Player::Player() {
+	/* movement system of the frog is based on a grid, the movement is decided by 1 * coordsMultiplier, which is the height of
+	the screen divided by 16, this is because the frog has to move forward a total of 12 times. Then we wanted 13 rows where the
+	frog can move and another 3 to set some free space for the score, time, lives, etc.
+	*/
+	
 	coordsMultiplier = round(W.GetHeight() /16);
-	sizeMultiplier = 2.5;
-	coords.first = 10 * coordsMultiplier;
+	sizeMultiplier = 2; //we will multiply the original size for this one (double)
+	coords.first = 10 * coordsMultiplier; //initial point in our grid is the (x:10,y:14)
 	coords.second = 14 * coordsMultiplier;
 	size.first = 21 * sizeMultiplier;
 	size.second = 17 * sizeMultiplier;
-	lives = 10;
+	lives = 10; //this number is just symbolical since it will be changed in the future
 	splayer.objectID = ObjectID::FROG;
 	onWater = false;
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
-
-	for (int i = 0; i < 12; i++) {
-		newLines[i] = false;
-	}
+	
 }
 
 void Player::setLives(int l) 
 {
 	lives = l;
+	//resets the 10 point per forward system since this function will only happen after a new game begins
 	for (int i = 0; i < 12; i++) {
 		newLines[i] = false;
 	}
@@ -60,6 +63,7 @@ void Player::checkArrowKey(const KeyButton &key) {
 }
 
 void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, std::pair <bool, int> checkTurtle, bool checkGoal) {
+	//this function receives if a collision happened, if so, the effects to the player will me made via update or moveonobject
 	onTrunk = checkTrunk.first;
 	onTurtle = checkTurtle.first;
 	onGoal = checkGoal;
@@ -101,7 +105,7 @@ void Player::update(int &score) {
 		lives--;
 	}
 	
-	//adding points for new lines
+	//adding 10 points for new lines
 	for (int i = 0; i < 12; i++) {
 		if (newLines[i] == false && coords.second == (13 - i) * coordsMultiplier) {
 			score += 10;

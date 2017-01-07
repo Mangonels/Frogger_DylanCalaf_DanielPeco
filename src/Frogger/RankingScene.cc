@@ -30,6 +30,7 @@ void RankingScene::setCurDifficulty(std::string t) {
 
 }
 void RankingScene::SendNewScore(int s) {
+	//recibe el score
 	newScore = s;
 }
 void RankingScene::OnEntry(void) {
@@ -56,14 +57,11 @@ void RankingScene::Update(void) {
 	}
 		static MouseCoords mouseCoords(0, 0);
 		if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
-			Println("===============");
-			Println("mxp: ", mouseCoords);
 			mouseCoords = IM.GetMouseCoords();
 		}
 		else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
-			Println("mxn: ", IM.GetMouseCoords());
 
-			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
+			if (mouseCoords.x > 404 && mouseCoords.x < 620 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
 				std::cout << "Menu Scene" << std::endl;
 				SM.SetCurScene<MenuScene>("", 0);
 			}
@@ -76,6 +74,7 @@ void RankingScene::Update(void) {
 void RankingScene::Draw(void) {
 	m_background.Draw(); // Render background
 	if (newScore == 0) {
+		//prints ranking
 		seeResults();
 
 		GUI::DrawTextBlended<FontID::RAKOON>("RANKING",
@@ -83,6 +82,7 @@ void RankingScene::Draw(void) {
 		{ 190, 0, 160 });
 	}
 	else {
+		//asks the player's name
 		GUI::DrawTextBlended<FontID::ARIAL>("Please enter a new player name",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.3f), 1, 1 },
 		{ 0, 0, 0 });
@@ -106,10 +106,10 @@ void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new
 	if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
 	else {
 		for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
-			if (iterator->score < playerResult.score){
+			if (iterator->score < playerResult.score){ //when this condition is true means that the iterator is in the correct position
 				results.insert(iterator, playerResult); 
-				results.resize(rankingSlots); //Making sure the map doesn't exceed it's maximum ammount of data, and removing data beyond max_size. This should remove lower scores.
-				break; //If we don't break here it will be caos.
+				results.resize(rankingSlots); //This removes lower scores
+				break; 
 			}
 		}
 	}	
@@ -117,12 +117,23 @@ void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new
 
 void  RankingScene::WriteOnBinaryFile() {
 
-	remove("../../res/scores.dat");
-	
+	ResultBinary resultArray[10]; //makes an array to write on the file
 	int i = 0;
 	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
-		resultArray[i].player = iterator->player;
+		//copies the content of the list to the array
 		resultArray[i].score = iterator->score;
+
+		std::string str = iterator->player;
+		//makes the new char[string size] out of a string
+		char *player = new char[str.size() + 1];
+		std::copy(str.begin(), str.end(), player);
+		player[str.size()] = '\0'; 
+		//copies the previous char to the one from ResultBinary
+		for (int j = 0; j < sizeof(resultArray[i].player); j++) {
+			resultArray[i].player[j] = player[j];
+		}
+		delete[] player;
+
 		i++;
 	}
 
@@ -134,10 +145,12 @@ void  RankingScene::WriteOnBinaryFile() {
 
 void RankingScene::ReadBinaryFile() {
 
+	ResultBinary resultArray[10]; //temporary to read the information
+
 	std::fstream infile("../../res/scores.dat", ios::in | ios::binary);
 	if (infile.is_open()) {
 		infile.read(reinterpret_cast<char*>(&resultArray), sizeof(resultArray));
-		
+		//copies all the information of the array to the list
 		int i = 0;
 		for (std::list<Result>::iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 			iterator->player = resultArray[i].player;
@@ -147,22 +160,10 @@ void RankingScene::ReadBinaryFile() {
 	}
 
 	infile.close();
-	/*
-	std::list<Result> temp;
-	Result temp2;
-
-	std::ifstream infile("scores.dat", ios::in | ios::binary);
-	temp.resize(10);
-	for (int i = 0; i < 10; i++) {
-	infile.read(reinterpret_cast<char*>(&temp2), sizeof(temp2));
-	temp.push_back(temp2);
-	}
-
-	results = temp;
-	*/
 }
 
 void RankingScene::MakeNewResult(int score, std::string playerName) {
+	//makes the new structure, adds it to the list and updates the binary file
 	Result newResult;
 	newResult.score = score;
 	newResult.player = playerName;
@@ -203,117 +204,156 @@ void RankingScene::GetChars(void) {
 				}
 			}
 	*/
-
-	if (IM.IsKeyDown<'a'>()) {
-		newPlayerName += 'a';
+	//system that checks which key is being pressed
+	if (charCounter < charLength) {
+		if (IM.IsKeyDown<'a'>()) {
+			newPlayerName += 'a';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'b'>()) {
+			newPlayerName += 'b';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'c'>()) {
+			newPlayerName += 'c';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'d'>()) {
+			newPlayerName += 'd';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'e'>()) {
+			newPlayerName += 'e';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'f'>()) {
+			newPlayerName += 'f';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'g'>()) {
+			newPlayerName += 'g';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'h'>()) {
+			newPlayerName += 'h';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'i'>()) {
+			newPlayerName += 'i';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'j'>()) {
+			newPlayerName += 'j';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'k'>()) {
+			newPlayerName += 'k';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'l'>()) {
+			newPlayerName += 'l';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'m'>()) {
+			newPlayerName += 'm';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'n'>()) {
+			newPlayerName += 'n';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'o'>()) {
+			newPlayerName += 'o';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'p'>()) {
+			newPlayerName += 'p';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'q'>()) {
+			newPlayerName += 'q';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'r'>()) {
+			newPlayerName += 'r';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'s'>()) {
+			newPlayerName += 's';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'t'>()) {
+			newPlayerName += 't';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'u'>()) {
+			newPlayerName += 'u';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'v'>()) {
+			newPlayerName += 'v';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'w'>()) {
+			newPlayerName += 'w';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'x'>()) {
+			newPlayerName += 'x';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'y'>()) {
+			newPlayerName += 'y';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'z'>()) {
+			newPlayerName += 'z';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'z'>()) {
+			newPlayerName += 'z';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'1'>()) {
+			newPlayerName += '1';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'2'>()) {
+			newPlayerName += '2';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'3'>()) {
+			newPlayerName += '3';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'4'>()) {
+			newPlayerName += '4';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'5'>()) {
+			newPlayerName += '5';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'6'>()) {
+			newPlayerName += '6';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'7'>()) {
+			newPlayerName += '7';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'8'>()) {
+			newPlayerName += '8';
+			charCounter += 1;
+		}
+		else if (IM.IsKeyDown<'9'>()) {
+			newPlayerName += '9';
+			charCounter += 1;
+		}
 	}
-	else if (IM.IsKeyDown<'b'>()) {
-		newPlayerName += 'b';
-	}
-	else if (IM.IsKeyDown<'c'>()) {
-		newPlayerName += 'c';
-	}
-	else if (IM.IsKeyDown<'d'>()) {
-		newPlayerName += 'd';
-	}
-	else if (IM.IsKeyDown<'e'>()) {
-		newPlayerName += 'e';
-	}
-	else if (IM.IsKeyDown<'f'>()) {
-		newPlayerName += 'f';
-	}
-	else if (IM.IsKeyDown<'g'>()) {
-		newPlayerName += 'g';
-	}
-	else if (IM.IsKeyDown<'h'>()) {
-		newPlayerName += 'h';
-	}
-	else if (IM.IsKeyDown<'i'>()) {
-		newPlayerName += 'i';
-	}
-	else if (IM.IsKeyDown<'j'>()) {
-		newPlayerName += 'j';
-	}
-	else if (IM.IsKeyDown<'k'>()) {
-		newPlayerName += 'k';
-	}
-	else if (IM.IsKeyDown<'l'>()) {
-		newPlayerName += 'l';
-	}
-	else if (IM.IsKeyDown<'m'>()) {
-		newPlayerName += 'm';
-	}
-	else if (IM.IsKeyDown<'n'>()) {
-		newPlayerName += 'n';
-	}
-	else if (IM.IsKeyDown<'o'>()) {
-		newPlayerName += 'o';
-	}
-	else if (IM.IsKeyDown<'p'>()) {
-		newPlayerName += 'p';
-	}
-	else if (IM.IsKeyDown<'q'>()) {
-		newPlayerName += 'q';
-	}
-	else if (IM.IsKeyDown<'r'>()) {
-		newPlayerName += 'r';
-	}
-	else if (IM.IsKeyDown<'s'>()) {
-		newPlayerName += 's';
-	}
-	else if (IM.IsKeyDown<'t'>()) {
-		newPlayerName += 't';
-	}
-	else if (IM.IsKeyDown<'u'>()) {
-		newPlayerName += 'u';
-	}
-	else if (IM.IsKeyDown<'v'>()) {
-		newPlayerName += 'v';
-	}
-	else if (IM.IsKeyDown<'w'>()) {
-		newPlayerName += 'w';
-	}
-	else if (IM.IsKeyDown<'x'>()) {
-		newPlayerName += 'x';
-	}
-	else if (IM.IsKeyDown<'y'>()) {
-		newPlayerName += 'y';
-	}
-	else if (IM.IsKeyDown<'z'>()) {
-		newPlayerName += 'z';
-	}
-	else if (IM.IsKeyDown<'z'>()) {
-		newPlayerName += 'z';
-	}
-	else if (IM.IsKeyDown<'1'>()) {
-		newPlayerName += '1';
-	}
-	else if (IM.IsKeyDown<'2'>()) {
-		newPlayerName += '2';
-	}
-	else if (IM.IsKeyDown<'3'>()) {
-		newPlayerName += '3';
-	}
-	else if (IM.IsKeyDown<'4'>()) {
-		newPlayerName += '4';
-	}
-	else if (IM.IsKeyDown<'5'>()) {
-		newPlayerName += '5';
-	}
-	else if (IM.IsKeyDown<'6'>()) {
-		newPlayerName += '6';
-	}
-	else if (IM.IsKeyDown<'7'>()) {
-		newPlayerName += '7';
-	}
-	else if (IM.IsKeyDown<'8'>()) {
-		newPlayerName += '8';
-	}
-	else if (IM.IsKeyDown<'9'>()) {
-		newPlayerName += '9';
-	}
-
-	else if (IM.IsKeyDown<KEY_BUTTON_BACKSPACE>()) {
+	if (IM.IsKeyDown<KEY_BUTTON_BACKSPACE>()) {
 		if (newPlayerName.size() > 0) newPlayerName.pop_back();
+		charCounter -= 1;
 	}
+	
 }

@@ -15,25 +15,26 @@ public:
 	void setCurDifficulty(std::string) override;
 	void SendNewScore(int) override;
 private:
+	//agentes
 	Player player;
 	setVehiculos vehiculos;
 	setTroncos troncos;
 	setTortugas tortugas;
 	setInsectos insectos;
 	Sprite m_background;
-	int level;
-	int scoreMultiplier;
-	int totalFrogs { 0 };
-	int m_score{ 0 };
-	int timeRemaining;
-	int timeCounter;
+	
+	int level; //level of the game for the vehicles
+	int totalFrogs { 0 }; //number of frogs that arrived to the other side
+	int m_score{ 0 }; //ingame score
+	int timeRemaining; 
+	int timeCounter; 
 	int timeInterval;
-	int speedPerScore{5000};
-	int pauseCounter;
+	int speedPerScore{5000}; //every 5000 , 10000m 15000 etc points the agent speed goes += 1
+	int pauseCounter; //counter to know for how many seconds was the pause active
 	//pause mode
 	bool paused;
 	//xml files
-	int livestoFrog{};
-	int initialTime{};
-	int initialAgentSpeed{};
+	int livestoFrog{}; //recoge las vidas del xml y las enviará a la rana
+	int initialTime{}; //variable que contiene la cantidad de tiempo inicial para el jugador, pero se modifica si se utiliza el pause
+	int initialAgentSpeed{}; //multiplicador de velocidad a todos los agentes que se mueven (vehiculos, troncos, coches)
 };	

@@ -21,6 +21,7 @@ GameScene::~GameScene(void) {
 }
 
 void GameScene::OnEntry() {	
+	//resets stats for a new game
 	paused = false;
 	pauseCounter = 0;
 	totalFrogs = 0;
@@ -34,7 +35,7 @@ void GameScene::OnExit(void) {
 }
 
 void GameScene::setCurDifficulty(std::string difficulty){
-	//<Insertar aqui + metodos para rellenar el juego>
+	
 	IOManager::XMLParser("xml/Difficulties.xml", std::move(difficulty), livestoFrog, initialTime, initialAgentSpeed);
 	//set lives
 	player.setLives(livestoFrog);
@@ -46,9 +47,6 @@ void GameScene::setCurDifficulty(std::string difficulty){
 	vehiculos.SetSpeedModifier(initialAgentSpeed);
 	troncos.SetSpeedModifier(initialAgentSpeed);
 	tortugas.SetSpeedModifier(initialAgentSpeed);
-	//set multipliers
-	if (difficulty == "easy" || difficulty == "medium") scoreMultiplier = 1;
-	else scoreMultiplier = 2;
 }
 void GameScene::SendNewScore(int s) {
 }
@@ -57,65 +55,61 @@ void GameScene::Update(void) {
 	timeCounter = SDL_GetTicks();
 	timeRemaining = (initialTime - timeCounter) / 1000;
 	static MouseCoords mouseCoords(0, 0);
-	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
-		Println("===============");
-		Println("mxp: ", mouseCoords);
-		mouseCoords = IM.GetMouseCoords();
-	}
-	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
-		Println("mxn: ", IM.GetMouseCoords());
-	}
+	
+
 	if (IM.IsKeyDown<KEY_BUTTON_ESCAPE>()) { //Pausar el juego
 		
 		mouseCoords.x = 0; //<- We make sure these are set to 0 in order to fix a bug where certain buttons are pressed right on display if the coords where saved at it's location.
 		mouseCoords.y = 0;
-		if (paused == true) paused = false;
+		if (paused == true) {
+			initialTime += SDL_GetTicks() - pauseCounter; //adds to initalTime the seconds while pause was active
+			pauseCounter = 0;
+			paused = false;
+		}
 		else {
 			paused = true;
-			pauseCounter = SDL_GetTicks();
+			pauseCounter = SDL_GetTicks(); //gets in when was the pause pressed
 		}
 	}
 	if (paused == false) {
+		
 		if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
-			if (pauseCounter != 0) {
-				initialTime += SDL_GetTicks() - pauseCounter;
-				pauseCounter = 0;
-			}
-
+	//in-game update
+			//agent updates
 			vehiculos.update();
 			troncos.update();
 			tortugas.update();
 			insectos.update();
-			
+			//collisions
 			player.onObjectFunction(troncos.collisions(player.getCoords(), player.getSize()),
 				tortugas.collisions(player.getCoords(), player.getSize()),
 				insectos.collisions(player.getCoords(), player.getSize(), m_score, totalFrogs, timeRemaining));
 			player.carHitFunction(vehiculos.collisions(player.getCoords(), player.getSize()));
-
 			player.update(m_score);
-
+			//modifies agent speed according to score
 			vehiculos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
 			troncos.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
 			tortugas.SetSpeedModifier(initialAgentSpeed + round(m_score / speedPerScore));
 
 		}
-		//cuando las 5 ranas se completan se sube de nivel
+		//when the 5 frogs get home
 		else if (totalFrogs == 5 && player.getLives() > 0) {
 			totalFrogs = 0;
 			level += 1;
+			m_score += timeRemaining;
 			vehiculos.NewLevel(level);
 			insectos.reset();
 			player.ResetPos();
 		}
 		//cuando el jugador se queda sin tiempo
 		else if (timeCounter > initialTime && player.getLives() > 0) {
-			player.TimeOut();
-			initialTime += timeInterval;
+			player.TimeOut(); //quita una vida
+			initialTime += timeInterval; //se reinicia el tiempo
 		}
 		else {
-			SM.SetCurScene<RankingScene>("", round(m_score * scoreMultiplier));
+			SM.SetCurScene<RankingScene>("", round(m_score));
 		}
-
+		//eventos para mover la rana
 		if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {
 			player.checkArrowKey(KEY_BUTTON_DOWN);
 		}
@@ -131,6 +125,9 @@ void GameScene::Update(void) {
 	}
 	//pause events
 	else {
+		if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
+			mouseCoords = IM.GetMouseCoords();
+		}
 		if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
 			if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 283 && mouseCoords.y < 329) { //Back To First Phase Menu
 				std::cout << "Went Back To Menu Scene" << std::endl;
@@ -141,7 +138,6 @@ void GameScene::Update(void) {
 			}
 		}
 	}
-
 }
 
 void GameScene::Draw(void) {
@@ -157,7 +153,8 @@ void GameScene::Draw(void) {
 	}
 	
 	if (paused == false) {
-		GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score * scoreMultiplier),
+		//HUD
+		GUI::DrawTextBlended<FontID::ARIAL>("Score: " + std::to_string(m_score),
 		{ int(W.GetWidth()*.2f), int(W.GetHeight()*.97f), 1, 1 },
 		{ 255, 255, 255 }); // Render score that will be different when updated
 
@@ -170,6 +167,7 @@ void GameScene::Draw(void) {
 		{ 255, 255, 255 }); //show lives
 	}
 	else {
+		//Botones
 		GUI::DrawTextBlended<FontID::RAKOON>("GAME PAUSED",
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.3f), 1, 1 },
 		{ 255, 255, 255 });

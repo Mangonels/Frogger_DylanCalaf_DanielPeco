@@ -37,13 +37,9 @@ void MenuScene::Update(void) {
 	
 	static MouseCoords mouseCoords(0, 0);
 	if (IM.IsMouseDown<MOUSE_BUTTON_LEFT>()) {
-		Println("===============");
-		Println("mxp: ", mouseCoords);
 		mouseCoords = IM.GetMouseCoords();
-
 	}
 	else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
-		Println("mxn: ", IM.GetMouseCoords());
 
 		if (initialmenu) {
 			//In order to make two different pannels on the same menu scene, we are checking if the player is switched to difficulty selection or not.

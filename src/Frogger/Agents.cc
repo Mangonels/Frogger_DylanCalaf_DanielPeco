@@ -603,7 +603,7 @@ bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<
 		std::pair<bool, bool> temp = (insectos[i].collision(Pcoords, Psize)); //recoge ambos datos de la colision original
 		if (temp.first) {
 			if (temp.second) score += 200;
-			score += round(timeRemaining * 10)+50;
+			score += round(timeRemaining * 1) + 50; //si hacemos timeRemaining * 10 podríamos llegar a una cantidad ridicula de puntos
 			++totalfrogs;
 			if (totalfrogs == 5) score += 1000;
 			return true;
