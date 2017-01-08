@@ -21,8 +21,8 @@ public:
 	void OnExit(void) override; 
 	void Update(void) override;
 	void Draw(void) override;
-	void setCurDifficulty(std::string) override;
-	void SendNewScore(int) override;
+	void SetCurDifficulty(std::string) override;
+	void GetNewScore(int) override;
 
 	void insertResultInOrder(Result);
 	void MakeNewResult(int, std::string);

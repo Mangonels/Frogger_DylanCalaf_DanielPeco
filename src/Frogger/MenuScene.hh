@@ -11,8 +11,8 @@ public:
 	void OnExit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
-	void setCurDifficulty(std::string) override;
-	void SendNewScore(int) override;
+	void SetCurDifficulty(std::string) override;
+	void GetNewScore(int) override;
 private:
 	Sprite m_background;
 	bool initialmenu; //A bool is enough for checking the group of buttons we want.

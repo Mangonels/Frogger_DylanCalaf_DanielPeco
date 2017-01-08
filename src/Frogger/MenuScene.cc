@@ -22,9 +22,9 @@ MenuScene::MenuScene(void) {
 MenuScene::~MenuScene(void) {
 }
 
-void MenuScene::setCurDifficulty(std::string t) {
+void MenuScene::SetCurDifficulty(std::string t) {
 }
-void MenuScene::SendNewScore(int s) {
+void MenuScene::GetNewScore(int s) {
 }
 void MenuScene::OnEntry(void) {
 	initialmenu = true;

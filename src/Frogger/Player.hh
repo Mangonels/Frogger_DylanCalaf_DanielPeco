@@ -18,14 +18,14 @@ public:
 	Player();
 	void setLives(int l);
 	void ResetPos();
-	void checkArrowKey (const KeyButton &key);
-	void onObjectFunction(std::pair <bool, int>  check1, std::pair <bool, int> check2, bool check3);
-	void MoveOnObject(int speed);
-	void carHitFunction (bool check);
+	void CheckArrowKey (const KeyButton &key); //keyboard events ingame
+	void OnObjectFunction(std::pair <bool, int>  check1, std::pair <bool, int> check2, bool check3); //checks collisions for trunk insect turtle
+	void MoveOnObject(int speed); //moves the frog in case onobjectfunction gets true
+	void CarHitFunction (bool check); //car collision
 	std::pair<int, int> getCoords();
 	std::pair<int, int> getSize();
-	int getLives();
+	int GetLives();
 	void TimeOut();
-	void update(int &score);
-	void draw();
+	void Update(int &score);
+	void Draw();
 };

@@ -26,8 +26,8 @@ public:
 		ASSERT((m_curScene = GetScene<S>()) != nullptr);
 		m_curScene->SetState<SceneState::RUNNING>();
 		m_curScene->OnEntry();
-		m_curScene->setCurDifficulty(difficulty);
-		m_curScene->SendNewScore(score);
+		m_curScene->SetCurDifficulty(difficulty);
+		m_curScene->GetNewScore(score);
 
 	}
 	void ExitScene(void) {

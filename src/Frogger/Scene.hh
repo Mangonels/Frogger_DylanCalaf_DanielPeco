@@ -23,8 +23,8 @@ public:
 	// Main draw scene function called in game loop
 	virtual void Draw(void) = 0;
 	
-	virtual void setCurDifficulty(std::string t) = 0;
-	virtual void SendNewScore(int s) = 0;
+	virtual void SetCurDifficulty(std::string t) = 0;
+	virtual void GetNewScore(int s) = 0;
 	// State methods
 	template <SceneState state> inline void SetState(void) { currentState = state; };
 	inline SceneState GetState(void) const { return currentState; };

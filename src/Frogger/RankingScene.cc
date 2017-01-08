@@ -26,16 +26,17 @@ RankingScene::~RankingScene(void) {
 
 }
 
-void RankingScene::setCurDifficulty(std::string t) {
+void RankingScene::SetCurDifficulty(std::string t) {
 
 }
-void RankingScene::SendNewScore(int s) {
+void RankingScene::GetNewScore(int s) {
 	//recibe el score
 	newScore = s;
 }
 void RankingScene::OnEntry(void) {
 	displayRanking = false;
 	newPlayerName = "";
+	charCounter = 0;
 }
 void RankingScene::OnExit(void) {
 }

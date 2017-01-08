@@ -5,12 +5,18 @@
 #include "Player.hh"
 
 Vehiculo::Vehiculo(int x, int y, int type) {
-	int coordsMultiplier = round(W.GetHeight() / 16); //Calculador de "grid"
+	/* object position is based on a grid, the movement is decided by 1 * coordsMultiplier, which is the height of
+	the screen divided by 16, this is because the frog has to move forward a total of 12 times. Then we wanted 13 rows where the
+	frog can move and another 3 to set some free space for the score, time, lives, etc.
+	After all, agents can't get out of their row, but they can move freely in the x-axis
+	*/
+	int coordsMultiplier = round(W.GetHeight() / 16); 
 	int sizeMultiplier = 2;
 	timeCounter = 0;
 	coords.first	 = x * coordsMultiplier; //Con esto sabemos a que distancia horizontal debe aparecer el vehiculo
 	coords.second	 = y * coordsMultiplier; //Altura
 	switch (type) {
+		//since every vehicle has different behaviours, we set their own stats
 	case 0:
 		size.first = 24 * sizeMultiplier;
 		size.second = 25 * sizeMultiplier;
@@ -64,6 +70,7 @@ void Vehiculo::update() {
 	
 	timeCounter = SDL_GetTicks();
 	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
+		//since every vehicle has different behaviours
 		switch (sp.objectID) {
 		case ObjectID::VEHICLE1:
 			coords.first += speed;
@@ -126,9 +133,9 @@ void Vehiculo::SetSpeedModifier(int speedModifier) {
 		break;
 	}
 }
-bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { //Comprueba si el vehiculo esta colisionando
-	//colisión
-	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) { //Cogemos unicamente la altura
+bool Vehiculo::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) { 
+	//height wise, we only need the exact row
+	if (coords.second == Pcoords.second && Pcoords.first + Psize.first >= coords.first && Pcoords.first <= coords.first + size.first) { 
 		return true;
 	}
 	return false;
@@ -173,7 +180,7 @@ bool setVehiculos::collisions(const std::pair<int, int> Pcoords, const std::pair
 }
 
 void setVehiculos::NewLevel(int level) {
-	number = 8 + level % 3;
+	number = 8 + level % 3; //function that varies with the levels according to the project requirements
 	int split = 0;
 	for (int i = 0; i < number; i++) {
 		int posy = 13 - (i % 5);
@@ -258,12 +265,13 @@ void Tronco::update() {
 	if (timeCounter >= maxTimeCounter && timeCounter <= maxTimeCounter + timeInterval) {
 		moveFrog = true;
 		coords.first += speed;
-		
+		//in case it gets out of one side of the screen, appears again from the other side
 		if (coords.first > W.GetWidth()) {
 			coords.first = -size.first;
 		}
 		maxTimeCounter += timeInterval;
 	}
+	//this will probably happen after a pause in gamescene, sets maxtimecounter where it should be more or less
 	else if (timeCounter > maxTimeCounter + timeInterval) {
 		maxTimeCounter = timeCounter + timeInterval;
 		moveFrog = false;
@@ -395,14 +403,14 @@ void Tortuga::update() {
 		if (timeCounter > maxStateCounter && submerge) {
 			stateCounter += 1;
 
-			//submerge sprites
+			//submerge sprites, when 1/5 remaining time to submerge sprite changes
 			if (stateCounter > maxStateCounter - stateIntervalSubmerge / 5) {
 				sp.objectID = sp.objectID = ObjectID::TURTLE2;
 			}
 			else {
 				sp.objectID = sp.objectID = ObjectID::TURTLE1;
 			}
-
+			//once submerge happens, the state counter is set for the new switch
 			if (visible && stateCounter >= maxStateCounter) {
 				visible = false;
 				maxStateCounter = stateIntervalEmerge;
@@ -417,6 +425,7 @@ void Tortuga::update() {
 		}
 		maxTimeCounter += timeInterval;
 	}
+	//this will probably happen after a pause in gamescene, sets maxtimecounter where it should be more or less
 	else if (timeCounter > maxTimeCounter + timeInterval) {
 		maxTimeCounter = timeCounter + timeInterval;
 		moveFrog = false;
@@ -513,7 +522,7 @@ Insecto::Insecto(int x) {
 
 std::pair<bool, bool> Insecto::collision(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize) {
 	//colisión
-	std::pair<bool, bool> temp; //1r bool si la rana ha llegado al final, segundo bool si ha sido con insecto
+	std::pair<bool, bool> temp; //1r bool if frog made it to the end, 2nd bool an insect was caught
 	if (!frogs) {
 		if (coords.second == Pcoords.second && Pcoords.first + Psize.first / 2 >= coords.first && Pcoords.first + Psize.first / 2 <= coords.first + size.first) {
 			temp.first = true;
@@ -600,12 +609,12 @@ void setInsectos::update() {
 bool setInsectos::collisions(const std::pair<int, int> Pcoords, const std::pair<int, int> Psize, int &score, int &totalfrogs, int timeRemaining) {
 	
 	for (int i = 0; i < number; i++) {
-		std::pair<bool, bool> temp = (insectos[i].collision(Pcoords, Psize)); //recoge ambos datos de la colision original
+		std::pair<bool, bool> temp = (insectos[i].collision(Pcoords, Psize)); //1r bool if frog made it to the end, 2nd bool an insect was caught
 		if (temp.first) {
-			if (temp.second) score += 200;
-			score += round(timeRemaining * 1) + 50; //si hacemos timeRemaining * 10 podríamos llegar a una cantidad ridicula de puntos
+			if (temp.second) score += 200; //insect got
+			score += round(timeRemaining * 1) + 50; //if we did  *10, the amount of points would be a lot
 			++totalfrogs;
-			if (totalfrogs == 5) score += 1000;
+			if (totalfrogs == 5) score += 1000; //5 frogs got
 			return true;
 		}
 	}

@@ -12,8 +12,8 @@ public:
 	void OnExit(void) override;
 	void Update(void) override;
 	void Draw(void) override;
-	void setCurDifficulty(std::string) override;
-	void SendNewScore(int) override;
+	void SetCurDifficulty(std::string) override;
+	void GetNewScore(int) override;
 private:
 	//agentes
 	Player player;
@@ -29,7 +29,7 @@ private:
 	int timeRemaining; 
 	int timeCounter; 
 	int timeInterval;
-	int speedPerScore{5000}; //every 5000 , 10000m 15000 etc points the agent speed goes += 1
+	int speedPerScore{3000}; //every 3000 , 6000m 9000 etc points the agent speed goes += 1
 	int pauseCounter; //counter to know for how many seconds was the pause active
 	//pause mode
 	bool paused;

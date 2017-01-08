@@ -3,12 +3,12 @@
 #include "InputManager.hh"
 
 class Vehiculo {
-	std::pair<int, int> coords; //posición del objeto en pantalla
-	std::pair<int, int> size;	//pixeles
-	Sprite sp; //donde se almacena el sprite
-	int speed; //pixeles que recorrerá el objeto cada vez que necesite moverse
-	int timeCounter; //variable que se actualiza según el tiempo de ejecucion con SDL_GetTicks();
-	int maxTimeCounter; //cada vez que timeCounter supere esta variable, el objeto se moverá una vez
+	std::pair<int, int> coords; //object position onscreen
+	std::pair<int, int> size;	
+	Sprite sp; 
+	int speed; 
+	int timeCounter; //variable that gets SDL_GetTicks() every time;
+	int maxTimeCounter; //when timecouner > maxtimecounter, the object moves
 	int timeInterval; //cantidad de tiempo que se suma a maxTimeCounter cada vez que el objeto se mueve
 	//VehiclesID tipo;
 public:
@@ -17,7 +17,7 @@ public:
 	std::pair<int, int> getCoords(); 
 	std::pair<int, int> getSize();		
 	void update();
-	void SetSpeedModifier(int speedModifier); //modifica la velocidad del objeto según su dificultad
+	void SetSpeedModifier(int speedModifier); //modifies speed 
 	bool collision(const std::pair<int, int>, const std::pair<int, int>);
 	void draw();
 };

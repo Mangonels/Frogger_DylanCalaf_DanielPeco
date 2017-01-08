@@ -4,9 +4,10 @@
 #include "TimeManager.hh"
 
 Player::Player() {
-	/* movement system of the frog is based on a grid, the movement is decided by 1 * coordsMultiplier, which is the height of
+	/* object position is based on a grid, the movement is decided by 1 * coordsMultiplier, which is the height of
 	the screen divided by 16, this is because the frog has to move forward a total of 12 times. Then we wanted 13 rows where the
 	frog can move and another 3 to set some free space for the score, time, lives, etc.
+	After all, agents can't get out of their row, but they can move freely in the x-axis
 	*/
 	
 	coordsMultiplier = round(W.GetHeight() /16);
@@ -25,7 +26,7 @@ Player::Player() {
 void Player::setLives(int l) 
 {
 	lives = l;
-	//resets the 10 point per forward system since this function will only happen after a new game begins
+	//resets the 10 points per forward system since this function will only happen after a new game begins
 	for (int i = 0; i < 12; i++) {
 		newLines[i] = false;
 	}
@@ -38,7 +39,7 @@ void Player::ResetPos() {
 	coords.first = 10 * coordsMultiplier;
 	coords.second = 14 * coordsMultiplier;
 }
-void Player::checkArrowKey(const KeyButton &key) {
+void Player::CheckArrowKey(const KeyButton &key) {
 	if (key == KEY_BUTTON_DOWN) {
 		if (coords.second < 14 * coordsMultiplier) {
 			coords.second += 1 * coordsMultiplier;
@@ -58,12 +59,10 @@ void Player::checkArrowKey(const KeyButton &key) {
 		}
 	}
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
-	
-	std::cout << "frog position: { " << coords.first / coordsMultiplier << ", " << coords.second / coordsMultiplier << " } \n";
 }
 
-void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, std::pair <bool, int> checkTurtle, bool checkGoal) {
-	//this function receives if a collision happened, if so, the effects to the player will me made via update or moveonobject
+void Player::OnObjectFunction(std::pair <bool, int>  checkTrunk, std::pair <bool, int> checkTurtle, bool checkGoal) {
+	//this function gets if a collision happened, if so, the effects to the player will me made via update or moveonobject
 	onTrunk = checkTrunk.first;
 	onTurtle = checkTurtle.first;
 	onGoal = checkGoal;
@@ -73,7 +72,7 @@ void Player::onObjectFunction(std::pair <bool, int>  checkTrunk, std::pair <bool
 void Player::MoveOnObject(int speed) {
 	coords.first += speed;
 }
-void Player::carHitFunction(bool check) {
+void Player::CarHitFunction(bool check) {
 	carHit = check;
 }
 std::pair<int, int> Player::getCoords() {
@@ -82,24 +81,24 @@ std::pair<int, int> Player::getCoords() {
 std::pair<int, int> Player::getSize() {
 	return size;
 }
-int Player::getLives() {
+int Player::GetLives() {
 	return lives;
 }
 
-void Player::update(int &score) {
-	//water
+void Player::Update(int &score) {
+	//water collisions are done row wise
 	if (coords.second < 8 * coordsMultiplier) onWater = true;
 	else onWater = false;
 
-	//goal
+	//in case a frog makes it to the end
 	if (onGoal) {
 		ResetPos();
-		//reiniciamos bools de newlines
+		//we restart bools of the newlines
 		for (int i = 0; i < 12; i++) {
 			newLines[i] = false;
 		}
 	}
-	//death
+	//death - water wise or getting hit by a car
 	else if (onTrunk == false && onTurtle == false && onWater || carHit) {
 		ResetPos();
 		lives--;
@@ -114,7 +113,7 @@ void Player::update(int &score) {
 	}
 }
 
-void Player::draw() {
+void Player::Draw() {
 	splayer.transform = { coords.first, coords.second, size.first, size.second };
 	splayer.Draw();
 }
