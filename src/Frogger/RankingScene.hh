@@ -24,16 +24,18 @@ public:
 	void SetCurDifficulty(std::string) override;
 	void GetNewScore(int) override;
 
-	void insertResultInOrder(Result);
+	void insertResultInOrder(std::string , Result);
 	void MakeNewResult(int, std::string);
-	void WriteOnBinaryFile();
+	void WriteOnBinaryFile(std::string);
 	void ReadBinaryFile();
-	void seeResults();
+	void seeResults(std::string);
 	void GetChars();
 private:
 	
-	std::list<Result> results; //Lista ordenada
-	
+	std::string difficulty;
+	std::list<Result> resultsEasy; //Lista ordenada
+	std::list<Result> resultsMedium;
+	std::list<Result> resultsHard;
 	int rankingSlots;
 	Sprite m_background;
 	int newScore;

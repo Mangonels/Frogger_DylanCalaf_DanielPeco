@@ -8,8 +8,6 @@
 
 using namespace Logger;
 
-#define CELL_WIDTH 80
-#define CELL_HEIGHT 80
 
 GameScene::GameScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_00 };
@@ -34,8 +32,8 @@ void GameScene::OnEntry() {
 void GameScene::OnExit(void) {
 }
 
-void GameScene::SetCurDifficulty(std::string difficulty){
-	
+void GameScene::SetCurDifficulty(std::string diff){
+	difficulty = diff;
 	IOManager::XMLParser("xml/Difficulties.xml", std::move(difficulty), livestoFrog, initialTime, initialAgentSpeed);
 	//set lives
 	player.setLives(livestoFrog);
@@ -108,7 +106,7 @@ void GameScene::Update(void) {
 			initialTime += timeInterval; //time reset
 		}
 		else {
-			SM.SetCurScene<RankingScene>("", round(m_score));
+			SM.SetCurScene<RankingScene>(difficulty, round(m_score));
 		}
 		//eventos para mover la rana
 		if (IM.IsKeyDown<KEY_BUTTON_DOWN>()) {

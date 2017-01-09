@@ -12,9 +12,6 @@
 using namespace std;
 using namespace Logger;
 
-#define CELL_WIDTH 80
-#define CELL_HEIGHT 80
-
 MenuScene::MenuScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 }
@@ -52,7 +49,7 @@ void MenuScene::Update(void) {
 			}
 			else if (mouseCoords.x > 416 && mouseCoords.x < 610 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
 				cout << "Ranking Scene" << endl;
-				SM.SetCurScene<RankingScene>("", 0);
+				SM.SetCurScene<RankingScene>("medium", 0);
 			}
 		}
 		else //We are on the difficulty selection

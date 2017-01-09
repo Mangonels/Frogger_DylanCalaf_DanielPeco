@@ -22,7 +22,7 @@ private:
 	setTortugas tortugas;
 	setInsectos insectos;
 	Sprite m_background;
-	
+	std::string difficulty;
 	int level; //level of the game for the vehicles
 	int totalFrogs { 0 }; //number of frogs that arrived to the other side
 	int m_score{ 0 }; //ingame score

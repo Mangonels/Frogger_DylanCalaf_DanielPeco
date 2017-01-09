@@ -7,18 +7,16 @@
 #include "IOManager.hh"
 #include <iostream>
 #include <cstdlib>
-//#include "IOManager.hh"
 
 using namespace std;
 using namespace Logger;
 
-#define CELL_WIDTH 80
-#define CELL_HEIGHT 80
-
 RankingScene::RankingScene(void) {
 	m_background = { { 0, 0, W.GetWidth(), W.GetHeight() }, ObjectID::BG_01 };
 	rankingSlots = 10;
-	results.resize(rankingSlots);
+	resultsEasy.resize(rankingSlots);
+	resultsMedium.resize(rankingSlots);
+	resultsHard.resize(rankingSlots);
 	ReadBinaryFile();
 }
 
@@ -26,8 +24,9 @@ RankingScene::~RankingScene(void) {
 
 }
 
-void RankingScene::SetCurDifficulty(std::string t) {
-
+void RankingScene::SetCurDifficulty(string diff) {
+	//gets difficulty from gamescene
+	difficulty = diff;
 }
 void RankingScene::GetNewScore(int s) {
 	//recibe el score
@@ -43,9 +42,10 @@ void RankingScene::OnExit(void) {
 
 void RankingScene::Update(void) {
 
+	//if the newscore is greater than 0, the game will ask a name to the player until he/she presses Enter
 	if (newScore > 0) {
 		
-		if (IM.IsKeyDown<KEY_BUTTON_ENTER>()) {
+		if (IM.IsKeyDown<KEY_BUTTON_ENTER>() && charCounter > 0) {
 			displayRanking = true;
 		}
 		else {
@@ -62,8 +62,20 @@ void RankingScene::Update(void) {
 		}
 		else if (IM.IsMouseUp<MOUSE_BUTTON_LEFT>()) {
 
-			if (mouseCoords.x > 404 && mouseCoords.x < 620 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
-				std::cout << "Menu Scene" << std::endl;
+			if (mouseCoords.x > 775 && mouseCoords.x < 863 && mouseCoords.y > 284 && mouseCoords.y < 330) { //Ranking
+				cout << "Selected Easy ranking" << endl;
+				difficulty = "easy";
+			}
+			else if (mouseCoords.x > 748 && mouseCoords.x < 889 && mouseCoords.y > 360 && mouseCoords.y < 406) { //Ranking
+				cout << "Selected Medium ranking" << endl;
+				difficulty = "medium";
+			}
+			else if (mouseCoords.x > 775 && mouseCoords.x < 863 && mouseCoords.y > 436 && mouseCoords.y < 483) { //Ranking
+				cout << "Selected Hard ranking" << endl;
+				difficulty = "hard";
+			}
+			else if (mouseCoords.x > 404 && mouseCoords.x < 620 && mouseCoords.y > 591 && mouseCoords.y < 637) { //Ranking
+				cout << "Menu Scene" << endl;
 				SM.SetCurScene<MenuScene>("", 0);
 			}
 			else if (mouseCoords.x > 455 && mouseCoords.x < 576 && mouseCoords.y > 669 && mouseCoords.y < 714) { //Exit the game
@@ -76,11 +88,22 @@ void RankingScene::Draw(void) {
 	m_background.Draw(); // Render background
 	if (newScore == 0) {
 		//prints ranking
-		seeResults();
-
-		GUI::DrawTextBlended<FontID::RAKOON>("RANKING",
+		seeResults(difficulty);
+		GUI::DrawTextBlended<FontID::FACTORY>("RANKING  -  " + difficulty,
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
 		{ 190, 0, 160 });
+
+		GUI::DrawTextShaded<FontID::ARIAL>("Easy", 
+		{ int(W.GetWidth()*.8f), int(W.GetHeight()*.4f), 1, 1 },
+		{ 115, 0, 180 }, { 50, 200, 230 });
+
+		GUI::DrawTextShaded<FontID::ARIAL>("Medium",
+		{ int(W.GetWidth()*.8f), int(W.GetHeight()*.5f), 1, 1 },
+		{ 115, 0, 180 }, { 50, 200, 230 });
+
+		GUI::DrawTextShaded<FontID::ARIAL>("Hard", 
+		{ int(W.GetWidth()*.8f), int(W.GetHeight()*.6f), 1, 1 },
+		{ 115, 0, 180 }, { 50, 200, 230 });
 	}
 	else {
 		//asks the player's name
@@ -92,6 +115,12 @@ void RankingScene::Draw(void) {
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.4f), 1, 1 },
 		{ 0, 0, 0 });
 
+		if (charCounter > 0) {
+			GUI::DrawTextBlended<FontID::ARIAL>("Press Enter to continue",
+			{ W.GetWidth() >> 1, int(W.GetHeight()*.5f), 1, 1 },
+			{ 0, 0, 0 });
+		}
+
 	}
 
 		GUI::DrawTextShaded<FontID::ARIAL>("Exit to menu", //Back To Menu
@@ -102,32 +131,56 @@ void RankingScene::Draw(void) {
 		{ 115, 0, 180 }, { 50, 200, 230 });
 }
 
-void RankingScene::insertResultInOrder(Result playerResult) { //<-Insert the new player result here
+void RankingScene::insertResultInOrder(string diff, Result playerResult) { //<-Insert the new player result here
 	
-	if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
-	else {
-		for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
-			if (iterator->score < playerResult.score){ //when this condition is true means that the iterator is in the correct position
-				results.insert(iterator, playerResult); 
-				results.resize(rankingSlots); //This removes lower scores
-				break; 
+	list<Result> results; //with this temporary we don't have to write the same function 3 times
+	if (diff == "easy") results = resultsEasy;
+	else if (diff == "medium") results = resultsMedium;
+	else if (diff == "hard") results = resultsHard;
+
+		if (results.empty()) results.emplace_front(playerResult); //If there's nothing, we set the results directly on first place.
+		else {
+			for (list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) { //"results" list iterator
+				if (iterator->score < playerResult.score) { //when this condition is true means that the iterator is in the correct position
+					results.insert(iterator, playerResult);
+					results.resize(rankingSlots); //This removes lower scores
+					break;
+				}
 			}
 		}
-	}	
+		if (diff == "easy") resultsEasy = results;
+		else if (diff == "medium") resultsMedium = results;
+		else resultsHard = results;
 }
 
-void  RankingScene::WriteOnBinaryFile() {
+void  RankingScene::WriteOnBinaryFile(string diff) {
 
 	ResultBinary resultArray[10]; //makes an array to write on the file
+	list<Result> results;
+	string file;
+	//updates the binary file
+	if (diff == "easy") {
+		results = resultsEasy;
+		file = "../../res/dat/scoresEasy.dat";
+	}
+	else if (diff == "medium") {
+		results = resultsMedium;
+		file = "../../res/dat/scoresMedium.dat";
+	}
+	else {
+		results = resultsHard;
+		file = "../../res/dat/scoresHard.dat";
+	}
+
 	int i = 0;
-	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+	for (list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 		//copies the content of the list to the array
 		resultArray[i].score = iterator->score;
 
-		std::string str = iterator->player;
+		string str = iterator->player;
 		//makes the new char[string size] out of a string
 		char *player = new char[str.size() + 1];
-		std::copy(str.begin(), str.end(), player);
+		copy(str.begin(), str.end(), player);
 		player[str.size()] = '\0'; 
 		//copies the previous char to the one from ResultBinary
 		for (int j = 0; j < sizeof(resultArray[i].player); j++) {
@@ -135,48 +188,73 @@ void  RankingScene::WriteOnBinaryFile() {
 		}
 		delete[] player;
 
+		fstream outfile(file, ios::out | ios::binary);
+		outfile.write(reinterpret_cast<char *>(&resultArray), sizeof(resultArray));
+		outfile.close();
+
 		i++;
 	}
-
-	std::fstream outfile("../../res/scores.dat",  ios::out | ios::binary);
-	outfile.write(reinterpret_cast<char *>(&resultArray), sizeof(resultArray));
-	outfile.close();
 
 }
 
 void RankingScene::ReadBinaryFile() {
 
 	ResultBinary resultArray[10]; //temporary to read the information
-
-	std::fstream infile("../../res/scores.dat", ios::in | ios::binary);
-	if (infile.is_open()) {
-		infile.read(reinterpret_cast<char*>(&resultArray), sizeof(resultArray));
-		//copies all the information of the array to the list
-		int i = 0;
-		for (std::list<Result>::iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
-			iterator->player = resultArray[i].player;
-			iterator->score = resultArray[i].score;
-			i++;
+	
+	for (int i = 0; i < 3; i++) {
+		list<Result> results; //with this temporary we don't have to write the same function 3 times
+		string file;
+		//this loop changes the content of results and file every time, so every ranking gets updated
+		if (i == 0) {
+			results = resultsEasy;
+			file = "../../res/dat/scoresEasy.dat";
 		}
-	}
+		if (i == 1) {
+			results = resultsMedium;
+			file = "../../res/dat/scoresMedium.dat";
+		}
+		if (i == 2) {
+			results = resultsHard;
+			file = "../../res/dat/scoresHard.dat";
+		}
 
-	infile.close();
+		fstream infile(file, ios::in | ios::binary);
+		if (infile.is_open()) {
+			infile.read(reinterpret_cast<char*>(&resultArray), sizeof(resultArray));
+			//copies all the information of the array to the list
+			int j = 0;
+			for (list<Result>::iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+				iterator->player = resultArray[j].player;
+				iterator->score = resultArray[j].score;
+				j++;
+			}
+		}
+		infile.close();
+		if (i == 0) resultsEasy = results;
+		if (i == 1) resultsMedium = results;
+		if (i == 2) resultsHard = results;
+	}
 }
 
-void RankingScene::MakeNewResult(int score, std::string playerName) {
+void RankingScene::MakeNewResult(int score, string playerName) {
 	//makes the new structure, adds it to the list and updates the binary file
 	Result newResult;
 	newResult.score = score;
 	newResult.player = playerName;
-	insertResultInOrder(newResult);
-	WriteOnBinaryFile();
+	insertResultInOrder(difficulty, newResult);
+	WriteOnBinaryFile(difficulty);
 }
 
-void RankingScene::seeResults(void) {
+void RankingScene::seeResults(string diff) {
 	float startingHeight = .2f; //Height at which the ranking will start being displayed
 	int position = 1;
 	
-	for (std::list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
+	list<Result> results;
+	if (diff == "easy") results = resultsEasy;
+	else if (diff == "medium") results = resultsMedium;
+	else results = resultsHard;
+
+	for (list<Result>::const_iterator iterator = results.begin(), end = results.end(); iterator != end; ++iterator) {
 		GUI::DrawTextBlended<FontID::ARIAL>("#" + to_string(position) + " " + iterator->player + " Score: " + to_string(iterator->score), //Score slot construction.
 		{ W.GetWidth() >> 1, int(W.GetHeight() * startingHeight), 1, 1 }, //The score slots will be inserted from startingHeight upwards.
 		{ 0, 0, 0 });
@@ -352,7 +430,7 @@ void RankingScene::GetChars(void) {
 			charCounter += 1;
 		}
 	}
-	if (IM.IsKeyDown<KEY_BUTTON_BACKSPACE>()) {
+	if (IM.IsKeyDown<KEY_BUTTON_BACKSPACE>() && charCounter > 0) {
 		if (newPlayerName.size() > 0) newPlayerName.pop_back();
 		charCounter -= 1;
 	}
