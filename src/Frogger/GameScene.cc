@@ -164,6 +164,10 @@ void GameScene::Draw(void) {
 		GUI::DrawTextBlended<FontID::ARIAL>("Lives: " + std::to_string(player.GetLives()),
 		{ int(W.GetWidth()*.9f), int(W.GetHeight()*.97f), 1, 1 },
 		{ 255, 255, 255 }); //show lives
+
+		GUI::DrawTextBlended<FontID::ARIAL>("Level " + std::to_string(level + 1),
+		{ int(W.GetWidth()*.1f), int(W.GetHeight()*.04f), 1, 1 },
+		{ 255, 255, 255 }); //show level, starting level 1. (actually it is 0)
 	}
 	else {
 		//Botones

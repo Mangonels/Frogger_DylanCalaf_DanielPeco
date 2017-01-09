@@ -50,6 +50,9 @@
     <ClInclude Include="Transform.hh" />
     <ClInclude Include="Window.hh" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{80066F18-959A-45CD-9786-D97B035E427B}</ProjectGuid>
     <RootNamespace>Frogger</RootNamespace>
