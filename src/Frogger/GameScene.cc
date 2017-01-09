@@ -73,7 +73,7 @@ void GameScene::Update(void) {
 	}
 	if (paused == false) {
 		
-		if (player.getLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
+		if (player.GetLives() > 0 && totalFrogs < 5 && timeCounter < initialTime) {
 	//in-game update
 			//agent updates
 			vehiculos.update();
