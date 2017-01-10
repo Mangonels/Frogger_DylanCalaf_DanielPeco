@@ -28,6 +28,7 @@ namespace GameEngine {
 		R.LoadTexture<ObjectID::TURTLE1>("gfx/tortuga.png");
 		R.LoadTexture<ObjectID::TURTLE2>("gfx/tortuga2.png");
 		R.LoadTexture<ObjectID::INSECT>("gfx/insecto.png");
+		system("cls"); //this way libpng errors aren't displayed, they're not important
 	}
 	//! Adds the game scenes into the Scene Manager and decides which is the first screen
 	void AddScenes(void) {

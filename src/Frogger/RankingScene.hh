@@ -24,11 +24,11 @@ public:
 	void SetCurDifficulty(std::string) override;
 	void GetNewScore(int) override;
 
-	void insertResultInOrder(std::string , Result);
+	void InsertResultInOrder(std::string , Result);
 	void MakeNewResult(int, std::string);
 	void WriteOnBinaryFile(std::string);
 	void ReadBinaryFile();
-	void seeResults(std::string);
+	void SeeResults(std::string);
 	void GetChars();
 private:
 	

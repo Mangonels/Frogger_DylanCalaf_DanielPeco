@@ -88,7 +88,7 @@ void RankingScene::Draw(void) {
 	m_background.Draw(); // Render background
 	if (newScore == 0) {
 		//prints ranking
-		seeResults(difficulty);
+		SeeResults(difficulty);
 		GUI::DrawTextBlended<FontID::FACTORY>("RANKING  -  " + difficulty,
 		{ W.GetWidth() >> 1, int(W.GetHeight()*.1f), 1, 1 },
 		{ 190, 0, 160 });
@@ -131,7 +131,7 @@ void RankingScene::Draw(void) {
 		{ 115, 0, 180 }, { 50, 200, 230 });
 }
 
-void RankingScene::insertResultInOrder(string diff, Result playerResult) { //<-Insert the new player result here
+void RankingScene::InsertResultInOrder(string diff, Result playerResult) { //<-Insert the new player result here
 	
 	list<Result> results; //with this temporary we don't have to write the same function 3 times
 	if (diff == "easy") results = resultsEasy;
@@ -241,11 +241,11 @@ void RankingScene::MakeNewResult(int score, string playerName) {
 	Result newResult;
 	newResult.score = score;
 	newResult.player = playerName;
-	insertResultInOrder(difficulty, newResult);
+	InsertResultInOrder(difficulty, newResult);
 	WriteOnBinaryFile(difficulty);
 }
 
-void RankingScene::seeResults(string diff) {
+void RankingScene::SeeResults(string diff) {
 	float startingHeight = .2f; //Height at which the ranking will start being displayed
 	int position = 1;
 	
@@ -284,6 +284,7 @@ void RankingScene::GetChars(void) {
 			}
 	*/
 	//system that checks which key is being pressed
+
 	if (charCounter < charLength) {
 		if (IM.IsKeyDown<'a'>()) {
 			newPlayerName += 'a';
